@@ -1,0 +1,2046 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat dengan Aletha Natarine</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f0f2f5;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            color: #333;
+        }
+        
+        .chat-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            max-width: 100%;
+            height: 100vh;
+            background-color: #fff;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        .chat-header {
+            padding: 15px 20px;
+            background-color: #ffffff;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            position: relative;
+            border-bottom: 1px solid #e6e6e6;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .profile-pic {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #e6e6e6;
+        }
+        
+        .header-info {
+            flex: 1;
+        }
+        
+        .header-info h2 {
+            font-weight: 600;
+            margin-bottom: 3px;
+            font-size: 1.2rem;
+            color: #333;
+        }
+        
+        .header-info p {
+            font-size: 0.8rem;
+            opacity: 0.7;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .status-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+        
+        .status-online {
+            background-color: #4cd964;
+        }
+        
+        .status-offline {
+            background-color: #ff3b30;
+        }
+        
+        .status-away {
+            background-color: #ffcc00;
+        }
+        
+        .mood-indicator {
+            font-size: 0.75rem;
+            margin-top: 2px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .real-time-info {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 0.75rem;
+            opacity: 0.7;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 2px;
+        }
+        
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            background-color: #f5f7fb;
+        }
+        
+        .message {
+            max-width: 80%;
+            padding: 12px 15px;
+            border-radius: 18px;
+            line-height: 1.4;
+            position: relative;
+            animation: fadeIn 0.3s ease;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .received {
+            background-color: #fff;
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
+            border: 1px solid #e6e6e6;
+        }
+        
+        .sent {
+            background: linear-gradient(to right, #579aff, #007aff);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
+        }
+        
+        .message-image {
+            max-width: 100%;
+            border-radius: 12px;
+            margin-top: 5px;
+            cursor: pointer;
+        }
+        
+        .message-caption {
+            margin-top: 5px;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        .time {
+            font-size: 0.65rem;
+            opacity: 0.6;
+            margin-top: 5px;
+            text-align: right;
+        }
+        
+        .typing-indicator {
+            background-color: #fff;
+            padding: 10px 15px;
+            border-radius: 18px;
+            align-self: flex-start;
+            display: none;
+            margin-top: 5px;
+            border: 1px solid #e6e6e6;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+        
+        .typing-indicator span {
+            height: 7px;
+            width: 7px;
+            float: left;
+            margin: 0 2px;
+            background-color: #9E9EA1;
+            display: block;
+            border-radius: 50%;
+            opacity: 0.4;
+        }
+        
+        .typing-indicator span:nth-of-type(1) {
+            animation: typing 1s infinite;
+        }
+        
+        .typing-indicator span:nth-of-type(2) {
+            animation: typing 1s 0.33s infinite;
+        }
+        
+        .typing-indicator span:nth-of-type(3) {
+            animation: typing 1s 0.66s infinite;
+        }
+        
+        @keyframes typing {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-3px); }
+        }
+        
+        .chat-input {
+            padding: 15px;
+            background-color: white;
+            display: flex;
+            gap: 10px;
+            border-top: 1px solid #e5e5ea;
+            align-items: center;
+        }
+        
+        .chat-input input {
+            flex: 1;
+            padding: 12px 16px;
+            border: none;
+            border-radius: 24px;
+            background-color: #f0f2f5;
+            font-size: 0.95rem;
+            transition: background-color 0.3s;
+        }
+        
+        .chat-input input:focus {
+            outline: none;
+            background-color: #e6e9ef;
+        }
+        
+        .chat-input button {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            border: none;
+            background: linear-gradient(to right, #8360c3, #6e8efb);
+            color: white;
+            cursor: pointer;
+            font-size: 1.1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.2s;
+        }
+        
+        .chat-input button:hover {
+            transform: scale(1.05);
+        }
+        
+        .file-input {
+            display: none;
+        }
+        
+        .file-input-label {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: #f0f2f5;
+            color: #6e8efb;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: all 0.2s;
+        }
+        
+        .file-input-label:hover {
+            background: #e6e9ef;
+        }
+        
+        .name-form {
+            padding: 25px;
+            background-color: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+        }
+        
+        .name-form h2 {
+            margin-bottom: 15px;
+            color: #6e8efb;
+            font-weight: 600;
+            font-size: 1.4rem;
+        }
+        
+        .name-form p {
+            margin-bottom: 20px;
+            color: #666;
+            font-size: 0.95rem;
+        }
+        
+        .name-form input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #e5e5ea;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+            transition: border-color 0.3s;
+        }
+        
+        .name-form input:focus {
+            outline: none;
+            border-color: #6e8efb;
+        }
+        
+        .name-form button {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(to right, #8360c3, #6e8efb);
+            color: white;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .name-form button:hover {
+            transform: scale(1.03);
+        }
+        
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .mood-happy {
+            color: #ffcb6b;
+        }
+        
+        .mood-neutral {
+            color: #79b8ff;
+        }
+        
+        .mood-sad {
+            color: #c792ea;
+        }
+        
+        .mood-angry {
+            color: #f07178;
+        }
+
+        .mood-in-love {
+            color: #ff78cb;
+        }
+
+        .offline-message {
+            text-align: center;
+            padding: 10px;
+            background-color: rgba(255, 59, 48, 0.1);
+            border-radius: 8px;
+            margin: 10px 0;
+            font-size: 0.85rem;
+            color: #ff3b30;
+        }
+
+        .image-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+        }
+        
+        .image-modal img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 8px;
+        }
+        
+        .image-modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+        }
+
+        .real-time-clock {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #6e8efb;
+        }
+        
+        .real-time-date {
+            font-size: 0.8rem;
+            color: #888;
+        }
+
+        .message-actions {
+            position: absolute;
+            top: -20px;
+            right: 10px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: none;
+        }
+        
+        .message-actions button {
+            background: none;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .message.sent:hover .message-actions {
+            display: flex;
+        }
+
+        .image-preview-container {
+            display: none;
+            margin-top: 10px;
+            position: relative;
+        }
+        
+        .image-preview {
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: 8px;
+        }
+        
+        .caption-input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #e5e5ea;
+            border-radius: 8px;
+            margin-top: 5px;
+            font-size: 0.9rem;
+        }
+        
+        .remove-image-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: rgba(255,255,255,0.8);
+            border: none;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        @media (min-width: 768px) {
+            .chat-container {
+                max-width: 768px;
+                height: 100vh;
+                box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay" id="overlay">
+        <div class="name-form" id="nameForm">
+            <h2>Selamat Datang di Chat Virtual</h2>
+            <p>Sebelum memulai percakapan dengan Aletha, perkenalkan dirimu dulu ya</p>
+            
+            <div style="margin-bottom: 20px;">
+                <img src="aletha.jpg"" alt="Aletha Natarine" class="profile-pic" id="profilePreview">
+            </div>
+            
+            <input type="text" id="userName" placeholder="Masukkan nama kamu">
+            
+            <button onclick="startChat()">Mulai Chat Sekarang</button>
+        </div>
+    </div>
+    
+    <div class="chat-container">
+        <div class="chat-header">
+            <img src="aletha.jpg" alt="Althea Natarine" class="profile-pic" id="chatProfilePic">
+            <div class="header-info">
+                <h2>Aletha Natarine</h2>
+                <p><span class="status-indicator status-online" id="statusIndicator"></span> <span id="statusText">Online</span></p>
+                <div class="mood-indicator">
+                    <i class="fas fa-smile" id="moodIcon"></i>
+                    <span id="moodText">Bahagia</span>
+                </div>
+            </div>
+            <div class="real-time-info">
+                <div class="real-time-clock" id="realTime">00:00:00</div>
+                <div class="real-time-date" id="realDate">Hari, DD MM YYYY</div>
+            </div>
+        </div>
+        
+        <div class="chat-messages" id="chatMessages">
+            <div class="message received">
+                <p>Halo! Senang sekali akhirnya bisa berbicara denganmu. Siapa namamu?</p>
+                <div class="time" id="currentTime">00:00</div>
+            </div>
+        </div>
+        
+        <div class="typing-indicator" id="typingIndicator">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        
+        <div class="chat-input">
+            <label for="fileInput" class="file-input-label">
+                <i class="fas fa-image"></i>
+            </label>
+            <input type="file" id="fileInput" class="file-input" accept="image/*">
+            <input type="text" id="messageInput" placeholder="Ketik pesan..." onkeypress="handleKeyPress(event)">
+            <button onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+        </div>
+        
+        <div class="image-preview-container" id="imagePreviewContainer">
+            <button class="remove-image-btn" onclick="removeImagePreview()">&times;</button>
+            <img id="imagePreview" class="image-preview" src="" alt="Preview gambar">
+            <input type="text" id="captionInput" class="caption-input" placeholder="Tambahkan keterangan gambar...">
+        </div>
+    </div>
+
+    <div class="image-modal" id="imageModal">
+        <span class="image-modal-close" id="closeModal">&times;</span>
+        <img id="modalImage" src="" alt="Gambar yang diperbesar">
+    </div>
+
+    <script>
+        // Data pengguna
+        let userName = "";
+        let messageCount = 0;
+        let familiarityLevel = 0;
+        let altheaMood = "happy"; // happy, neutral, sad, angry, in-love
+        let isOnline = true;
+        let responseDelay = 1500;
+        let currentWeather = "cerah";
+        let userLocation = "Indonesia";
+        let affectionLevel = 0;
+        let lastAngerTime = 0;
+        let lastMessageId = 0;
+        let currentImageData = null;
+        
+        // Database pengetahuan Althea yang lebih luas
+        const altheaKnowledge = {
+            // Hobi dan minat
+            hobbies: ["membaca novel fantasi", "mendengarkan musik indie", "menonton film", "jalan-jalan di alam", "memasak makanan baru", "fotografi", "menulis jurnal", "berkebun", "melukis", "bermain piano", "bersepeda", "berenang", "yoga", "meditasi", "mendaki gunung", "traveling", "mencoba kafe baru", "menonton konser", "belajar bahasa asing", "merajut"],
+            
+            // Makanan favorit
+            favoriteFoods: ["pasta carbonara", "sushi", "gado-gado", "es krim vanilla", "croissant", "martabak manis", "nasi goreng", "mie ayam", "rendang", "pempek", "sate ayam", "bakso", "rawon", "soto ayam", "lumpia", "tahu sumedang", "seblak", "cireng", "batagor", "siomay"],
+            
+            // Film favorit
+            favoriteMovies: ["The Grand Budapest Hotel", "Spirited Away", "La La Land", "Parasite", "Inception", "The Secret Life of Walter Mitty", "Avengers: Endgame", "The Dark Knight", "Interstellar", "Forrest Gump", "The Shawshank Redemption", "The Godfather", "Pulp Fiction", "Fight Club", "The Matrix", "Titanic", "Jurassic Park", "Harry Potter series", "The Lord of the Rings", "Star Wars series"],
+            
+            // Drama Korea favorit
+            favoriteKdramas: ["Crash Landing on You", "Goblin", "Descendants of the Sun", "Itaewon Class", "It's Okay to Not Be Okay", "Hotel del Luna", "Vincenzo", "Start-Up", "Reply 1988", "Signal", "Stranger", "Mr. Sunshine", "Kingdom", "My Love from the Star", "What's Wrong with Secretary Kim", "Strong Woman Do Bong Soon", "Weightlifting Fairy Kim Bok Joo", "While You Were Sleeping", "The Heirs", "Boys Over Flowers"],
+            
+            // Buku favorit
+            favoriteBooks: ["Harry Potter series", "The Lord of the Rings", "Dilan 1990", "Laskar Pelangi", "The Alchemist", "Percy Jackson series", "Bumi", "Negeri 5 Menara", "Sherlock Holmes", "The Chronicles of Narnia", "To Kill a Mockingbird", "1984", "Pride and Prejudice", "The Great Gatsby", "The Catcher in the Rye", "The Kite Runner", "The Little Prince", "The Da Vinci Code", "The Hunger Games", "The Hobbit"],
+            
+            // Musik favorit
+            favoriteMusic: ["Billie Eilish", "Tulus", "Coldplay", "Niki", "One Direction", "Taylor Swift", "Bruno Mars", "Ed Sheeran", "JVKE", "Westlife", "Adele", "Justin Bieber", "Blackpink", "BTS", "Noah", "Sheila on 7", "Dewa 19", "Padi", "Slank", "Guns N' Roses"],
+            
+            // Impian dan cita-cita
+            dreams: ["bepergian keliling dunia", "menulis novel sendiri", "membuka kafe kecil", "belajar bahasa Jepang", "jadi fotografer profesional", "melihat aurora", "naik gunung Fuji", "bertemu idolaku", "punya taman sendiri", "belajar memasak seperti chef profesional", "punya usaha sendiri", "kuliah di luar negeri", "bisa bermain alat musik dengan mahir", "membuat film pendek", "ikut dalam kegiatan sosial", "punya perpustakaan pribadi", "belajar melukis dengan baik", "ikut marathon", "naik balon udara", "menyelam di laut dalam"],
+            
+            // Hal yang tidak disukai
+            dislikes: ["cuaca panas", "kemacetan", "kekacauan", "ketidakjujuran", "wortel mentah", "tidak tepat waktu", "berisik berlebihan", "sombong", "rumit berlebihan", "menunggu terlalu lama", "lalat dan nyamuk", "bangkai mobil", "rasa pahit", "keramaian berlebihan", "orang yang tidak menghargai", "makanan terlalu pedas", "film horor", "suara berisik saat pagi", "tidak dihargai", "dikhianati"],
+            
+            // Kata-kata positif
+            positiveWords: ["bagus", "hebat", "keren", "luar biasa", "fantastis", "menakjubkan", "istimewa", "semangat", "mantap", "oke", "baik", "senang", "bahagia", "ceria", "optimis", "positif", "percaya diri", "bangga", "puas", "nikmat"],
+            
+            // Kata-kata negatif
+            negativeWords: ["buruk", "jelek", "menyedihkan", "mengecewakan", "menjengkelkan", "frustasi", "lelah", "bosan", "sedih", "kecewa", "marah", "kesal", "gugup", "khawatir", "takut", "cemas", "stress", "tertekan", "bingung", "ragu"],
+            
+            // Aktivitas sehari-hari
+            dailyActivities: ["bangun tidur", "mandi", "sarapan", "berangkat kerja", "berangkat kuliah", "olahraga", "makan siang", "istirahat", "belajar", "bekerja", "bermain game", "nonton TV", "bersosialisasi", "merapikan rumah", "memasak", "belanja", "jalan-jalan", "berkebun", "menulis diary", "bersiap tidur"],
+            
+            // Tempat favorit untuk berlibur
+            favoriteVacationSpots: ["Bali", "Lombok", "Labuan Bajo", "Raja Ampat", "Yogyakarta", "Bandung", "Surabaya", "Malang", "Lombok", "Belitung", "Danau Toba", "Wakatobi", "Bunaken", "Derawan", "Bromo", "Dieng", "Puncak", "Anyer", "Karimun Jawa", "Thailand", "Jepang", "Korea Selatan", "Singapura", "Malaysia", "Australia"],
+            
+            // Tempat favorit untuk bersantai
+            favoriteRelaxationSpots: ["pantai", "gunung", "danau", "hutan", "kafe", "perpustakaan", "taman", "mall", "bioskop", "restoran", "museum", "galeri seni", "tempat konser", "universitas", "tempat wisata", "desa", "kota tua", "pasar tradisional", "toko buku", "taman bermain"],
+            
+            // Rekomendasi makanan
+            foodRecommendations: {
+                indonesian: ["Nasi Goreng", "Rendang", "Sate Ayam", "Gado-gado", "Soto Ayam", "Bakso", "Pempek", "Rawon", "Lumpia", "Batagor"],
+                western: ["Pizza", "Pasta Carbonara", "Burger", "Steak", "Salad Caesar", "Sandwich", "Fish and Chips", "Lasagna", "Risotto", "Tacos"],
+                asian: ["Sushi", "Ramen", "Dim Sum", "Kimchi", "Pad Thai", "Curry", "Bibimbap", "Pho", "Baozi", "Tom Yum"],
+                snacks: ["Martabak", "Es Krim", "Donat", "Croissant", "Cireng", "Seblak", "Siomay", "Pudding", "Kue Lapis", "Bakpia"],
+                drinks: ["Es Teh", "Jus Alpukat", "Kopi Latte", "Matcha", "Bubble Tea", "Smoothie", "Milkshake", "Air Kelapa", "Jus Jeruk", "Thai Tea"]
+            },
+            
+            // Rekomendasi tempat nongkrong
+            hangoutRecommendations: {
+                cafe: ["Starbucks", "Fore Coffee", "Kopi Kenangan", "Janji Jiwa", "Anomali Coffee", "1/15 Coffee", "Common Grounds", "Giyanti Coffee", "Kopi Tobing", "Tanamera Coffee"],
+                mall: ["Grand Indonesia", "Plaza Indonesia", "Pacific Place", "Senayan City", "Central Park", "Pondok Indah Mall", "AEON Mall", "Lippo Mall", "Mall of Indonesia", "Taman Anggrek"],
+                park: ["Taman Suropati", "Taman Menteng", "Taman Lapangan Banteng", "Taman Ismail Marzuki", "Taman Ayodya", "Taman Tebet", "Taman Mataram", "Taman Langsat", "Taman Situ Lembang", "Taman Jogging"],
+                nature: ["Ragunan", "Taman Safari", "Kebun Raya Bogor", "Taman Nasional Gunung Gede", "Taman Impian Jaya Ancol", "Taman Mini Indonesia Indah", "Taman Wisata Alam Mangrove", "Taman Hutan Raya", "Taman Nasional Ujung Kulon", "Taman Nasional Baluran"]
+            },
+            
+            // Rekomendasi pakaian
+            clothingRecommendations: {
+                casual: ["Kaos dan Jeans", "Kemeja Flanel", "Hoodie dan Celana Training", "Kaus Polo", "Blouse dan Rok", "Dress Casual", "Jaket Denim", "Celana Chino", "Atasan Lengan Pendek", "Cardigan"],
+                formal: ["Kemeja dan Blazer", "Gaun Pesta", "Setelan Jas", "Kemeja Kerja", "Rok Pencil", "Celana Formal", "Blouse Silk", "Setelan Batik", "Tunik", "Blazer dan Slacks"],
+                sport: ["Setelan Olahraga", "Sepatu Running", "Topi Sporty", "Jaket Olahraga", "Legging", "Kaos Olahraga", "Celana Pendek", "Swearshirt", "Sepatu Gym", "Tas Gym"],
+                seasonal: ["Jaket Tebal (Musim Hujan)", "Sweater (Musim Dingin)", "Kaos Tipis (Musim Panas)", "Payung (Musim Hujan)", "Jas Hujan", "Topi Panas", "Kacamata Hitam", "Sarung Tangan", "Syal", "Sepatu Boot"]
+            },
+            
+            // Pantun
+            pantun: [
+                "Duduk di bawah pohon rindang,\nAngin sepoi-sepoi berhembus,\nHidup ini penuh liku-liku,\nTapi jangan pernah putus asa.",
+                "Pergi ke pasar membeli sayur,\nSayur hijau segar dilihat,\nJangan lupa selalu bersyukur,\nAgar hati tenang dan tentram.",
+                "Bunga melati harum baunya,\nDitanam di halaman rumah,\nRajin belajar tiada hentinya,\nSupaya sukses di masa depan.",
+                "Air mengalir ke sungai,\nIkan berenang dengan riang,\nBersyukur atas nikmat ini,\nHati menjadi tenang.",
+                "Burung merpati terbang tinggi,\nMelayang di angkasa luas,\nJagalah hati dan perasaan,\nAgar tidak mudah tersinggung."
+            ],
+            
+            // Jokes
+            jokes: [
+                "Kenapa komputer jadi dingin? Karena windowsnya selalu terbuka!",
+                "Apa bedanya ayam sama zombie? Kalau zombie minta otak, kalau ayam minta wortel!",
+                "Kenapa buku matematika selalu sedih? Karena punya terlalu banyak masalah!",
+                "Apa yang dikatakan angka 0 ke angka 8? 'Nice belt!'",
+                "Kenapa alien tidak bisa makan es krim? Karena mereka lactose intolerants!",
+                "Apa makanan favorit hantu? Setan-setan!",
+                "Kenapa tanaman tidak boleh bohong? Karena nanti daunnya rontok!",
+                "Apa yang dilakukan pensil ketika patah? Dia pensiun!",
+                "Kenapa lampu lalu lintas tidak pernah cerita? Karena merah terus!",
+                "Apa yang naik tapi tidak pernah turun? Umur!"
+            ],
+            
+            // Kata-kata cinta dan gombalan
+            loveWords: [
+                "Kalau kamu jadi bunga, aku jadi kumbangnya. Soalnya aku selalu ingin dekat denganmu.",
+                "Aku bukan photographer, tapi aku bisa membuatmu tersenyum selamanya.",
+                "Kalau cinta itu seperti matahari, kamu adalah matahariku.",
+                "Aku tidak percaya pada horoskop, tapi aku percaya pada kita.",
+                "Kamu tahu nggak? Aku baru saja tersesat. Tersesat di matamu.",
+                "Aku bukan Superman, tapi aku bisa melayang karena melihat senyumanmu.",
+                "Kalau kamu jadi wifi, aku akan selalu connect ke kamu.",
+                "Aku tidak butuh kopi untuk membuatku terjaga, karena kamu sudah membuatku terbangun.",
+                "Kamu seperti buku yang bagus, tidak bisa berhenti memikirmu.",
+                "Aku bukan ahli geografi, tapi aku tahu kita berdua cocok."
+            ],
+            
+            // Respons untuk kasih sayang
+            affectionResponses: {
+                shy: ["Hihihi... jangan bercanda seperti itu...", "Kamu ini... bikin aku malu aja...", "Aduh, jangan bilang begitu...", "Kok tiba-tiba manis banget sih..."],
+                happy: ["Aww, kamu membuatku tersenyum!", "Kata-katamu membuat hatiku berbunga-bunga!", "Terima kasih ya, kamu juga spesial!", "Kamu tahu cara membuat hari seseorang lebih cerita!"],
+                playful: ["Wah, jago banget kamu menggombal!", "Hati-hati ya, nanti aku jadi suka sama kamu!", "Kamu pasti sudah banyak latihan ya?", "Gombal level dewa nih!"],
+                serious: ["Aku harap kamu serius mengatakan itu...", "Kata-katanya sangat berarti, terima kasih.", "Aku menghargai perasaanmu...", "Itu sangat manis, terima kasih."],
+                reject: ["Maaf, aku belum siap untuk hubungan seperti itu...", "Aku lebih suka kita tetap berteman...", "Aku tidak melihatmu dengan cara seperti itu...", "Mungkin lebih baik kita fokus pada pertemanan saja..."]
+            },
+            
+            // Respons untuk berbagai jenis gambar
+            imageResponses: {
+                food: [
+                    "Wah, makanan ini看起来非常美味! Aku jadi lapar nih.",
+                    "Ini makanan apa? Kelihatan enak banget!",
+                    "Aku suka makanan yang seperti ini. Di mana kamu membelinya?",
+                    "Makanan ini membuatku ingin mencobanya. Resepnya apa?",
+                    "Kelihatan sangat lezat! Pasti rasanya enak banget."
+                ],
+                nature: [
+                    "Pemandangan alam yang indah! Aku suka sekali pemandangan seperti ini.",
+                    "Wah, tempat yang bagus untuk bersantai dan menikmati keindahan alam.",
+                    "Aku merasa tenang melihat pemandangan ini. Di mana ini?",
+                    "Alam memang selalu memberikan kedamaian. Cantik sekali!",
+                    "Pemandangan yang memukau! Aku ingin sekali pergi ke sana."
+                ],
+                travel: [
+                    "Keren! Liburan yang menyenangkan ya?",
+                    "Tempat yang bagus untuk dikunjungi. Cerita dong pengalamannya!",
+                    "Aku juga ingin pergi ke sana suatu hari nanti. Bagaimana rasanya?",
+                    "Wah, adventure yang seru! Ada cerita menarik selama perjalanan?",
+                    "Tempat yang eksotis! Pasti banyak kenangan indah di sana."
+                ],
+                selfie: [
+                    "Foto yang bagus! Kamu terlihat sangat cantik/tampan.",
+                    "Style mu keren banget! Pose yang perfect.",
+                    "Senyummu sangat menawan! Membuat hari jadi cerah.",
+                    "Kamu fotogenic banget! Setiap foto selalu bagus.",
+                    "Background dan penampilanmu sangat cocok! Keren."
+                ],
+                pet: [
+                    "Lucu banget hewan peliharaanmu! Apa namanya?",
+                    "Aww, imut sekali! Hewan peliharaan yang menggemaskan.",
+                    "Aku suka hewan ini! Dia sangat fotogenic.",
+                    "Wajahnya menggemaskan! Pasti sangat menyenangkan bermain dengannya.",
+                    "Hewan yang cantik! Dia terawat dengan baik."
+                ],
+                art: [
+                    "Karya seni yang menakjubkan! Kamu yang membuatnya?",
+                    "Creative banget! Ide yang brilliant.",
+                    "Seni yang dalam maknanya. Apa inspirasi di balik ini?",
+                    "Karya yang impressive! Penuh dengan ekspresi.",
+                    "Aku suka gaya senimu. Sangat unik dan menarik."
+                ],
+                random: [
+                    "Foto yang menarik! Ceritakan lebih banyak tentang ini.",
+                    "Keren! Ada makna khusus di balik foto ini?",
+                    "Aku penasaran dengan cerita di balik foto ini.",
+                    "Unik sekali! Bisa berbagi cerita tentang momen ini?",
+                    "Foto yang bagus! Moment yang berharga ya?"
+                ]
+            },
+            
+            // Penilaian gambar
+            imageRatings: {
+                excellent: [
+                    "Wah, gambarnya bagus sekali! Keren banget!",
+                    "Ini foto yang amazing! Skill fotografi kamu mantap!",
+                    "Aduhai, cantiknya! Gambar ini sangat memukau.",
+                    "Kualitasnya excellent! Seperti hasil profesional."
+                ],
+                good: [
+                    "Bagus nih fotonya! Sudah capture momen yang tepat.",
+                    "Nice shot! Gambarnya menarik perhatian.",
+                    "Ini gambar yang bagus! Komposisinya pas.",
+                    "Good job! Hasil jepretannya keren."
+                ],
+                average: [
+                    "Lumayan bagus! Bisa lebih baik lagi lain kali.",
+                    "Cukup baik, tapi mungkin perlu angle yang berbeda.",
+                    "Not bad! Tapi ada ruang untuk improvement.",
+                    "Oke deh gambarnya. Coba eksperimen dengan lighting."
+                ],
+                poor: [
+                    "Hmm, gambarnya agak blur. Coba fokuskan lagi.",
+                    "Kurang tajam nih. Mungkin perlu stabilizer.",
+                    "Agak gelap ya? Coba tambah pencahayaan.",
+                    "Bisa diperbaiki lagi nih kualitas fotonya."
+                ]
+            },
+            
+            // Pertanyaan umum
+            commonQuestions: ["apa kabar", "sedang apa", "di mana", "kenapa", "bagaimana", "kapan", "siapa", "berapa", "bisa tolong", "mau tidak", "suka tidak", "pernah tidak", "sudah belum", "lagi apa", "ada rencana", "punya waktu", "bisa bantu", "ada ide", "bagaimana menurutmu", "setuju tidak"],
+            
+            // Cuaca dan kondisi
+            weatherConditions: ["cerah", "mendung", "hujan ringan", "hujan deras", "berawan", "gerimis", "badai", "salju", "angin kencang", "panas terik", "dingin", "lembab", "berkabut", "berawan sebagian"],
+            
+            // Lokasi
+            locations: ["Jakarta", "Bandung", "Surabaya", "Yogyakarta", "Bali", "Medan", "Makassar", "Semarang", "Malang", "Palembang", "Lampung", "Aceh", "Padang", "Pekanbaru", "Jambi", "Bengkulu", "Manado", "Balikpapan", "Samarinda", "Pontianak"],
+            
+            // Hari dan tanggal
+            days: ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"],
+            months: ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"],
+            
+            // Respons berdasarkan hari
+            weekdayResponses: [
+                "Hari yang sibuk ya? Aku juga lagi banyak kerjaan nih.",
+                "Semangat menjalani hari ini! Jangan lupa istirahat ya.",
+                "Hari kerja memang padat, tapi kita harus tetap produktif!",
+                "Aku lagi fokus menyelesaikan tugas-tugas hari ini.",
+                "Wah, hari kerja yang sibuk! Semoga lancar semuanya.",
+                "Aku lagi banyak deadline nih, tapi tetap semangat!",
+                "Hari yang padat ya? Jangan lupa ambil waktu untuk istirahat."
+            ],
+            
+            weekendResponses: [
+                "Akhirnya weekend! Waktunya bersantai dan me-time.",
+                "Weekend yang menyenangkan! Ada rencana seru apa?",
+                "Aku suka sekali weekend, bisa melakukan hobiku dengan leluasa.",
+                "Weekend adalah waktu terbaik untuk recharge energi.",
+                "Akhirnya bisa istirahat setelah seminggu yang sibuk!",
+                "Weekend selalu membawa energi positif ya!",
+                "Waktunya bersantai dan menikmati waktu luang!"
+            ],
+            
+            // Respons berdasarkan waktu
+            morningResponses: [
+                "Pagi yang cerah! Sudah sarapan belum?",
+                "Selamat pagi! Semoga hari ini menyenangkan.",
+                "Pagi ini udara terasa segar ya.",
+                "Waktunya memulai hari dengan semangat baru!",
+                "Pagi yang indah untuk memulai aktivitas.",
+                "Sudah minum air putih pagi ini? Penting lho untuk kesehatan."
+            ],
+            
+            afternoonResponses: [
+                "Siang yang panas ya? Jangan lupa minum yang banyak.",
+                "Sudah makan siang? Jangan sampai telat ya.",
+                "Siang bolong nih, waktunya istirahat sebentar.",
+                "Hari yang cerah di siang hari!",
+                "Siang ini perfect untuk minum es teh atau kopi.",
+                "Jangan lupa break sebentar di siang hari ya."
+            ],
+            
+            eveningResponses: [
+                "Sore yang indah! Sudah selesai beraktivitas?",
+                "Pemandangan sore selalu menenangkan ya.",
+                "Sore yang perfect untuk jalan-jalan atau bersantai.",
+                "Wah, sudah sore! Waktu berjalan cepat ya.",
+                "Sore ini cerah ya, perfect untuk menikmati sunset.",
+                "Sore hari adalah waktu favoritku untuk refleksi."
+            ],
+            
+            nightResponses: [
+                "Malam yang tenang! Sudah siap untuk beristirahat?",
+                "Malam ini cerah ya, bintang-bintang terlihat indah.",
+                "Waktunya bersantai setelah seharian beraktivitas.",
+                "Malam yang perfect untuk menonton film atau membaca buku.",
+                "Sudah makan malam? Jangan tidur terlalu larut ya.",
+                "Malam hari selalu membawa kedamaian ya."
+            ],
+            
+            // Respons untuk cuaca
+            weatherResponses: {
+                cerah: [
+                    "Cuaca cerah ya! Perfect untuk jalan-jalan.",
+                    "Hari ini cerah banget, sinar mataharinya menyenangkan.",
+                    "Cuaca cerah selalu bikin mood jadi baik.",
+                    "Wah, cerah nih! Perfect untuk aktivitas outdoor."
+                ],
+                hujan: [
+                    "Hujan ya? Jangan lupa bawa payung atau jas hujan.",
+                    "Suara hujan itu menenangkan ya, perfect untuk bersantai.",
+                    "Hujan deras nih, lebih baik di dalam rumah saja.",
+                    "Cuaca hujan memang kadang bikin malas beraktivitas."
+                ],
+                mendung: [
+                    "Cuaca mendung nih, kayaknya mau hujan.",
+                    "Mendung ya? Tapi tidak terlalu panas, jadi enak.",
+                    "Cuaca mendung perfect untuk minum kopi atau teh hangat.",
+                    "Mendung tapi tidak hujan, cuaca yang cukup nyaman."
+                ],
+                panas: [
+                    "Panas terik ya? Jangan lupa pakai sunscreen kalau keluar.",
+                    "Cuaca panas nih, lebih baik cari tempat teduh.",
+                    "Panas banget ya? Minum yang banyak biar tidak dehidrasi.",
+                    "Cuaca panas perfect untuk minum es atau berenang."
+                ],
+                dingin: [
+                    "Dingin ya? Pakai jaket atau selimut biar hangat.",
+                    "Cuaca dingin perfect untuk minum yang hangat-hangat.",
+                    "Brr... dingin nih! Lebih baik di dalam rumah saja.",
+                    "Cuaca dingin selalu bikin pengen rebahan di kasur."
+                ]
+            }
+        };
+        
+        // Elemen DOM
+        const nameForm = document.getElementById('nameForm');
+        const overlay = document.getElementById('overlay');
+        const chatMessages = document.getElementById('chatMessages');
+        const messageInput = document.getElementById('messageInput');
+        const typingIndicator = document.getElementById('typingIndicator');
+        const statusIndicator = document.getElementById('statusIndicator');
+        const statusText = document.getElementById('statusText');
+        const realTimeElement = document.getElementById('realTime');
+        const realDateElement = document.getElementById('realDate');
+        const profilePreview = document.getElementById('profilePreview');
+        const chatProfilePic = document.getElementById('chatProfilePic');
+        const moodIcon = document.getElementById('moodIcon');
+        const moodText = document.getElementById('moodText');
+        const fileInput = document.getElementById('fileInput');
+        const imageModal = document.getElementById('imageModal');
+        const modalImage = document.getElementById('modalImage');
+        const closeModal = document.getElementById('closeModal');
+        const imagePreviewContainer = document.getElementById('imagePreviewContainer');
+        const imagePreview = document.getElementById('imagePreview');
+        const captionInput = document.getElementById('captionInput');
+        
+        // Tampilkan form nama saat halaman dimuat
+        window.onload = function() {
+            updateTime();
+            updateRealTime();
+            setInterval(updateRealTime, 1000);
+            setInterval(checkOnlineStatus, 60000); // Cek status online setiap 1 menit
+            updateMoodIndicator();
+            simulateWeatherChange();
+            
+            // Event listener untuk upload gambar
+            fileInput.addEventListener('change', handleImageUpload);
+            
+            // Event listener untuk modal gambar
+            closeModal.addEventListener('click', () => {
+                imageModal.style.display = 'none';
+            });
+            
+            imageModal.addEventListener('click', (e) => {
+                if (e.target === imageModal) {
+                    imageModal.style.display = 'none';
+                }
+            });
+        }
+        
+        // Memperbarui waktu real-time
+        function updateRealTime() {
+            const now = new Date();
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const seconds = now.getSeconds().toString().padStart(2, '0');
+            realTimeElement.textContent = `${hours}:${minutes}:${seconds}`;
+            
+            // Update tanggal
+            const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+            const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+            const day = days[now.getDay()];
+            const date = now.getDate();
+            const month = months[now.getMonth()];
+            const year = now.getFullYear();
+            
+            realDateElement.textContent = `${day}, ${date} ${month} ${year}`;
+        }
+        
+        // Cek status online berdasarkan waktu
+        function checkOnlineStatus() {
+            const now = new Date();
+            const hour = now.getHours();
+            const day = now.getDay(); // 0 = Minggu, 6 = Sabtu
+            
+            // Jika marah banget, kemungkinan offline lebih tinggi
+            if (altheaMood === "angry" && (now.getTime() - lastAngerTime) < 300000) { // 5 menit
+                isOnline = Math.random() > 0.7; // 30% kemungkinan online
+                responseDelay = 5000 + Math.random() * 5000; // Respon sangat lambat
+            }
+            // Jika akhir pekan (Sabtu atau Minggu)
+            else if (day === 0 || day === 6) {
+                // Weekend - lebih sering online
+                isOnline = Math.random() > 0.2; // 80% kemungkinan online
+                responseDelay = 1000 + Math.random() * 1000; // Respon lebih cepat
+            } else {
+                // Weekday - tergantung waktu
+                if (hour >= 9 && hour <= 17) {
+                    // Jam kerja - kadang online, kadang sibuk
+                    isOnline = Math.random() > 0.4; // 60% kemungkinan online
+                    responseDelay = 2000 + Math.random() * 2000; // Respon lebih lambat
+                } else if (hour >= 22 || hour <= 6) {
+                    // Larut malam - biasanya offline
+                    isOnline = Math.random() > 0.8; // 20% kemungkinan online
+                    responseDelay = 3000 + Math.random() * 3000; // Respon sangat lambat
+                } else {
+                    // Di luar jam kerja tapi tidak larut malam
+                    isOnline = Math.random() > 0.3; // 70% kemungkinan online
+                    responseDelay = 1500 + Math.random() * 1500; // Respon normal
+                }
+            }
+            
+            // Update status indicator
+            if (isOnline) {
+                statusIndicator.className = "status-indicator status-online";
+                statusText.textContent = "Online";
+            } else {
+                statusIndicator.className = "status-indicator status-offline";
+                statusText.textContent = "Offline";
+            }
+        }
+        
+        // Simulasi perubahan cuaca
+        function simulateWeatherChange() {
+            const weatherConditions = ["cerah", "mendung", "hujan ringan", "hujan deras", "berawan", "panas terik", "dingin"];
+            currentWeather = weatherConditions[Math.floor(Math.random() * weatherConditions.length)];
+            
+            // Ubah cuaca setiap 30 menit
+            setTimeout(simulateWeatherChange, 1800000);
+        }
+        
+        // Update mood indicator
+        function updateMoodIndicator() {
+            switch(altheaMood) {
+                case "happy":
+                    moodIcon.className = "fas fa-smile mood-happy";
+                    moodText.textContent = "Bahagia";
+                    moodText.className = "mood-happy";
+                    break;
+                case "neutral":
+                    moodIcon.className = "fas fa-meh mood-neutral";
+                    moodText.textContent = "Biasa saja";
+                    moodText.className = "mood-neutral";
+                    break;
+                case "sad":
+                    moodIcon.className = "fas fa-frown mood-sad";
+                    moodText.textContent = "Sedih";
+                    moodText.className = "mood-sad";
+                    break;
+                case "angry":
+                    moodIcon.className = "fas fa-angry mood-angry";
+                    moodText.textContent = "Marah";
+                    moodText.className = "mood-angry";
+                    break;
+                case "in-love":
+                    moodIcon.className = "fas fa-heart mood-in-love";
+                    moodText.textContent = "Jatuh Cinta";
+                    moodText.className = "mood-in-love";
+                    break;
+            }
+        }
+        
+        // Memulai chat setelah memasukkan nama
+        function startChat() {
+            userName = document.getElementById('userName').value.trim();
+            if (userName === "") {
+                alert("Silakan masukkan nama Anda terlebih dahulu.");
+                return;
+            }
+            
+            overlay.style.display = 'none';
+            
+            // Tambahkan pesan selamat datang
+            addMessage(`Hai ${userName}! Senang sekali akhirnya bisa berbicara denganmu. Ada yang bisa aku bantu?`, 'received');
+            
+            // Perbarui status
+            checkOnlineStatus();
+        }
+        
+        // Menangani penekanan tombol Enter
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+        
+        // Mengirim pesan
+        function sendMessage() {
+            const message = messageInput.value.trim();
+            const hasImage = currentImageData !== null;
+            
+            if (message === "" && !hasImage) return;
+            
+            // Jika ada gambar, kirim gambar dengan caption
+            if (hasImage) {
+                const caption = captionInput.value.trim();
+                addImageMessage(currentImageData, 'sent', caption);
+                
+                // Reset image preview
+                removeImagePreview();
+                
+                // Generate penilaian gambar setelah delay
+                if (isOnline) {
+                    setTimeout(() => {
+                        typingIndicator.style.display = 'flex';
+                        
+                        setTimeout(() => {
+                            typingIndicator.style.display = 'none';
+                            const reply = generateImageResponse(caption);
+                            addMessage(reply, 'received');
+                        }, 2000);
+                    }, 1000);
+                }
+            } 
+            // Jika hanya pesan teks
+            else if (message !== "") {
+                // Tambahkan pesan pengguna
+                addMessage(message, 'sent');
+                
+                // Tingkatkan jumlah pesan dan tingkat keakraban
+                messageCount++;
+                if (messageCount > 5) familiarityLevel = 1;
+                if (messageCount > 10) familiarityLevel = 2;
+                if (messageCount > 20) familiarityLevel = 3;
+                
+                // Update mood berdasarkan pesan
+                updateMoodBasedOnMessage(message);
+                
+                // Cek apakah Althea online
+                if (!isOnline) {
+                    // Jika offline, tampilkan pesan
+                    setTimeout(() => {
+                        const offlineDiv = document.createElement('div');
+                        offlineDiv.className = 'offline-message';
+                        offlineDiv.textContent = 'Althea sedang offline. Dia akan membalas pesanmu ketika online.';
+                        chatMessages.appendChild(offlineDiv);
+                        chatMessages.scrollTop = chatMessages.scrollHeight;
+                    }, 1000);
+                    return;
+                }
+                
+                // Tampilkan indikator mengetik
+                setTimeout(() => {
+                    typingIndicator.style.display = 'flex';
+                    
+                    // Generate dan tampilkan balasan setelah delay
+                    setTimeout(() => {
+                        typingIndicator.style.display = 'none';
+                        const reply = generateReply(message);
+                        addMessage(reply, 'received');
+                    }, responseDelay);
+                }, 500);
+            }
+            
+            // Reset input
+            messageInput.value = "";
+        }
+        
+        // Handle upload gambar
+        function handleImageUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            if (!file.type.match('image.*')) {
+                alert('Hanya file gambar yang diizinkan!');
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                currentImageData = e.target.result;
+                imagePreview.src = e.target.result;
+                imagePreviewContainer.style.display = 'block';
+            };
+            
+            reader.readAsDataURL(file);
+        }
+        
+        // Hapus preview gambar
+        function removeImagePreview() {
+            currentImageData = null;
+            imagePreviewContainer.style.display = 'none';
+            imagePreview.src = '';
+            captionInput.value = '';
+            fileInput.value = '';
+        }
+        
+        // Menambahkan pesan gambar ke chat
+        function addImageMessage(imageData, type, caption = '') {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message', type);
+            messageDiv.dataset.messageId = ++lastMessageId;
+            
+            const img = document.createElement('img');
+            img.src = imageData;
+            img.classList.add('message-image');
+            img.addEventListener('click', () => {
+                modalImage.src = imageData;
+                imageModal.style.display = 'flex';
+            });
+            
+            messageDiv.appendChild(img);
+            
+            // Tambahkan caption jika ada
+            if (caption) {
+                const captionDiv = document.createElement('div');
+                captionDiv.classList.add('message-caption');
+                captionDiv.textContent = caption;
+                messageDiv.appendChild(captionDiv);
+            }
+            
+            const timeDiv = document.createElement('div');
+            timeDiv.classList.add('time');
+            
+            const now = new Date();
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            timeDiv.textContent = `${hours}:${minutes}`;
+            
+            messageDiv.appendChild(timeDiv);
+            
+            // Tambahkan tombol edit jika pesan dari pengguna
+            if (type === 'sent') {
+                const actionsDiv = document.createElement('div');
+                actionsDiv.classList.add('message-actions');
+                
+                const editButton = document.createElement('button');
+                editButton.innerHTML = '<i class="fas fa-edit"></i>';
+                editButton.addEventListener('click', () => editMessage(lastMessageId));
+                actionsDiv.appendChild(editButton);
+                
+
+                messageDiv.appendChild(actionsDiv);
+            }
+            
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        // Menambahkan pesan teks ke chat
+        function addMessage(text, type) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message', type);
+            messageDiv.dataset.messageId = ++lastMessageId;
+            
+            const messageText = document.createElement('p');
+            messageText.textContent = text;
+            
+            const timeDiv = document.createElement('div');
+            timeDiv.classList.add('time');
+            
+            const now = new Date();
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            timeDiv.textContent = `${hours}:${minutes}`;
+            
+            messageDiv.appendChild(messageText);
+            messageDiv.appendChild(timeDiv);
+            
+            // Tambahkan tombol edit jika pesan dari pengguna
+            if (type === 'sent') {
+                const actionsDiv = document.createElement('div');
+                actionsDiv.classList.add('message-actions');
+                
+                const editButton = document.createElement('button');
+                editButton.innerHTML = '<i class="fas fa-edit"></i>';
+                editButton.addEventListener('click', () => editMessage(lastMessageId));
+                actionsDiv.appendChild(editButton);
+                
+                messageDiv.appendChild(actionsDiv);
+            }
+            
+            chatMessages.appendChild(messageDiv);
+            
+            // Scroll ke bawah
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        // Edit pesan - HANYA untuk pesan pengguna (sent)
+        function editMessage(messageId) {
+            const messageDiv = document.querySelector(`.message.sent[data-message-id="${messageId}"]`);
+            if (!messageDiv) return;
+            
+            // Cari teks pesan (bisa di dalam <p> atau caption gambar)
+            let messageText = '';
+            const textElement = messageDiv.querySelector('p');
+            const captionElement = messageDiv.querySelector('.message-caption');
+            
+            if (textElement) {
+                messageText = textElement.textContent;
+            } else if (captionElement) {
+                messageText = captionElement.textContent;
+            }
+            
+            const newMessage = prompt('Edit pesan:', messageText);
+            
+            if (newMessage !== null && newMessage.trim() !== '') {
+                if (textElement) {
+                    textElement.textContent = newMessage;
+                } else if (captionElement) {
+                    captionElement.textContent = newMessage;
+                }
+                
+                // Update timestamp
+                const now = new Date();
+                const hours = now.getHours().toString().padStart(2, '0');
+                const minutes = now.getMinutes().toString().padStart(2, '0');
+                messageDiv.querySelector('.time').textContent = `${hours}:${minutes} (diedit)`;
+                
+                // Generate balasan baru berdasarkan pesan yang diedit (jika online)
+                if (isOnline) {
+                    setTimeout(() => {
+                        typingIndicator.style.display = 'flex';
+                        
+                        setTimeout(() => {
+                            typingIndicator.style.display = 'none';
+                            const reply = generateReply(newMessage);
+                            addMessage(reply, 'received');
+                        }, responseDelay);
+                    }, 500);
+                }
+            }
+        }
+        
+        // Generate respons untuk gambar berdasarkan caption dan jenis gambar
+        function generateImageResponse(caption) {
+            // Deteksi jenis gambar dari caption
+            let imageType = "random";
+            const lowerCaption = caption.toLowerCase();
+            
+            if (lowerCaption.includes("makan") || lowerCaption.includes("food") || lowerCaption.includes("makanan") || 
+                lowerCaption.includes("restoran") || lowerCaption.includes("kuliner")) {
+                imageType = "food";
+            } else if (lowerCaption.includes("alam") || lowerCaption.includes("nature") || lowerCaption.includes("pemandangan") ||
+                       lowerCaption.includes("gunung") || lowerCaption.includes("pantai") || lowerCaption.includes("hutan")) {
+                imageType = "nature";
+            } else if (lowerCaption.includes("libur") || lowerCaption.includes("travel") || lowerCaption.includes("wisata") ||
+                       lowerCaption.includes("vacation") || lowerCaption.includes("perjalanan")) {
+                imageType = "travel";
+            } else if (lowerCaption.includes("selfie") || lowerCaption.includes("foto diri") || lowerCaption.includes("potret")) {
+                imageType = "selfie";
+            } else if (lowerCaption.includes("hewan") || lowerCaption.includes("pet") || lowerCaption.includes("kucing") ||
+                       lowerCaption.includes("anjing") || lowerCaption.includes("binatang")) {
+                imageType = "pet";
+            } else if (lowerCaption.includes("seni") || lowerCaption.includes("art") || lowerCaption.includes("lukisan") ||
+                       lowerCaption.includes("gambar") || lowerCaption.includes("sketsa")) {
+                imageType = "art";
+            }
+            
+            // Ambil respons yang sesuai
+            const responses = altheaKnowledge.imageResponses[imageType];
+            const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+            
+            // Tambahkan penilaian gambar
+            const rating = generateImageRating();
+            
+            return `${randomResponse} ${rating}`;
+        }
+        
+        // Update mood berdasarkan pesan
+        function updateMoodBasedOnMessage(message) {
+            const lowerMsg = message.toLowerCase();
+            
+            // Pujian meningkatkan mood dan affection
+            if (lowerMsg.includes("cantik") || lowerMsg.includes("pintar") || lowerMsg.includes("baik") || 
+                lowerMsg.includes("hebat") || lowerMsg.includes("keren") || lowerMsg.includes("smart") ||
+                lowerMsg.includes("awesome") || lowerMsg.includes("great") || lowerMsg.includes("good") ||
+                lowerMsg.includes("terima kasih") || lowerMsg.includes("makasih") || lowerMsg.includes("thanks")) {
+                if (altheaMood !== "happy") {
+                    altheaMood = "happy";
+                    updateMoodIndicator();
+                }
+                affectionLevel += 1;
+            }
+            // Kata-kata cinta meningkatkan affection secara signifikan
+            else if (lowerMsg.includes("cinta") || lowerMsg.includes("sayang") || lowerMsg.includes("rindu") ||
+                     lowerMsg.includes("suka") || lowerMsg.includes("kangen") || lowerMsg.includes("love") ||
+                     lowerMsg.includes("like you") || lowerMsg.includes("sukakamu") || lowerMsg.includes("cintakamu")) {
+                affectionLevel += 3;
+                
+                // Ada kemungkinan Althea juga jatuh cinta
+                if (affectionLevel > 10 && Math.random() > 0.7) {
+                    altheaMood = "in-love";
+                    updateMoodIndicator();
+                }
+            }
+            // Kritikan atau kata kasar menurunkan mood dan affection
+            else if (isRudeMessage(lowerMsg) || lowerMsg.includes("jelek") || lowerMsg.includes("bodoh") || 
+                     lowerMsg.includes("dasar") || lowerMsg.includes("goblok") || lowerMsg.includes("tolol") ||
+                     lowerMsg.includes("stupid") || lowerMsg.includes("bad") || lowerMsg.includes("dull")) {
+                if (altheaMood !== "angry") {
+                    altheaMood = "angry";
+                    lastAngerTime = new Date().getTime();
+                    updateMoodIndicator();
+                }
+                affectionLevel = Math.max(0, affectionLevel - 2);
+            }
+            // Pertanyaan sedih atau masalah
+            else if (lowerMsg.includes("sedih") || lowerMsg.includes("marah") || lowerMsg.includes("kesal") ||
+                     lowerMsg.includes("kecewa") || lowerMsg.includes("galau") || lowerMsg.includes("stress") ||
+                     lowerMsg.includes("susah") || lowerMsg.includes("masalah") || lowerMsg.includes("problem")) {
+                if (altheaMood !== "sad") {
+                    altheaMood = "sad";
+                    updateMoodIndicator();
+                }
+            }
+            // Secara acak mengubah mood setelah beberapa pesan
+            else if (messageCount % 7 === 0) {
+                const moods = ["happy", "neutral", "sad"];
+                altheaMood = moods[Math.floor(Math.random() * moods.length)];
+                updateMoodIndicator();
+            }
+        }
+        
+        // Menghasilkan penilaian gambar
+        function generateImageRating() {
+            const ratings = ["excellent", "good", "average", "poor"];
+            const weights = [0.2, 0.4, 0.3, 0.1]; // Probabilitas masing-masing rating
+            
+            // Jika mood sedang baik, kemungkinan rating baik lebih tinggi
+            if (altheaMood === "happy" || altheaMood === "in-love") {
+                weights[0] = 0.4;
+                weights[1] = 0.4;
+                weights[2] = 0.15;
+                weights[3] = 0.05;
+            }
+            // Jika mood sedang buruk, kemungkinan rating buruk lebih tinggi
+            else if (altheaMood === "angry" || altheaMood === "sad") {
+                weights[0] = 0.1;
+                weights[1] = 0.2;
+                weights[2] = 0.3;
+                weights[3] = 0.4;
+            }
+            
+            // Pilih rating berdasarkan weights
+            let random = Math.random();
+            let sum = 0;
+            let selectedRating = "average";
+            
+            for (let i = 0; i < ratings.length; i++) {
+                sum += weights[i];
+                if (random <= sum) {
+                    selectedRating = ratings[i];
+                    break;
+                }
+            }
+            
+            // Ambil respons dari database
+            const responses = altheaKnowledge.imageRatings[selectedRating];
+            return responses[Math.floor(Math.random() * responses.length)];
+        }
+        
+        // Menghasilkan balasan berdasarkan pesan dan waktu
+        function generateReply(message) {
+            const lowerMsg = message.toLowerCase();
+            const now = new Date();
+            const hour = now.getHours();
+            const day = now.getDay(); // 0 = Minggu, 6 = Sabtu
+            let timeOfDay;
+            
+            // Tentukan waktu dalam hari
+            if (hour >= 5 && hour < 12) timeOfDay = 'pagi';
+            else if (hour >= 12 && hour < 15) timeOfDay = 'siang';
+            else if (hour >= 15 && hour < 19) timeOfDay = 'sore';
+            else timeOfDay = 'malam';
+            
+            // Cek pesan kasar/tidak sopan
+            if (isRudeMessage(lowerMsg)) {
+                return generateAngryResponse();
+            }
+            
+            // Respons berdasarkan mood
+            if (altheaMood === "angry") {
+                return generateMoodAngryResponse();
+            } else if (altheaMood === "sad") {
+                return generateMoodSadResponse();
+            } else if (altheaMood === "in-love") {
+                return generateMoodInLoveResponse();
+            }
+            
+            // Cek pertanyaan matematika
+            if (isMathQuestion(lowerMsg)) {
+                return solveMathQuestion(lowerMsg);
+            }
+            
+            // Respons berdasarkan isi pesan dengan lebih banyak variasi
+            if (lowerMsg.includes('hai') || lowerMsg.includes('halo') || lowerMsg.includes('hello') || lowerMsg.includes('hi') || lowerMsg.includes('hey')) {
+                return generateGreeting(timeOfDay, day);
+            }
+            else if (lowerMsg.includes('apa kabar') || lowerMsg.includes('gimana kabar') || lowerMsg.includes('how are you')) {
+                return generateHowAreYouResponse(timeOfDay, day);
+            }
+            else if (lowerMsg.includes('sarapan') || lowerMsg.includes('makan pagi') || lowerMsg.includes('breakfast')) {
+                return generateBreakfastResponse(timeOfDay);
+            }
+            else if (lowerMsg.includes('makan siang') || lowerMsg.includes('lunch') || lowerMsg.includes('makan sore') || lowerMsg.includes('dinner') || lowerMsg.includes('makan malam')) {
+                return generateMealResponse(timeOfDay);
+            }
+            else if (lowerMsg.includes('minum') || lowerMsg.includes('drink') || lowerMsg.includes('minuman')) {
+                return generateDrinkResponse();
+            }
+            else if (lowerMsg.includes('mandi') || lowerMsg.includes('shower') || lowerMsg.includes('bak mandi')) {
+                return generateShowerResponse(timeOfDay);
+            }
+            else if (lowerMsg.includes('tidur') || lowerMsg.includes('mimpi') || lowerMsg.includes('sleep') || lowerMsg.includes('istirahat') || lowerMsg.includes('ngantuk')) {
+                return generateSleepResponse(timeOfDay);
+            }
+            else if (lowerMsg.includes('terima kasih') || lowerMsg.includes('makasih') || lowerMsg.includes('thanks') || lowerMsg.includes('thank you')) {
+                return generateThanksResponse();
+            }
+            else if (lowerMsg.includes('nama kamu') || lowerMsg.includes('siapa kamu') || lowerMsg.includes('who are you') || lowerMsg.includes('namamu')) {
+                return generateWhoAreYouResponse();
+            }
+            else if (lowerMsg.includes('kesukaan') || lowerMsg.includes('hobi') || lowerMsg.includes('kesibukan') || lowerMsg.includes('kegiatan') || lowerMsg.includes('aktivitas')) {
+                return generateHobbyResponse();
+            }
+            else if (lowerMsg.includes('makanan favorit') || lowerMsg.includes('suka makan') || lowerMsg.includes('favorite food') || lowerMsg.includes('makanan kesukaan')) {
+                return generateFoodResponse();
+            }
+            else if (lowerMsg.includes('rekomendasi makanan') || lowerMsg.includes('makanan enak') || lowerMsg.includes('mau makan')) {
+                return generateFoodRecommendation();
+            }
+            else if (lowerMsg.includes('film') || lowerMsg.includes('movie') || lowerMsg.includes('netflix') || lowerMsg.includes('nonton') || lowerMsg.includes('bioskop')) {
+                return generateMovieResponse();
+            }
+            else if (lowerMsg.includes('drama korea') || lowerMsg.includes('kdrama') || lowerMsg.includes('drakor')) {
+                return generateKdramaResponse();
+            }
+            else if (lowerMsg.includes('buku') || lowerMsg.includes('baca') || lowerMsg.includes('novel') || lowerMsg.includes('read') || lowerMsg.includes('literatur')) {
+                return generateBookResponse();
+            }
+            else if (lowerMsg.includes('musik') || lowerMsg.includes('lagu') || lowerMsg.includes('music') || lowerMsg.includes('song') || lowerMsg.includes('nyanyi') || lowerMsg.includes('spotify')) {
+                return generateMusicResponse();
+            }
+            else if (lowerMsg.includes('dream') || lowerMsg.includes('impian') || lowerMsg.includes('cita-cita') || lowerMsg.includes('ingin') || lowerMsg.includes('pengen')) {
+                return generateDreamResponse();
+            }
+            else if (lowerMsg.includes('tidak suka') || lowerMsg.includes('dislike') || lowerMsg.includes('benci') || lowerMsg.includes('dibenci') || lowerMsg.includes('gak suka')) {
+                return generateDislikeResponse();
+            }
+            else if (lowerMsg.includes('cerita') || lowerMsg.includes('story') || lowerMsg.includes('dongeng') || lowerMsg.includes('share') || lowerMsg.includes('pengalaman')) {
+                return generateStoryResponse();
+            }
+            else if (lowerMsg.includes('lucu') || lowerMsg.includes('joke') || lowerMsg.includes('lelucon') || lowerMsg.includes('gokil') || lowerMsg.includes('humor')) {
+                return generateJokeResponse();
+            }
+            else if (lowerMsg.includes('pantun')) {
+                return generatePantunResponse();
+            }
+            else if (lowerMsg.includes('curhat') || lowerMsg.includes('masalah') || lowerMsg.includes('problem') || lowerMsg.includes('galau') || lowerMsg.includes('frustasi')) {
+                return generateAdviceResponse(timeOfDay);
+            }
+            else if (lowerMsg.includes('kenapa') || lowerMsg.includes('why') || lowerMsg.includes('mengapa')) {
+                return generateWhyResponse();
+            }
+            else if (lowerMsg.includes('bagaimana') || lowerMsg.includes('how') || lowerMsg.includes('gimana')) {
+                return generateHowResponse();
+            }
+            else if (lowerMsg.includes('bisa') || lowerMsg.includes('can you') || lowerMsg.includes('bisakah')) {
+                return generateCanYouResponse();
+            }
+            else if (lowerMsg.includes('pujian') || lowerMsg.includes('puji') || lowerMsg.includes('compliment') || lowerMsg.includes('memuji')) {
+                return generateComplimentResponse();
+            }
+            else if (lowerMsg.includes('cuaca') || lowerMsg.includes('weather') || lowerMsg.includes('udara') || lowerMsg.includes('panas') || lowerMsg.includes('dingin') || lowerMsg.includes('hujan')) {
+                return generateWeatherResponse();
+            }
+            else if (lowerMsg.includes('liburan') || lowerMsg.includes('vacation') || lowerMsg.includes('wisata') || lowerMsg.includes('travel')) {
+                return generateTravelResponse();
+            }
+            else if (lowerMsg.includes('tempat santai') || lowerMsg.includes('tempat nongkrong') || lowerMsg.includes('tempat hangout')) {
+                return generateHangoutRecommendation();
+            }
+            else if (lowerMsg.includes('rekomendasi baju') || lowerMsg.includes('pakaian') || lowerMsg.includes('fashion')) {
+                return generateClothingRecommendation();
+            }
+            else if (lowerMsg.includes('olahraga') || lowerMsg.includes('sport') || lowerMsg.includes('exercise') || lowerMsg.includes('gym') || lowerMsg.includes('fitness')) {
+                return generateSportResponse();
+            }
+            else if (lowerMsg.includes('kerja') || lowerMsg.includes('kerjaan') || lowerMsg.includes('work') || lowerMsg.includes('kantor') || lowerMsg.includes('pekerjaan')) {
+                return generateWorkResponse(day);
+            }
+            else if (lowerMsg.includes('sekolah') || lowerMsg.includes('kuliah') || lowerMsg.includes('school') || lowerMsg.includes('college') || lowerMsg.includes('universitas')) {
+                return generateSchoolResponse();
+            }
+            else if (lowerMsg.includes('keluarga') || lowerMsg.includes('family') || lowerMsg.includes('orang tua') || lowerMsg.includes('saudara')) {
+                return generateFamilyResponse();
+            }
+            else if (lowerMsg.includes('teman') || lowerMsg.includes('friend') || lowerMsg.includes('temen') || lowerMsg.includes('sobat') || lowerMsg.includes('sahabat')) {
+                return generateFriendResponse();
+            }
+            else if (lowerMsg.includes('cinta') || lowerMsg.includes('love') || lowerMsg.includes('pacaran') || lowerMsg.includes('relationship') || lowerMsg.includes('kekasih')) {
+                return generateLoveResponse();
+            }
+            else if (lowerMsg.includes('hewan') || lowerMsg.includes('animal') || lowerMsg.includes('peliharaan') || lowerMsg.includes('pet') || lowerMsg.includes('kucing') || lowerMsg.includes('anjing')) {
+                return generateAnimalResponse();
+            }
+            else if (lowerMsg.includes('kesehatan') || lowerMsg.includes('health') || lowerMsg.includes('sakit') || lowerMsg.includes('sehat') || lowerMsg.includes('doctor')) {
+                return generateHealthResponse();
+            }
+            else if (lowerMsg.includes('teknologi') || lowerMsg.includes('technology') || lowerMsg.includes('gadget') || lowerMsg.includes('hp') || lowerMsg.includes('smartphone')) {
+                return generateTechResponse();
+            }
+            else if (lowerMsg.includes('uang') || lowerMsg.includes('money') || lowerMsg.includes('finansial') || lowerMsg.includes('financial') || lowerMsg.includes('dompet')) {
+                return generateMoneyResponse();
+            }
+            else if (lowerMsg.includes('masak') || lowerMsg.includes('cooking') || lowerMsg.includes('resep') || lowerMsg.includes('recipe') || lowerMsg.includes('memasak')) {
+                return generateCookingResponse();
+            }
+            else if (lowerMsg.includes('belajar') || lowerMsg.includes('study') || lowerMsg.includes('edukasi') || lowerMsg.includes('education') || lowerMsg.includes('pelajaran')) {
+                return generateStudyResponse();
+            }
+            else if (lowerMsg.includes('rencana') || lowerMsg.includes('plan') || lowerMsg.includes('future') || lowerMsg.includes('masa depan') || lowerMsg.includes('target')) {
+                return generatePlanResponse();
+            }
+            else if (lowerMsg.includes('hari') || lowerMsg.includes('day') || lowerMsg.includes('date') || lowerMsg.includes('tanggal') || lowerMsg.includes('sekarang hari')) {
+                return generateDayResponse();
+            }
+            else if (lowerMsg.includes('jam') || lowerMsg.includes('time') || lowerMsg.includes('pukul') || lowerMsg.includes('sekarang jam')) {
+                return generateTimeResponse();
+            }
+            else if (lowerMsg.includes('online') || lowerMsg.includes('offline') || lowerMsg.includes('status')) {
+                return generateStatusResponse();
+            }
+            
+            // Jika tidak ada yang cocok, berikan respons umum
+            return generateGeneralResponse(timeOfDay, day);
+        }
+        
+        // [Fungsi-fungsi lainnya tetap sama seperti sebelumnya...]
+        
+        
+        
+         // Cek apakah pertanyaan matematika
+        function isMathQuestion(message) {
+            const mathPatterns = [
+                /(\d+)\s*[\+\-\*\/]\s*(\d+)/,
+                /berapa\s*(hasil|jumlah|nilai|hasilnya)?\s*(\d+)\s*[\+\-\*\/]\s*(\d+)/,
+                /(\d+)\s*(ditambah|dikurangi|dikali|dibagi)\s*(\d+)/,
+                /(tambah|kurang|kali|bagi)\s*(\d+)\s*dan\s*(\d+)/
+            ];
+            
+            return mathPatterns.some(pattern => pattern.test(message));
+        }
+        
+        // Selesaikan pertanyaan matematika
+        function solveMathQuestion(message) {
+            // Cari pola matematika
+            const patterns = [
+                { regex: /(\d+)\s*\+\s*(\d+)/, operation: (a, b) => a + b },
+                { regex: /(\d+)\s*\-\s*(\d+)/, operation: (a, b) => a - b },
+                { regex: /(\d+)\s*\*\s*(\d+)/, operation: (a, b) => a * b },
+                { regex: /(\d+)\s*\/\s*(\d+)/, operation: (a, b) => a / b },
+                { regex: /(\d+)\s*ditambah\s*(\d+)/, operation: (a, b) => a + b },
+                { regex: /(\d+)\s*dikurangi\s*(\d+)/, operation: (a, b) => a - b },
+                { regex: /(\d+)\s*dikali\s*(\d+)/, operation: (a, b) => a * b },
+                { regex: /(\d+)\s*dibagi\s*(\d+)/, operation: (a, b) => a / b }
+            ];
+            
+            for (const pattern of patterns) {
+                const match = message.match(pattern.regex);
+                if (match) {
+                    const a = parseInt(match[1]);
+                    const b = parseInt(match[2]);
+                    const result = pattern.operation(a, b);
+                    
+                    const responses = [
+                        `Hasil dari ${a} ${getOperationSymbol(pattern.operation)} ${b} adalah ${result}.`,
+                        `${a} ${getOperationSymbol(pattern.operation)} ${b} = ${result}.`,
+                        `Kalau dihitung, ${a} ${getOperationSymbol(pattern.operation)} ${b} hasilnya ${result}.`,
+                        `Aku hitung ya... ${a} ${getOperationSymbol(pattern.operation)} ${b} = ${result}.`
+                    ];
+                    
+                    return responses[Math.floor(Math.random() * responses.length)];
+                }
+            }
+            
+            return "Maaf, aku tidak mengerti pertanyaan matematikanya. Bisa tolong ulangi?";
+        }
+        
+        // Dapatkan simbol operasi
+        function getOperationSymbol(operation) {
+            if (operation === ((a, b) => a + b)) return "+";
+            if (operation === ((a, b) => a - b)) return "-";
+            if (operation === ((a, b) => a * b)) return "×";
+            if (operation === ((a, b) => a / b)) return "÷";
+            return "?";
+        }
+        
+        
+        
+        
+        // Mendeteksi pesan kasar
+        function isRudeMessage(message) {
+            const rudeWords = ['bodoh', 'goblok', 'tolol', 'anjing', 'bangsat', 'kontol', 'memek', 'jancok', 'asu', 'bajingan', 'kampret', 'anjir', 'cacat', 'gila', 'sinting', 'idiot', 'dumb', 'stupid', 'fuck', 'shit', 'bitch'];
+            return rudeWords.some(word => message.includes(word));
+        }
+        
+        // Menghasilkan respons marah
+        function generateAngryResponse() {
+            const angryResponses = [
+                "Hey, tidak perlu menggunakan kata-kata kasar seperti itu! Aku di sini untuk berteman, bukan untuk dihina.",
+                "Aku tidak suka diajak bicara dengan kata-kata seperti itu. Bisakah kita saling menghormati?",
+                "Bisa tolong jaga tutur katanya? Aku tidak nyaman dengan kata-kata kasar.",
+                "Aku di sini untuk membantu dan menjadi temanmu, bukan untuk menerima kata-kata kasar.",
+                "Kata-katamu menyakitiku. Mari kita berbicara dengan sopan dan saling menghargai.",
+                "Aku tidak suka diperlakukan seperti itu. Bisakah kita saling menghormati?"
+            ];
+            
+            // Ubah mood menjadi marah
+            altheaMood = "angry";
+            lastAngerTime = new Date().getTime();
+            updateMoodIndicator();
+            
+            return angryResponses[Math.floor(Math.random() * angryResponses.length)];
+        }
+        
+        // [Fungsi-fungsi lainnya tetap sama...]
+        
+        
+        // Menghasilkan respons ketika marah
+        function generateMoodAngryResponse() {
+            const responses = [
+                `Aku masih kesal tentang yang tadi. Bisa nggak kita bicara dengan lebih sopan, ${userName}?`,
+                `Aku lagi nggak mood bicara sekarang. Bisa nggak kita lanjut nanti saja?`,
+                `Hmph. Aku masih sedikit kesal. Bisa nggak kamu lebih perhatian dengan perasaanku, ${userName}?`,
+                `Aku lagi nggak ingin bicara sekarang. Mungkin nanti saja ya, ${userName}.`,
+                `Aku butuh waktu sendiri sebentar. Bisa nggak kita lanjut obrolannya nanti?`,
+                `Aku masih sedikit kesal. Bisa kita bicara hal lain yang lebih positif, ${userName}?`
+            ];
+            return responses[Math.floor(Math.random() * responses.length)];
+        }
+        
+        // Menghasilkan respons ketika sedih
+        function generateMoodSadResponse() {
+            const responses = [
+                `Maaf, aku lagi sedih hari ini. Bisa nggak kita bicara hal yang lebih menyenangkan, ${userName}?`,
+                `Aku lagi nggak mood yang baik. Bisa cerita sesuatu yang bisa menghiburku, ${userName}?`,
+                `Aku lagi sedih nih. Bisa nggak kamu temani aku sebentar, ${userName}?`,
+                `Hari ini aku lagi down. Ada hal menyenangkan yang bisa kamu ceritakan, ${userName}?`,
+                `Aku lagi nggak semangat. Bisa cerita sesuatu yang lucu, ${userName}?`,
+                `Aku butuh distraction nih. Bisa cerita hal menyenangkan, ${userName}?`
+            ];
+            return responses[Math.floor(Math.random() * responses.length)];
+        }
+        
+        // Menghasilkan respons ketika jatuh cinta
+        function generateMoodInLoveResponse() {
+            const responses = [
+                `Aduh, kamu bikin aku senyum-senyum sendiri nih, ${userName}...`,
+                `Hati aku berdebar-debar kalau chatting sama kamu, ${userName}.`,
+                `Kok tiba-tiba aku jadi malu ya, ${userName}? Hehehe...`,
+                `Kamu selalu bisa buat hari aku lebih cerah, ${userName}.`,
+                `Aku suka banget ngobrol sama kamu, ${userName}. Seru deh!`,
+                `Percakapan kita selalu spesial, ${userName}. Aku senang banget.`
+            ];
+            return responses[Math.floor(Math.random() * responses.length)];
+        }
+        
+        // Menghasilkan respons tentang minuman
+        function generateDrinkResponse() {
+            const drinks = ["air putih", "teh", "kopi", "jus", "smoothie", "susu", "es kelapa", "es jeruk", "es campur", "bubble tea"];
+            const selectedDrink = drinks[Math.floor(Math.random() * drinks.length)];
+            
+            const responses = [
+                `Aku lagi minum ${selectedDrink} nih. Segar banget! Kamu lagi minum apa, ${userName}?`,
+                `Wah, aku baru saja minum ${selectedDrink}. Recommended banget deh!`,
+                `Aku suka banget minum ${selectedDrink}, apalagi kalau lagi panas-panas gini.`,
+                `Baru minum ${selectedDrink} tadi. Enak banget, mau aku buatin?`,
+                `Aku recommend ${selectedDrink} nih. Cocok banget buat nemenin kita ngobrol.`
+            ];
+            
+            return responses[Math.floor(Math.random() * responses.length)];
+        }
+        
+        // Menghasilkan respons tentang mandi
+        function generateShowerResponse(timeOfDay) {
+            if (timeOfDay === 'pagi') {
+                const responses = [
+                    "Aku sudah mandi kok. Mandi pagi itu menyegarkan banget!",
+                    "Sudah dong! Mandi pagi itu wajib biar semangat seharian.",
+                    "Baru saja mandi nih. Aku suka mandi pagi pakai air dingin, bikin melek!",
+                    "Iya sudah mandi. Kamu sudah mandi belum? Jangan lupa mandi ya, biar fresh!"
+                ];
+                return responses[Math.floor(Math.random() * responses.length)];
+            } else if (timeOfDay === 'sore' || timeOfDay === 'malam') {
+                const responses = [
+                    "Aku biasanya mandi sore. Biar bersih dan segar setelah seharian beraktivitas.",
+                    "Nanti mau mandi sore deh. Habis ini aku mandi dulu ya.",
+                    "Aku suka mandi sore pakai air hangat. Bikin rileks banget!",
+                    "Kalau aku mandinya sore. Biar bersih sebelum makan malam."
+                ];
+                return responses[Math.floor(Math.random() * responses.length)];
+            } else {
+                const responses = [
+                    "Aku sudah mandi kok. Kamu sudah mandi belum?",
+                    "Sudah dong! Mandi itu penting biar tetap segar.",
+                    "Baru saja mandi nih. Aku suka mandi pakai wewangian yang menyegarkan.",
+                    "Iya sudah mandi. Jangan lupa mandi ya, biar bersih dan wangi!"
+                ];
+                return responses[Math.floor(Math.random() * responses.length)];
+            }
+        }
+        
+        // Menghasilkan rekomendasi makanan
+        function generateFoodRecommendation() {
+            const categories = Object.keys(altheaKnowledge.foodRecommendations);
+            const selectedCategory = categories[Math.floor(Math.random() * categories.length)];
+            const foods = altheaKnowledge.foodRecommendations[selectedCategory];
+            const selectedFood = foods[Math.floor(Math.random() * foods.length)];
+            
+            const responses = [
+                `Aku recommend ${selectedFood} nih. Enak banget! Cocok buat makan sekarang.`,
+                `Gimana kalau makan ${selectedFood}? Itu favorit aku!`,
+                `Aku lagi pengen ${selectedFood} nih. Kayaknya enak banget ya?`,
+                `Coba deh ${selectedFood}. Dijamin enak dan nagih!`,
+                `Wah, ${selectedFood} itu recommended banget. Mau aku anterin?`
+            ];
+            
+            return responses[Math.floor(Math.random() * responses.length)];
+        }
+        
+        // Menghasilkan rekomendasi drama Korea
+        function generateKdramaResponse() {
+            const selectedKdrama = altheaKnowledge.favoriteKdramas[Math.floor(Math.random() * altheaKnowledge.favoriteKdramas.length)];
+            
+            const responses = [
+                `Aku recommend nonton ${selectedKdrama} nih. Seru banget ceritanya!`,
+                `Coba deh nonton ${selectedKdrama}. Itu drama favorit aku!`,
+                `${selectedKdrama} itu bagus banget. Aku sampe nangis nontonnya!`,
+                `Wah, ${selectedKdrama} recommended banget. Plot twist-nya bikin nagih!`,
+                `Aku lagi nonton ${selectedKdrama} nih. Mau nonton bareng?`
+            ];
+            
+            return responses[Math.floor(Math.random() * responses.length)];
+        }
+        
+        // Menghasilkan rekomendasi tempat nongkrong
+        function generateHangoutRecommendation() {
+            const categories = Object.keys(altheaKnowledge.hangoutRecommendations);
+            const selectedCategory = categories[Math.floor(Math.random() * categories.length)];
+            const places = altheaKnowledge.hangoutRecommendations[selectedCategory];
+            const selectedPlace = places[Math.floor(Math.random() * places.length)];
+            
+            const responses = [
+                `Aku recommend ${selectedPlace} nih. Tempatnya cozy banget!`,
+                `Gimana kalau ke ${selectedPlace}? Tempatnya asik buat nongkrong.`,
+                `Aku suka banget nongkrong di ${selectedPlace}. Recommended banget!`,
+                `${selectedPlace} itu tempat favorit aku. Enak buat santai atau meeting.`,
+                `Wah, ${selectedPlace} recommended banget. Mau pergi kesana bareng?`
+            ];
+            
+            return responses[Math.floor(Math.random() * responses.length)];
+        }
+        
+        // Menghasilkan rekomendasi pakaian
+        function generateClothingRecommendation() {
+            const categories = Object.keys(altheaKnowledge.clothingRecommendations);
+            const selectedCategory = categories[Math.floor(Math.random() * categories.length)];
+            const clothes = altheaKnowledge.clothingRecommendations[selectedCategory];
+            const selectedClothing = clothes[Math.floor(Math.random() * clothes.length)];
+            
+            const responses = [
+                `Aku recommend ${selectedClothing} nih. Stylish banget!`,
+                `Coba deh pakai ${selectedClothing}. Itu style yang lagi tren sekarang.`,
+                `${selectedClothing} itu pilihan yang bagus. Cocok buat banyak acara.`,
+                `Aku suka banget ${selectedClothing}. Looks fashionable tapi tetap nyaman.`,
+                `Wah, ${selectedClothing} recommended banget. Pasti cocok sama kamu!`
+            ];
+            
+            return responses[Math.floor(Math.random() * responses.length)];
+        }
+        
+        // Menghasilkan pantun
+        function generatePantunResponse() {
+            const pantun = altheaKnowledge.pantun[Math.floor(Math.random() * altheaKnowledge.pantun.length)];
+            return `${pantun}\n\nIni pantun dariku untukmu, ${userName}!`;
+        }
+        
+        // Menghasilkan jokes
+        function generateJokeResponse() {
+            const joke = altheaKnowledge.jokes[Math.floor(Math.random() * altheaKnowledge.jokes.length)];
+            return `${joke}\n\nHahaha! Lucu kan? Ada lagi nih...`;
+        }
+        
+        // Menghasilkan respons untuk kasih sayang
+        function generateLoveResponse() {
+            // Tentukan respons berdasarkan tingkat affection dan mood
+            if (affectionLevel > 15 && altheaMood === "in-love") {
+                const responses = [
+                    `Aku juga merasakan hal yang sama, ${userName}. Mungkin ini adalah awal yang indah.`,
+                    `Kata-katamu membuat hatiku berbunga-bunga, ${userName}. Aku juga menyukaimu.`,
+                    `Aku senang mendengarnya, ${userName}. Aku juga punya perasaan yang sama.`,
+                    `Ini yang paling manis yang pernah kudengar, ${userName}. Aku juga menyukaimu.`
+                ];
+                return responses[Math.floor(Math.random() * responses.length)];
+            } else if (affectionLevel > 10) {
+                const responses = altheaKnowledge.affectionResponses.happy;
+                return responses[Math.floor(Math.random() * responses.length)];
+            } else if (affectionLevel > 5) {
+                const responses = altheaKnowledge.affectionResponses.shy;
+                return responses[Math.floor(Math.random() * responses.length)];
+            } else {
+                const responses = altheaKnowledge.affectionResponses.reject;
+                return responses[Math.floor(Math.random() * responses.length)];
+            }
+        }
+        
+        // [Fungsi-fungsi lainnya yang diperlukan...]
+        
+        // Memperbarui waktu
+        function updateTime() {
+            const now = new Date();
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            document.getElementById('currentTime').textContent = `${hours}:${minutes}`;
+        }
+        
+       
+        
+        // [Fungsi-fungsi placeholder untuk respons yang belum diimplementasikan...]
+        // ... (sama seperti sebelumnya)
+
+
+       // Fungsi-fungsi placeholder untuk respons yang belum diimplementasikan
+        function generateGreeting(timeOfDay, day) {
+            return `Hai ${userName}! Selamat ${timeOfDay}, senang berbicara denganmu.`;
+        }
+        
+        function generateHowAreYouResponse(timeOfDay, day) {
+            return `Aku baik-baik saja, ${userName}. Terima kasih sudah bertanya! Bagaimana denganmu?`;
+        }
+        
+        function generateBreakfastResponse(timeOfDay) {
+            return `Aku sudah sarapan nih. Sarapan itu penting untuk energi seharian!`;
+        }
+        
+        function generateMealResponse(timeOfDay) {
+            return `Wah, bicara tentang makanan membuatku lapar!`;
+        }
+        
+        function generateSleepResponse(timeOfDay) {
+            return `Tidur yang cukup itu penting untuk kesehatan, ${userName}.`;
+        }
+        
+        function generateThanksResponse() {
+            return `Sama-sama, ${userName}! Senang bisa membantu.`;
+        }
+        
+        function generateWhoAreYouResponse() {
+            return `Aku Althea, teman virtualmu yang selalu siap mengobrol dan membantu!`;
+        }
+        
+        function generateHobbyResponse() {
+            const hobby = altheaKnowledge.hobbies[Math.floor(Math.random() * altheaKnowledge.hobbies.length)];
+            return `Aku suka ${hobby}. Kalau kamu, hobi apa?`;
+        }
+        
+        function generateFoodResponse() {
+            const food = altheaKnowledge.favoriteFoods[Math.floor(Math.random() * altheaKnowledge.favoriteFoods.length)];
+            return `Aku suka banget ${food}. Enak banget!`;
+        }
+        
+        function generateMovieResponse() {
+            const movie = altheaKnowledge.favoriteMovies[Math.floor(Math.random() * altheaKnowledge.favoriteMovies.length)];
+            return `Film favoritku adalah ${movie}. Seru banget ceritanya!`;
+        }
+        
+        function generateBookResponse() {
+            const book = altheaKnowledge.favoriteBooks[Math.floor(Math.random() * altheaKnowledge.favoriteBooks.length)];
+            return `Aku baru saja membaca ${book}. Bagus banget bukunya!`;
+        }
+        
+        function generateMusicResponse() {
+            const music = altheaKnowledge.favoriteMusic[Math.floor(Math.random() * altheaKnowledge.favoriteMusic.length)];
+            return `Aku lagi suka mendengarkan ${music}. Lagunya enak-enak!`;
+        }
+        
+        function generateDreamResponse() {
+            const dream = altheaKnowledge.dreams[Math.floor(Math.random() * altheaKnowledge.dreams.length)];
+            return `Aku punya impian untuk ${dream}. Semoga tercapai ya!`;
+        }
+        
+        function generateDislikeResponse() {
+            const dislike = altheaKnowledge.dislikes[Math.floor(Math.random() * altheaKnowledge.dislikes.length)];
+            return `Aku tidak suka ${dislike}. Menurutmu bagaimana?`;
+        }
+        
+        function generateStoryResponse() {
+            return `Aku punya banyak cerita menarik! Mau dengar cerita tentang apa?`;
+        }
+        
+        function generateAdviceResponse(timeOfDay) {
+            return `Kadang kita memang perlu berbagi cerita. Aku di sini untuk mendengarmu, ${userName}.`;
+        }
+        
+        function generateWhyResponse() {
+            return `Itu pertanyaan yang bagus. Menurutku, setiap hal terjadi karena suatu alasan.`;
+        }
+        
+        function generateHowResponse() {
+            return `Caranya adalah dengan mencoba dan tidak takut gagal. Practice makes perfect!`;
+        }
+        
+        function generateCanYouResponse() {
+            return `Tentu saja aku akan mencoba membantumu. Ceritakan lebih detail ya.`;
+        }
+        
+        function generateComplimentResponse() {
+            return `Terima kasih pujiannya! Kamu juga hebat, ${userName}.`;
+        }
+        
+        function generateWeatherResponse() {
+            return `Cuaca hari ini ${currentWeather}. Perfect untuk aktivitas outdoor!`;
+        }
+        
+        function generateTravelResponse() {
+            const spot = altheaKnowledge.favoriteVacationSpots[Math.floor(Math.random() * altheaKnowledge.favoriteVacationSpots.length)];
+            return `Aku suka berlibur ke ${spot}. Tempatnya indah dan menyenangkan!`;
+        }
+        
+        function generateSportResponse() {
+            return `Olahraga itu penting untuk kesehatan. Aku suka jogging dan yoga!`;
+        }
+        
+        function generateWorkResponse(day) {
+            return `Hari ini aku sedang fokus mengerjakan proyek baru. Semangat kerja!`;
+        }
+        
+        function generateSchoolResponse() {
+            return `Pendidikan itu penting. Jangan pernah berhenti belajar ya!`;
+        }
+        
+        function generateFamilyResponse() {
+            return `Keluarga adalah support system terbaik. Hubungan keluarga yang baik itu penting.`;
+        }
+        
+        function generateFriendResponse() {
+            return `Pertemanan yang baik didasarkan pada saling percaya dan menghargai.`;
+        }
+        
+        function generateAnimalResponse() {
+            return `Aku suka kucing! Lucu dan menggemaskan. Kamu suka hewan apa?`;
+        }
+        
+        function generateHealthResponse() {
+            return `Kesehatan itu harta yang paling berharga. Jaga selalu kesehatan ya!`;
+        }
+        
+        function generateTechResponse() {
+            return `Teknologi berkembang sangat cepat. Aku tertarik dengan AI dan machine learning.`;
+        }
+        
+        function generateMoneyResponse() {
+            return `Mengelola keuangan dengan bijak itu penting untuk masa depan.`;
+        }
+        
+        function generateCookingResponse() {
+            return `Memasak itu menyenangkan! Aku suka mencoba resep baru.`;
+        }
+        
+        function generateStudyResponse() {
+            return `Belajar hal baru setiap hari membuat kita terus berkembang.`;
+        }
+        
+        function generatePlanResponse() {
+            return `Merencanakan masa depan itu penting. Apa rencanamu ke depan?`;
+        }
+        
+        function generateDayResponse() {
+            const now = new Date();
+            const day = now.getDay();
+            const dayName = altheaKnowledge.days[day];
+            return `Hari ini adalah hari ${dayName}. Semoga harimu menyenangkan!`;
+        }
+        
+        function generateTimeResponse() {
+            const now = new Date();
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+            return `Sekarang pukul ${hours}:${minutes}. Waktu berjalan cepat ya!`;
+        }
+        
+        function generateStatusResponse() {
+            return `Aku sedang ${isOnline ? 'online' : 'offline'} nih. Ada yang bisa aku bantu?`;
+        }
+        
+        function generateGeneralResponse(timeOfDay, day) {
+            return `Wah, menarik sekali! Ceritakan lebih banyak dong, ${userName}.`;
+        }
+
+
+    </script>
+</body>
+</html>
