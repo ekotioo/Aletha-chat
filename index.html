@@ -818,6 +818,8 @@
             padding: 15px;
             margin: 10px 0;
             border: 1px solid #e6e6e6;
+            width: 100%;
+            max-width: 350px;
         }
         
         .dark-mode .poll-container {
@@ -828,6 +830,12 @@
         .poll-question {
             font-weight: 600;
             margin-bottom: 10px;
+            color: #333;
+            font-size: 1rem;
+        }
+        
+        .dark-mode .poll-question {
+            color: #e0e0e0;
         }
         
         .poll-options {
@@ -837,11 +845,14 @@
         }
         
         .poll-option {
-            padding: 8px 12px;
+            padding: 10px 12px;
             border: 1px solid #e6e6e6;
             border-radius: 8px;
             cursor: pointer;
             transition: all 0.2s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
         
         .dark-mode .poll-option {
@@ -870,10 +881,53 @@
             margin-top: 10px;
             font-size: 0.8rem;
             color: #666;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
         }
         
         .dark-mode .poll-result {
             color: #aaa;
+        }
+        
+        .poll-bar-container {
+            background-color: #f0f2f5;
+            border-radius: 4px;
+            height: 8px;
+            overflow: hidden;
+            margin-top: 5px;
+        }
+        
+        .dark-mode .poll-bar-container {
+            background-color: #555;
+        }
+        
+        .poll-bar {
+            height: 100%;
+            background: linear-gradient(to right, #8360c3, #6e8efb);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+        
+        .poll-percentage {
+            font-size: 0.75rem;
+            color: #666;
+            margin-left: 8px;
+        }
+        
+        .dark-mode .poll-percentage {
+            color: #aaa;
+        }
+        
+        .poll-total {
+            margin-top: 8px;
+            font-size: 0.75rem;
+            color: #888;
+            text-align: center;
+        }
+        
+        .dark-mode .poll-total {
+            color: #999;
         }
 
         /* Reminder Styles */
@@ -1159,19 +1213,19 @@
             <div class="profile-details">
                 <div class="profile-detail">
                     <i class="fas fa-birthday-cake"></i>
-                    <span>Tanggal Lahir: 20 Agustus 2001 (23 tahun)</span>
+                    <span>Tanggal Lahir: 15 April 1998 (26 tahun)</span>
                 </div>
                 <div class="profile-detail">
                     <i class="fas fa-map-marker-alt"></i>
-                    <span>Lokasi: Indonesia</span>
+                    <span>Lokasi: Jakarta, Indonesia</span>
                 </div>
                 <div class="profile-detail">
                     <i class="fas fa-heart"></i>
-                    <span>Hobi: Membaca, Fotografi, Traveling, Menggambar, Makan </span>
+                    <span>Hobi: Membaca, Fotografi, Traveling</span>
                 </div>
                 <div class="profile-detail">
                     <i class="fas fa-utensils"></i>
-                    <span>Makanan Favorit: Nasi Goreng, Mie Pasta, Bakso</span>
+                    <span>Makanan Favorit: Pasta Carbonara, Sushi, Gado-gado</span>
                 </div>
             </div>
             <div class="profile-social">
@@ -2435,6 +2489,11 @@
                 return startTicTacToe();
             }
             
+            // Cek apakah pesan berisi permintaan untuk membuat polling
+            if (isPollRequest(lowerMsg)) {
+                return createPoll(message);
+            }
+            
             // Respons berdasarkan mood
             if (altheaMood === "angry") {
                 return generateMoodAngryResponse();
@@ -2457,11 +2516,6 @@
             // Cek pertanyaan tentang sepak bola
             if (isFootballQuestion(lowerMsg)) {
                 return generateFootballPrediction(lowerMsg);
-            }
-            
-            // Cek pertanyaan polling
-            if (isPollQuestion(lowerMsg)) {
-                return createPoll(message);
             }
             
             // Respons berdasarkan isi pesan dengan lebih banyak variasi
@@ -2639,6 +2693,18 @@
             ];
             
             return tttPatterns.some(pattern => pattern.test(message));
+        }
+        
+        // Cek apakah pesan berisi permintaan untuk membuat polling
+        function isPollRequest(message) {
+            const pollPatterns = [
+                /polling|poll|pemungutan suara|vote|voting/i,
+                /buat polling|buat poll|buat vote/i,
+                /buat polling (.+)/i,
+                /polling (.+)/i
+            ];
+            
+            return pollPatterns.some(pattern => pattern.test(message));
         }
         
         // Mulai permainan Tic Tac Toe
@@ -3010,6 +3076,237 @@
             return response;
         }
         
+        // Buat polling baru
+        function createPoll(message) {
+            // Coba ekstrak pertanyaan dan opsi dari pesan
+            const pollData = extractPollData(message);
+            
+            if (pollData && pollData.options && pollData.options.length >= 2) {
+                currentPoll = {
+                    question: pollData.question || "Apa pendapatmu?",
+                    options: pollData.options,
+                    votes: new Array(pollData.options.length).fill(0),
+                    userVoted: false
+                };
+                
+                // Bot memilih opsi secara acak
+                const botChoice = Math.floor(Math.random() * currentPoll.options.length);
+                currentPoll.votes[botChoice]++;
+                
+                return generatePollResponse(currentPoll, botChoice);
+            } else {
+                // Jika tidak ada opsi yang jelas, buat polling default
+                currentPoll = {
+                    question: "Apa makanan favoritmu?",
+                    options: ["Indonesian Food", "Western Food", "Asian Food", "Snacks"],
+                    votes: [0, 0, 0, 0],
+                    userVoted: false
+                };
+                
+                const botChoice = Math.floor(Math.random() * currentPoll.options.length);
+                currentPoll.votes[botChoice]++;
+                
+                return `Aku buat polling nih: "${currentPoll.question}"\n\n` + 
+                       generatePollResponse(currentPoll, botChoice);
+            }
+        }
+        
+        // Ekstrak data polling dari pesan
+        function extractPollData(message) {
+            // Coba cari pola seperti "polling: pertanyaan? opsi1, opsi2, opsi3"
+            const patterns = [
+                /polling:?(.+)\?(.+)/i,
+                /poll:?(.+)\?(.+)/i,
+                /buat polling:?(.+)\?(.+)/i,
+                /buat poll:?(.+)\?(.+)/i
+            ];
+            
+            for (const pattern of patterns) {
+                const match = message.match(pattern);
+                if (match) {
+                    const question = match[1].trim();
+                    const optionsText = match[2].trim();
+                    const options = optionsText.split(/[,|]/).map(opt => opt.trim()).filter(opt => opt.length > 0);
+                    
+                    if (options.length >= 2 && options.length <= 5) {
+                        return { question, options };
+                    }
+                }
+            }
+            
+            // Coba ekstrak dari format lain
+            if (message.includes("?")) {
+                const parts = message.split("?");
+                if (parts.length >= 2) {
+                    const question = parts[0].replace(/(polling|poll|vote|voting):?\s*/i, "").trim();
+                    const optionsText = parts[1].trim();
+                    const options = optionsText.split(/[,|]/).map(opt => opt.trim()).filter(opt => opt.length > 0);
+                    
+                    if (options.length >= 2 && options.length <= 5) {
+                        return { question, options };
+                    }
+                }
+            }
+            
+            // Coba ekstrak dari format "buat polling pertanyaan dengan opsi1, opsi2, opsi3"
+            const pattern2 = /buat polling (.+) dengan (.+)/i;
+            const match2 = message.match(pattern2);
+            if (match2) {
+                const question = match2[1].trim();
+                const optionsText = match2[2].trim();
+                const options = optionsText.split(/[,|]/).map(opt => opt.trim()).filter(opt => opt.length > 0);
+                
+                if (options.length >= 2 && options.length <= 5) {
+                    return { question, options };
+                }
+            }
+            
+            return null;
+        }
+        
+        // Generate respons untuk polling
+        function generatePollResponse(poll, botChoice) {
+            const pollDiv = document.createElement('div');
+            pollDiv.classList.add('poll-container');
+            
+            const questionDiv = document.createElement('div');
+            questionDiv.classList.add('poll-question');
+            questionDiv.textContent = poll.question;
+            pollDiv.appendChild(questionDiv);
+            
+            const optionsDiv = document.createElement('div');
+            optionsDiv.classList.add('poll-options');
+            
+            poll.options.forEach((option, index) => {
+                const optionDiv = document.createElement('div');
+                optionDiv.classList.add('poll-option');
+                if (index === botChoice) {
+                    optionDiv.classList.add('selected');
+                    optionDiv.innerHTML = `${option} <i class="fas fa-check"></i>`;
+                } else {
+                    optionDiv.textContent = option;
+                }
+                
+                optionDiv.addEventListener('click', () => {
+                    if (!poll.userVoted) {
+                        // Reset semua pilihan
+                        document.querySelectorAll('.poll-option').forEach(opt => {
+                            opt.classList.remove('selected');
+                            opt.innerHTML = opt.textContent;
+                        });
+                        
+                        // Tandai pilihan user
+                        optionDiv.classList.add('selected');
+                        optionDiv.innerHTML = `${option} <i class="fas fa-check"></i>`;
+                        
+                        // Update vote count
+                        poll.votes[index]++;
+                        poll.userVoted = true;
+                        
+                        // Tampilkan hasil polling
+                        setTimeout(() => {
+                            showPollResults(pollDiv, poll);
+                        }, 1000);
+                    }
+                });
+                
+                optionsDiv.appendChild(optionDiv);
+            });
+            
+            pollDiv.appendChild(optionsDiv);
+            
+            // Tambahkan polling ke chat
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message', 'received');
+            messageDiv.appendChild(pollDiv);
+            
+            const timeDiv = document.createElement('div');
+            timeDiv.classList.add('time');
+            const now = new Date();
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            timeDiv.textContent = `${hours}:${minutes}`;
+            messageDiv.appendChild(timeDiv);
+            
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            
+            return `Aku sudah buat polling untukmu! Silakan pilih opsi yang kamu suka. Aku memilih: ${poll.options[botChoice]}`;
+        }
+        
+        // Tampilkan hasil polling
+        function showPollResults(pollDiv, poll) {
+            // Hapus opsi polling
+            const optionsDiv = pollDiv.querySelector('.poll-options');
+            optionsDiv.remove();
+            
+            // Hitung total votes
+            const totalVotes = poll.votes.reduce((sum, vote) => sum + vote, 0);
+            
+            // Buat hasil polling
+            const resultDiv = document.createElement('div');
+            resultDiv.classList.add('poll-result');
+            
+            poll.options.forEach((option, index) => {
+                const percentage = totalVotes > 0 ? Math.round((poll.votes[index] / totalVotes) * 100) : 0;
+                
+                const optionResult = document.createElement('div');
+                optionResult.style.marginBottom = '8px';
+                
+                const optionText = document.createElement('div');
+                optionText.style.display = 'flex';
+                optionText.style.justifyContent = 'space-between';
+                optionText.style.marginBottom = '4px';
+                
+                const optionName = document.createElement('span');
+                optionName.textContent = option;
+                
+                const optionPercentage = document.createElement('span');
+                optionPercentage.classList.add('poll-percentage');
+                optionPercentage.textContent = `${percentage}%`;
+                
+                optionText.appendChild(optionName);
+                optionText.appendChild(optionPercentage);
+                
+                const barContainer = document.createElement('div');
+                barContainer.classList.add('poll-bar-container');
+                
+                const bar = document.createElement('div');
+                bar.classList.add('poll-bar');
+                bar.style.width = `${percentage}%`;
+                
+                barContainer.appendChild(bar);
+                
+                optionResult.appendChild(optionText);
+                optionResult.appendChild(barContainer);
+                
+                resultDiv.appendChild(optionResult);
+            });
+            
+            const totalDiv = document.createElement('div');
+            totalDiv.classList.add('poll-total');
+            totalDiv.textContent = `Total votes: ${totalVotes}`;
+            
+            resultDiv.appendChild(totalDiv);
+            
+            pollDiv.appendChild(resultDiv);
+            
+            // Tambahkan pesan hasil polling
+            const maxVotes = Math.max(...poll.votes);
+            const winningOptions = poll.options.filter((option, index) => poll.votes[index] === maxVotes);
+            
+            let resultMessage = "";
+            if (winningOptions.length === 1) {
+                resultMessage = `Hasil polling: ${winningOptions[0]} menang dengan ${maxVotes} vote!`;
+            } else {
+                resultMessage = `Hasil polling: ${winningOptions.join(' dan ')} seri dengan ${maxVotes} vote masing-masing!`;
+            }
+            
+            setTimeout(() => {
+                addMessage(resultMessage, 'received');
+            }, 500);
+        }
+        
         // Generate respons untuk pertanyaan tentang besok
         function generateTomorrowResponse() {
             const now = new Date();
@@ -3056,203 +3353,6 @@
             return footballPatterns.some(pattern => pattern.test(message));
         }
         
-        // Cek apakah pertanyaan tentang polling
-        function isPollQuestion(message) {
-            const pollPatterns = [
-                /polling|poll|pemungutan suara|vote|voting/i,
-                /buat polling|buat poll|buat vote/i
-            ];
-            
-            return pollPatterns.some(pattern => pattern.test(message));
-        }
-        
-        // Generate prediksi sepak bola berdasarkan tim yang disebutkan
-        function generateFootballPrediction(message) {
-            // Ekstrak nama tim dari pesan
-            const teamPattern = /(\w+)\s*(vs|law|melawan)\s*(\w+)/i;
-            const match = message.match(teamPattern);
-            
-            let team1, team2;
-            
-            if (match) {
-                team1 = match[1];
-                team2 = match[3];
-            } else {
-                // Jika tidak ada tim yang disebutkan, gunakan tim acak
-                const teams = [...altheaKnowledge.footballTeams];
-                team1 = teams.splice(Math.floor(Math.random() * teams.length), 1)[0];
-                team2 = teams.splice(Math.floor(Math.random() * teams.length), 1)[0];
-            }
-            
-            // Generate skor yang realistis (biasanya 0-5 gol)
-            const score1 = Math.floor(Math.random() * 6);
-            const score2 = Math.floor(Math.random() * 6);
-            
-            // Tentukan pemenang
-            let winner = "imbang";
-            if (score1 > score2) winner = team1;
-            else if (score2 > score1) winner = team2;
-            
-            // Generate komentar berdasarkan skor
-            let comment = "";
-            if (score1 === 0 && score2 === 0) {
-                comment = "Pertandingan yang cukup ketat tanpa gol. Kedua tim bermain defensif.";
-            } else if (Math.abs(score1 - score2) >= 3) {
-                comment = "Kemenangan yang cukup meyakinkan! Pertandingan yang seru.";
-            } else if (Math.abs(score1 - score2) === 1) {
-                comment = "Pertandingan yang ketat! Hanya selisih satu gol.";
-            } else {
-                comment = "Pertandingan yang menarik dengan gol-gol yang spektakuler.";
-            }
-            
-            const responses = [
-                `Prediksi saya untuk ${team1} vs ${team2}: ${score1}-${score2}. ${comment}`,
-                `Menurut analisis saya, ${team1} vs ${team2} akan berakhir ${score1}-${score2}. ${winner === "imbang" ? "Kedua tim bermain imbang." : `${winner} akan menjadi pemenang.`}`,
-                `Untuk pertandingan ${team1} vs ${team2}, saya prediksi skor ${score1}-${score2}. ${comment}`,
-                `Berdasarkan performa terkini, ${team1} vs ${team2} kemungkinan berakhir ${score1}-${score2}. ${comment}`
-            ];
-            
-            return responses[Math.floor(Math.random() * responses.length)];
-        }
-        
-        // Buat polling berdasarkan pesan pengguna
-        function createPoll(message) {
-            // Coba ekstrak opsi polling dari pesan
-            const pollOptions = extractPollOptions(message);
-            
-            if (pollOptions && pollOptions.length >= 2) {
-                currentPoll = {
-                    question: pollOptions.question || "Apa pendapatmu?",
-                    options: pollOptions.options,
-                    votes: new Array(pollOptions.options.length).fill(0)
-                };
-                
-                // Bot memilih opsi secara acak
-                const botChoice = Math.floor(Math.random() * currentPoll.options.length);
-                currentPoll.votes[botChoice]++;
-                
-                return generatePollResponse(currentPoll, botChoice);
-            } else {
-                // Jika tidak ada opsi yang jelas, buat polling default
-                currentPoll = {
-                    question: "Apa makanan favoritmu?",
-                    options: ["Indonesian Food", "Western Food", "Asian Food", "Snacks"],
-                    votes: [0, 0, 0, 0]
-                };
-                
-                const botChoice = Math.floor(Math.random() * currentPoll.options.length);
-                currentPoll.votes[botChoice]++;
-                
-                return `Aku buat polling nih: "${currentPoll.question}"\n\n` + 
-                       generatePollResponse(currentPoll, botChoice);
-            }
-        }
-        
-        // Ekstrak opsi polling dari pesan
-        function extractPollOptions(message) {
-            // Coba cari pola seperti "polling: pertanyaan? opsi1, opsi2, opsi3"
-            const patterns = [
-                /polling:?(.+)\?(.+)/i,
-                /poll:?(.+)\?(.+)/i,
-                /buat polling:?(.+)\?(.+)/i,
-                /buat poll:?(.+)\?(.+)/i
-            ];
-            
-            for (const pattern of patterns) {
-                const match = message.match(pattern);
-                if (match) {
-                    const question = match[1].trim();
-                    const optionsText = match[2].trim();
-                    const options = optionsText.split(/[,|]/).map(opt => opt.trim()).filter(opt => opt.length > 0);
-                    
-                    if (options.length >= 2 && options.length <= 5) {
-                        return { question, options };
-                    }
-                }
-            }
-            
-            // Coba ekstrak dari format lain
-            if (message.includes("?")) {
-                const parts = message.split("?");
-                if (parts.length >= 2) {
-                    const question = parts[0].replace(/(polling|poll|vote|voting):?\s*/i, "").trim();
-                    const optionsText = parts[1].trim();
-                    const options = optionsText.split(/[,|]/).map(opt => opt.trim()).filter(opt => opt.length > 0);
-                    
-                    if (options.length >= 2 && options.length <= 5) {
-                        return { question, options };
-                    }
-                }
-            }
-            
-            return null;
-        }
-        
-        // Generate respons untuk polling
-        function generatePollResponse(poll, botChoice) {
-            const pollDiv = document.createElement('div');
-            pollDiv.classList.add('poll-container');
-            
-            const questionDiv = document.createElement('div');
-            questionDiv.classList.add('poll-question');
-            questionDiv.textContent = poll.question;
-            pollDiv.appendChild(questionDiv);
-            
-            const optionsDiv = document.createElement('div');
-            optionsDiv.classList.add('poll-options');
-            
-            poll.options.forEach((option, index) => {
-                const optionDiv = document.createElement('div');
-                optionDiv.classList.add('poll-option');
-                if (index === botChoice) {
-                    optionDiv.classList.add('selected');
-                    optionDiv.innerHTML = `${option} <i class="fas fa-check"></i>`;
-                } else {
-                    optionDiv.textContent = option;
-                }
-                
-                optionDiv.addEventListener('click', () => {
-                    if (!optionDiv.classList.contains('selected')) {
-                        document.querySelectorAll('.poll-option').forEach(opt => {
-                            opt.classList.remove('selected');
-                        });
-                        optionDiv.classList.add('selected');
-                        optionDiv.innerHTML = `${option} <i class="fas fa-check"></i>`;
-                        
-                        // Tampilkan hasil polling
-                        setTimeout(() => {
-                            const resultDiv = document.createElement('div');
-                            resultDiv.classList.add('poll-result');
-                            resultDiv.textContent = `Kamu memilih: ${option}. Aku memilih: ${poll.options[botChoice]}.`;
-                            pollDiv.appendChild(resultDiv);
-                        }, 1000);
-                    }
-                });
-                
-                optionsDiv.appendChild(optionDiv);
-            });
-            
-            pollDiv.appendChild(optionsDiv);
-            
-            // Tambahkan polling ke chat
-            const messageDiv = document.createElement('div');
-            messageDiv.classList.add('message', 'received');
-            messageDiv.appendChild(pollDiv);
-            
-            const timeDiv = document.createElement('div');
-            timeDiv.classList.add('time');
-            const now = new Date();
-            const hours = now.getHours().toString().padStart(2, '0');
-            const minutes = now.getMinutes().toString().padStart(2, '0');
-            timeDiv.textContent = `${hours}:${minutes}`;
-            messageDiv.appendChild(timeDiv);
-            
-            chatMessages.appendChild(messageDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-            
-            return `Aku sudah buat polling untukmu! Silakan pilih opsi yang kamu suka. Aku memilih: ${poll.options[botChoice]}`;
-        }
-        
         // Selesaikan pertanyaan matematika
         function solveMathQuestion(message) {
             // Cari pola matematika
@@ -3264,6 +3364,12 @@
                 { regex: /(\d+)\s*ditambah\s*(\d+)/, operation: (a, b) => a + b, symbol: "+" },
                 { regex: /(\d+)\s*dikurangi\s*(\d+)/, operation: (a, b) => a - b, symbol: "-" },
                 { regex: /(\d+)\s*dikali\s*(\d+)/, operation: (a, b) => a * b, symbol: "×" },
+
+
+
+
+
+
                 { regex: /(\d+)\s*dibagi\s*(\d+)/, operation: (a, b) => a / b, symbol: "÷" },
                 { regex: /hasil\s*dari\s*(\d+)\s*[\+\-\*\/]\s*(\d+)/, operation: (a, b) => {
                     const opMatch = message.match(/hasil\s*dari\s*\d+\s*([\+\-\*\/])\s*\d+/);
@@ -3320,6 +3426,55 @@
             if (operation === ((a, b) => a * b)) return "×";
             if (operation === ((a, b) => a / b)) return "÷";
             return "?";
+        }
+        
+        // Generate prediksi sepak bola berdasarkan tim yang disebutkan
+        function generateFootballPrediction(message) {
+            // Ekstrak nama tim dari pesan
+            const teamPattern = /(\w+)\s*(vs|law|melawan)\s*(\w+)/i;
+            const match = message.match(teamPattern);
+            
+            let team1, team2;
+            
+            if (match) {
+                team1 = match[1];
+                team2 = match[3];
+            } else {
+                // Jika tidak ada tim yang disebutkan, gunakan tim acak
+                const teams = [...altheaKnowledge.footballTeams];
+                team1 = teams.splice(Math.floor(Math.random() * teams.length), 1)[0];
+                team2 = teams.splice(Math.floor(Math.random() * teams.length), 1)[0];
+            }
+            
+            // Generate skor yang realistis (biasanya 0-5 gol)
+            const score1 = Math.floor(Math.random() * 6);
+            const score2 = Math.floor(Math.random() * 6);
+            
+            // Tentukan pemenang
+            let winner = "imbang";
+            if (score1 > score2) winner = team1;
+            else if (score2 > score1) winner = team2;
+            
+            // Generate komentar berdasarkan skor
+            let comment = "";
+            if (score1 === 0 && score2 === 0) {
+                comment = "Pertandingan yang cukup ketat tanpa gol. Kedua tim bermain defensif.";
+            } else if (Math.abs(score1 - score2) >= 3) {
+                comment = "Kemenangan yang cukup meyakinkan! Pertandingan yang seru.";
+            } else if (Math.abs(score1 - score2) === 1) {
+                comment = "Pertandingan yang ketat! Hanya selisih satu gol.";
+            } else {
+                comment = "Pertandingan yang menarik dengan gol-gol yang spektakuler.";
+            }
+            
+            const responses = [
+                `Prediksi saya untuk ${team1} vs ${team2}: ${score1}-${score2}. ${comment}`,
+                `Menurut analisis saya, ${team1} vs ${team2} akan berakhir ${score1}-${score2}. ${winner === "imbang" ? "Kedua tim bermain imbang." : `${winner} akan menjadi pemenang.`}`,
+                `Untuk pertandingan ${team1} vs ${team2}, saya prediksi skor ${score1}-${score2}. ${comment}`,
+                `Berdasarkan performa terkini, ${team1} vs ${team2} kemungkinan berakhir ${score1}-${score2}. ${comment}`
+            ];
+            
+            return responses[Math.floor(Math.random() * responses.length)];
         }
         
         // Mendeteksi pesan kasar
