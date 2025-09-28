@@ -11,6 +11,7 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: background-color 0.3s, color 0.3s;
         }
         
         body {
@@ -19,6 +20,11 @@
             display: flex;
             flex-direction: column;
             color: #333;
+        }
+        
+        body.dark-mode {
+            background-color: #1a1a1a;
+            color: #e0e0e0;
         }
         
         .chat-container {
@@ -30,6 +36,10 @@
             background-color: #fff;
             margin: 0 auto;
             position: relative;
+        }
+        
+        .dark-mode .chat-container {
+            background-color: #2d2d2d;
         }
         
         .chat-header {
@@ -44,12 +54,28 @@
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
         }
         
+        .dark-mode .chat-header {
+            background-color: #3d3d3d;
+            color: #e0e0e0;
+            border-bottom: 1px solid #555;
+        }
+        
         .profile-pic {
             width: 50px;
             height: 50px;
             border-radius: 50%;
             object-fit: cover;
             border: 2px solid #e6e6e6;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .dark-mode .profile-pic {
+            border: 2px solid #555;
+        }
+        
+        .profile-pic:hover {
+            transform: scale(1.05);
         }
         
         .header-info {
@@ -61,6 +87,10 @@
             margin-bottom: 3px;
             font-size: 1.2rem;
             color: #333;
+        }
+        
+        .dark-mode .header-info h2 {
+            color: #e0e0e0;
         }
         
         .header-info p {
@@ -99,15 +129,42 @@
         }
         
         .real-time-info {
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            font-size: 0.75rem;
-            opacity: 0.7;
             display: flex;
             flex-direction: column;
             align-items: flex-end;
             gap: 2px;
+        }
+        
+        .real-time-clock {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #6e8efb;
+        }
+        
+        .dark-mode .real-time-clock {
+            color: #8fa3ff;
+        }
+        
+        .real-time-date {
+            font-size: 0.7rem;
+            color: #888;
+        }
+        
+        .dark-mode .real-time-date {
+            color: #aaa;
+        }
+        
+        .theme-toggle {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: #6e8efb;
+            margin-left: 10px;
+        }
+        
+        .dark-mode .theme-toggle {
+            color: #8fa3ff;
         }
         
         .chat-messages {
@@ -118,6 +175,10 @@
             flex-direction: column;
             gap: 15px;
             background-color: #f5f7fb;
+        }
+        
+        .dark-mode .chat-messages {
+            background-color: #252525;
         }
         
         .message {
@@ -140,6 +201,11 @@
             align-self: flex-start;
             border-bottom-left-radius: 4px;
             border: 1px solid #e6e6e6;
+        }
+        
+        .dark-mode .received {
+            background-color: #3d3d3d;
+            border: 1px solid #555;
         }
         
         .sent {
@@ -180,6 +246,11 @@
             box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
         }
         
+        .dark-mode .typing-indicator {
+            background-color: #3d3d3d;
+            border: 1px solid #555;
+        }
+        
         .typing-indicator span {
             height: 7px;
             width: 7px;
@@ -217,6 +288,11 @@
             align-items: center;
         }
         
+        .dark-mode .chat-input {
+            background-color: #3d3d3d;
+            border-top: 1px solid #555;
+        }
+        
         .chat-input input {
             flex: 1;
             padding: 12px 16px;
@@ -227,9 +303,18 @@
             transition: background-color 0.3s;
         }
         
+        .dark-mode .chat-input input {
+            background-color: #555;
+            color: #e0e0e0;
+        }
+        
         .chat-input input:focus {
             outline: none;
             background-color: #e6e9ef;
+        }
+        
+        .dark-mode .chat-input input:focus {
+            background-color: #666;
         }
         
         .chat-input button {
@@ -269,8 +354,17 @@
             transition: all 0.2s;
         }
         
+        .dark-mode .file-input-label {
+            background: #555;
+            color: #8fa3ff;
+        }
+        
         .file-input-label:hover {
             background: #e6e9ef;
+        }
+        
+        .dark-mode .file-input-label:hover {
+            background: #666;
         }
         
         .name-form {
@@ -288,6 +382,11 @@
             z-index: 10;
         }
         
+        .dark-mode .name-form {
+            background-color: #3d3d3d;
+            color: #e0e0e0;
+        }
+        
         .name-form h2 {
             margin-bottom: 15px;
             color: #6e8efb;
@@ -295,10 +394,18 @@
             font-size: 1.4rem;
         }
         
+        .dark-mode .name-form h2 {
+            color: #8fa3ff;
+        }
+        
         .name-form p {
             margin-bottom: 20px;
             color: #666;
             font-size: 0.95rem;
+        }
+        
+        .dark-mode .name-form p {
+            color: #aaa;
         }
         
         .name-form input {
@@ -311,9 +418,19 @@
             transition: border-color 0.3s;
         }
         
+        .dark-mode .name-form input {
+            background-color: #555;
+            border: 1px solid #666;
+            color: #e0e0e0;
+        }
+        
         .name-form input:focus {
             outline: none;
             border-color: #6e8efb;
+        }
+        
+        .dark-mode .name-form input:focus {
+            border-color: #8fa3ff;
         }
         
         .name-form button {
@@ -375,6 +492,10 @@
             color: #ff3b30;
         }
 
+        .dark-mode .offline-message {
+            background-color: rgba(255, 59, 48, 0.2);
+        }
+
         .image-modal {
             position: fixed;
             top: 0;
@@ -403,17 +524,6 @@
             cursor: pointer;
         }
 
-        .real-time-clock {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #6e8efb;
-        }
-        
-        .real-time-date {
-            font-size: 0.8rem;
-            color: #888;
-        }
-
         .message-actions {
             position: absolute;
             top: -20px;
@@ -424,12 +534,21 @@
             display: none;
         }
         
+        .dark-mode .message-actions {
+            background: #3d3d3d;
+        }
+        
         .message-actions button {
             background: none;
             border: none;
             padding: 5px 10px;
             cursor: pointer;
             font-size: 0.8rem;
+            color: #333;
+        }
+        
+        .dark-mode .message-actions button {
+            color: #e0e0e0;
         }
 
         .message.sent:hover .message-actions {
@@ -457,6 +576,12 @@
             font-size: 0.9rem;
         }
         
+        .dark-mode .caption-input {
+            background-color: #555;
+            border: 1px solid #666;
+            color: #e0e0e0;
+        }
+        
         .remove-image-btn {
             position: absolute;
             top: 5px;
@@ -472,12 +597,459 @@
             cursor: pointer;
             font-size: 0.8rem;
         }
+        
+        .dark-mode .remove-image-btn {
+            background: rgba(61, 61, 61, 0.8);
+            color: #e0e0e0;
+        }
+
+        /* Modal Profil */
+        .profile-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+        }
+        
+        .profile-content {
+            background-color: white;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 400px;
+            padding: 25px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .dark-mode .profile-content {
+            background-color: #3d3d3d;
+            color: #e0e0e0;
+        }
+        
+        .profile-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #888;
+        }
+        
+        .dark-mode .profile-close {
+            color: #aaa;
+        }
+        
+        .profile-img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 15px;
+            border: 3px solid #6e8efb;
+        }
+        
+        .dark-mode .profile-img {
+            border: 3px solid #8fa3ff;
+        }
+        
+        .profile-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .profile-bio {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+        
+        .dark-mode .profile-bio {
+            color: #aaa;
+        }
+        
+        .profile-details {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+        
+        .profile-detail {
+            display: flex;
+            margin-bottom: 10px;
+            align-items: center;
+        }
+        
+        .profile-detail i {
+            width: 20px;
+            margin-right: 10px;
+            color: #6e8efb;
+        }
+        
+        .dark-mode .profile-detail i {
+            color: #8fa3ff;
+        }
+        
+        .profile-social {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(to right, #8360c3, #6e8efb);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: transform 0.2s;
+        }
+        
+        .social-icon:hover {
+            transform: scale(1.1);
+        }
+
+        /* Mode Selection */
+        .mode-selection {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .mode-option {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border: 1px solid #e5e5ea;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .mode-option:hover {
+            background-color: #f5f7fb;
+        }
+        
+        .dark-mode .mode-option:hover {
+            background-color: #3d3d3d;
+        }
+        
+        .mode-option input {
+            margin-right: 10px;
+        }
+        
+        .mode-option.selected {
+            border-color: #6e8efb;
+            background-color: rgba(110, 142, 251, 0.1);
+        }
+        
+        /* Blocked State */
+        .blocked-container {
+            text-align: center;
+            padding: 30px;
+            background-color: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            width: 90%;
+            max-width: 400px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+        }
+        
+        .dark-mode .blocked-container {
+            background-color: #3d3d3d;
+            color: #e0e0e0;
+        }
+        
+        .blocked-icon {
+            font-size: 3rem;
+            color: #ff3b30;
+            margin-bottom: 15px;
+        }
+        
+        .blocked-container h2 {
+            margin-bottom: 15px;
+            color: #ff3b30;
+        }
+        
+        .blocked-container p {
+            margin-bottom: 20px;
+            color: #666;
+        }
+        
+        .dark-mode .blocked-container p {
+            color: #aaa;
+        }
+        
+        .blocked-container button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(to right, #8360c3, #6e8efb);
+            color: white;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .blocked-container button:hover {
+            transform: scale(1.03);
+        }
+
+        /* Poll Styles */
+        .poll-container {
+            background-color: #fff;
+            border-radius: 12px;
+            padding: 15px;
+            margin: 10px 0;
+            border: 1px solid #e6e6e6;
+        }
+        
+        .dark-mode .poll-container {
+            background-color: #3d3d3d;
+            border: 1px solid #555;
+        }
+        
+        .poll-question {
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .poll-options {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .poll-option {
+            padding: 8px 12px;
+            border: 1px solid #e6e6e6;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .dark-mode .poll-option {
+            border: 1px solid #555;
+        }
+        
+        .poll-option:hover {
+            background-color: #f5f7fb;
+        }
+        
+        .dark-mode .poll-option:hover {
+            background-color: #4d4d4d;
+        }
+        
+        .poll-option.selected {
+            background-color: #e6f0ff;
+            border-color: #6e8efb;
+        }
+        
+        .dark-mode .poll-option.selected {
+            background-color: #2d4d7d;
+            border-color: #8fa3ff;
+        }
+        
+        .poll-result {
+            margin-top: 10px;
+            font-size: 0.8rem;
+            color: #666;
+        }
+        
+        .dark-mode .poll-result {
+            color: #aaa;
+        }
+
+        /* Reminder Styles */
+        .reminder-container {
+            background-color: #fff;
+            border-radius: 12px;
+            padding: 15px;
+            margin: 10px 0;
+            border: 1px solid #e6e6e6;
+            border-left: 4px solid #6e8efb;
+        }
+        
+        .dark-mode .reminder-container {
+            background-color: #3d3d3d;
+            border: 1px solid #555;
+            border-left: 4px solid #8fa3ff;
+        }
+        
+        .reminder-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #6e8efb;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .dark-mode .reminder-title {
+            color: #8fa3ff;
+        }
+        
+        .reminder-content {
+            margin-bottom: 10px;
+        }
+        
+        .reminder-time {
+            font-size: 0.8rem;
+            color: #888;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .dark-mode .reminder-time {
+            color: #aaa;
+        }
+        
+        .reminder-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .reminder-btn {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .reminder-dismiss {
+            background-color: #f0f2f5;
+            color: #333;
+        }
+        
+        .dark-mode .reminder-dismiss {
+            background-color: #555;
+            color: #e0e0e0;
+        }
+        
+        .reminder-snooze {
+            background-color: #6e8efb;
+            color: white;
+        }
+
+        /* Tic Tac Toe Styles */
+        .tictactoe-container {
+            background-color: #fff;
+            border-radius: 12px;
+            padding: 15px;
+            margin: 10px 0;
+            border: 1px solid #e6e6e6;
+        }
+        
+        .dark-mode .tictactoe-container {
+            background-color: #3d3d3d;
+            border: 1px solid #555;
+        }
+        
+        .tictactoe-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            text-align: center;
+            color: #6e8efb;
+        }
+        
+        .dark-mode .tictactoe-title {
+            color: #8fa3ff;
+        }
+        
+        .tictactoe-board {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 5px;
+            margin: 0 auto;
+            width: 150px;
+            height: 150px;
+        }
+        
+        .tictactoe-cell {
+            background-color: #f0f2f5;
+            border: 2px solid #6e8efb;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .dark-mode .tictactoe-cell {
+            background-color: #555;
+            border: 2px solid #8fa3ff;
+        }
+        
+        .tictactoe-cell:hover {
+            background-color: #e6e9ef;
+        }
+        
+        .dark-mode .tictactoe-cell:hover {
+            background-color: #666;
+        }
+        
+        .tictactoe-cell.x {
+            color: #ff3b30;
+        }
+        
+        .tictactoe-cell.o {
+            color: #4cd964;
+        }
+        
+        .tictactoe-status {
+            text-align: center;
+            margin-top: 10px;
+            font-weight: 600;
+        }
+        
+        .tictactoe-restart {
+            display: block;
+            margin: 10px auto 0;
+            padding: 5px 15px;
+            background-color: #6e8efb;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .tictactoe-restart:hover {
+            background-color: #5a7dfa;
+        }
 
         @media (min-width: 768px) {
             .chat-container {
                 max-width: 768px;
                 height: 100vh;
                 box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            }
+            
+            .dark-mode .chat-container {
+                box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
             }
         }
     </style>
@@ -489,7 +1061,19 @@
             <p>Sebelum memulai percakapan dengan Aletha, perkenalkan dirimu dulu ya</p>
             
             <div style="margin-bottom: 20px;">
-                <img src="aletha.jpg"" alt="Aletha Natarine" class="profile-pic" id="profilePreview">
+                <img src="aletha.jpg" alt="Aletha Natarine" class="profile-pic" id="profilePreview">
+            </div>
+            
+            <div class="mode-selection">
+                <h3>Pilih Mode Chat:</h3>
+                <div class="mode-option" onclick="selectMode('realistic')">
+                    <input type="radio" id="realisticMode" name="chatMode" checked>
+                    <label for="realisticMode">Realistis (Aletha bisa online/offline)</label>
+                </div>
+                <div class="mode-option" onclick="selectMode('alwaysOnline')">
+                    <input type="radio" id="alwaysOnlineMode" name="chatMode">
+                    <label for="alwaysOnlineMode">Selalu Online (Aletha selalu tersedia)</label>
+                </div>
             </div>
             
             <input type="text" id="userName" placeholder="Masukkan nama kamu">
@@ -498,9 +1082,9 @@
         </div>
     </div>
     
-    <div class="chat-container">
+    <div class="chat-container" id="chatContainer">
         <div class="chat-header">
-            <img src="aletha.jpg" alt="Althea Natarine" class="profile-pic" id="chatProfilePic">
+            <img src="aletha.jpg" alt="Aletha Natarine" class="profile-pic" id="chatProfilePic" onclick="showProfile()">
             <div class="header-info">
                 <h2>Aletha Natarine</h2>
                 <p><span class="status-indicator status-online" id="statusIndicator"></span> <span id="statusText">Online</span></p>
@@ -513,6 +1097,9 @@
                 <div class="real-time-clock" id="realTime">00:00:00</div>
                 <div class="real-time-date" id="realDate">Hari, DD MM YYYY</div>
             </div>
+            <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">
+                <i class="fas fa-moon"></i>
+            </button>
         </div>
         
         <div class="chat-messages" id="chatMessages">
@@ -544,9 +1131,55 @@
         </div>
     </div>
 
+    <!-- Blocked State -->
+    <div class="overlay" id="blockedOverlay" style="display: none;">
+        <div class="blocked-container">
+            <div class="blocked-icon">
+                <i class="fas fa-ban"></i>
+            </div>
+            <h2>Anda Diblokir</h2>
+            <p>Aletha telah memblokir Anda karena perilaku tidak sopan. Anda tidak dapat mengirim pesan lagi.</p>
+            <button onclick="resetChat()">Mulai Chat Baru</button>
+        </div>
+    </div>
+
+    <!-- Modal Gambar -->
     <div class="image-modal" id="imageModal">
         <span class="image-modal-close" id="closeModal">&times;</span>
         <img id="modalImage" src="" alt="Gambar yang diperbesar">
+    </div>
+
+    <!-- Modal Profil -->
+    <div class="profile-modal" id="profileModal">
+        <div class="profile-content">
+            <span class="profile-close" onclick="closeProfile()">&times;</span>
+            <img src="aletha.jpg" alt="Aletha Natarine" class="profile-img">
+            <h2 class="profile-name">Aletha Natarine</h2>
+            <p class="profile-bio" id="profileBio">"Semoga hari-harimu selalu bahagia"</p>
+            <div class="profile-details">
+                <div class="profile-detail">
+                    <i class="fas fa-birthday-cake"></i>
+                    <span>Tanggal Lahir: 15 April 1998 (26 tahun)</span>
+                </div>
+                <div class="profile-detail">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Lokasi: Jakarta, Indonesia</span>
+                </div>
+                <div class="profile-detail">
+                    <i class="fas fa-heart"></i>
+                    <span>Hobi: Membaca, Fotografi, Traveling</span>
+                </div>
+                <div class="profile-detail">
+                    <i class="fas fa-utensils"></i>
+                    <span>Makanan Favorit: Pasta Carbonara, Sushi, Gado-gado</span>
+                </div>
+            </div>
+            <div class="profile-social">
+                <a href="https://instagram.com/alethanatarine" class="social-icon" target="_blank">
+                    <i class="fab fa-instagram"></i>
+                </a>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -563,6 +1196,17 @@
         let lastAngerTime = 0;
         let lastMessageId = 0;
         let currentImageData = null;
+        let isDarkMode = false;
+        let chatMode = "realistic"; // realistic, alwaysOnline
+        let isBlocked = false;
+        let rudeMessageCount = 0;
+        let apologyCount = 0;
+        let currentPoll = null;
+        let currentTicTacToeGame = null;
+        
+        // Sistem memori/pengingat
+        let userReminders = [];
+        let reminderCheckInterval = null;
         
         // Database pengetahuan Althea yang lebih luas
         const altheaKnowledge = {
@@ -595,6 +1239,44 @@
             
             // Kata-kata negatif
             negativeWords: ["buruk", "jelek", "menyedihkan", "mengecewakan", "menjengkelkan", "frustasi", "lelah", "bosan", "sedih", "kecewa", "marah", "kesal", "gugup", "khawatir", "takut", "cemas", "stress", "tertekan", "bingung", "ragu"],
+            
+            // Kata-kata kasar yang lebih kompleks
+            rudeWords: [
+                "bodoh", "goblok", "tolol", "idiot", "dungu", "bego", "geblek", "bloon", "otak udang", "otak encer",
+                "anjing", "bangsat", "kontol", "memek", "jancok", "asu", "bajingan", "kampret", "anjir", "cacat", 
+                "gila", "sinting", "edan", "saru", "keparat", "babi", "lonte", "pelacur", "bajing", "kirik",
+                "dumb", "stupid", "fuck", "shit", "bitch", "asshole", "motherfucker", "damn", "hell", "crap",
+                "sialan", "celaka", "kurang ajar", "tai", "taik", "bokin", "bokinmu", "bajul", "bajingan", "bangsat",
+                "kampang", "kafir", "monyet", "setan", "iblis", "dajjal", "bego", "gembel", "kampungan", "ndasmu",
+                "jancuk", "jancok", "cuk", "cok", "jangkrik", "kodok", "katak", "bangkai", "mampus", "mati",
+                "sempak", "celana dalam", "pantat", "bokong", "pantek", "panteq", "bencong", "banci", "waria", "bencong",
+                "bajingan", "bangsat", "kontol", "memek", "tempik", "tempikmu", "ndas", "ndasmu", "ndog", "ndogmu"
+            ],
+            
+            // Respons untuk permintaan maaf
+            apologyResponses: {
+                forgive: [
+                    "Tidak apa-apa, ${userName}. Aku memaafkanmu. Mari kita lanjutkan percakapan dengan baik.",
+                    "Oke, aku terima permintaan maafmu. Jangan diulangi lagi ya.",
+                    "Aku senang kamu menyadari kesalahan. Aku maafkan kamu, ${userName}.",
+                    "Tidak masalah, ${userName}. Yang penting kamu sudah menyadari kesalahan.",
+                    "Aku terima maafmu. Mari kita mulai lagi dengan percakapan yang lebih baik."
+                ],
+                hesitant: [
+                    "Hmm... Aku masih sedikit kesal, tapi aku akan mencoba memaafkanmu.",
+                    "Baiklah, aku terima maafmu. Tapi tolong jangan ulangi lagi.",
+                    "Aku masih sedikit kecewa, tapi karena kamu meminta maaf, aku akan memaafkanmu.",
+                    "Oke, aku maafkan kamu. Tapi aku harap ini yang terakhir kalinya.",
+                    "Aku menerima permintaan maafmu, tapi aku masih butuh waktu untuk melupakan ini."
+                ],
+                reject: [
+                    "Maafku tidak semudah itu diberikan. Aku masih sangat kecewa.",
+                    "Permintaan maafmu tidak cukup. Aku masih marah dan kecewa.",
+                    "Aku tidak bisa memaafkanmu sekarang. Kamu sudah melukai perasaanku.",
+                    "Permintaan maafmu terdengar tidak tulus. Aku butuh waktu untuk memikirkannya.",
+                    "Aku masih terlalu kesal untuk memaafkanmu. Mungkin nanti saja."
+                ]
+            },
             
             // Aktivitas sehari-hari
             dailyActivities: ["bangun tidur", "mandi", "sarapan", "berangkat kerja", "berangkat kuliah", "olahraga", "makan siang", "istirahat", "belajar", "bekerja", "bermain game", "nonton TV", "bersosialisasi", "merapikan rumah", "memasak", "belanja", "jalan-jalan", "berkebun", "menulis diary", "bersiap tidur"],
@@ -860,7 +1542,29 @@
                     "Brr... dingin nih! Lebih baik di dalam rumah saja.",
                     "Cuaca dingin selalu bikin pengen rebahan di kasur."
                 ]
-            }
+            },
+            
+            // Status bio yang berubah-ubah
+            bioStatuses: [
+                "Semoga hari-harimu selalu bahagia",
+                "Hidup ini terlalu singkat untuk hal-hal yang tidak penting",
+                "Jadilah versi terbaik dari dirimu sendiri",
+                "Kebahagiaan ditemukan dalam hal-hal kecil",
+                "Jangan menyerah, awal yang sulit seringkali menghasilkan akhir yang indah",
+                "Nikmati setiap momen dalam hidup",
+                "Kesederhanaan adalah kunci kebahagiaan",
+                "Tersenyumlah, itu adalah bahasa universal kebaikan",
+                "Hari ini adalah hadiah, itulah mengapa disebut present",
+                "Jadilah perubahan yang ingin kamu lihat di dunia"
+            ],
+            
+            // Tim sepak bola untuk prediksi
+            footballTeams: [
+                "Persib Bandung", "Persija Jakarta", "Arema FC", "Bali United", "PSIS Semarang",
+                "Manchester United", "Manchester City", "Liverpool", "Chelsea", "Arsenal",
+                "Barcelona", "Real Madrid", "Atletico Madrid", "Bayern Munich", "Borussia Dortmund",
+                "Juventus", "AC Milan", "Inter Milan", "Paris Saint-Germain", "Ajax Amsterdam"
+            ]
         };
         
         // Elemen DOM
@@ -884,6 +1588,11 @@
         const imagePreviewContainer = document.getElementById('imagePreviewContainer');
         const imagePreview = document.getElementById('imagePreview');
         const captionInput = document.getElementById('captionInput');
+        const themeToggle = document.getElementById('themeToggle');
+        const profileModal = document.getElementById('profileModal');
+        const profileBio = document.getElementById('profileBio');
+        const blockedOverlay = document.getElementById('blockedOverlay');
+        const chatContainer = document.getElementById('chatContainer');
         
         // Tampilkan form nama saat halaman dimuat
         window.onload = function() {
@@ -893,6 +1602,7 @@
             setInterval(checkOnlineStatus, 60000); // Cek status online setiap 1 menit
             updateMoodIndicator();
             simulateWeatherChange();
+            updateBioStatus();
             
             // Event listener untuk upload gambar
             fileInput.addEventListener('change', handleImageUpload);
@@ -907,6 +1617,176 @@
                     imageModal.style.display = 'none';
                 }
             });
+            
+            // Cek preferensi tema dari localStorage
+            if (localStorage.getItem('darkMode') === 'true') {
+                toggleTheme();
+            }
+            
+            // Cek apakah ada pengingat yang tersimpan
+            loadReminders();
+            
+            // Mulai interval untuk memeriksa pengingat
+            reminderCheckInterval = setInterval(checkReminders, 60000); // Periksa setiap 1 menit
+        }
+        
+        // Memuat pengingat dari localStorage
+        function loadReminders() {
+            const savedReminders = localStorage.getItem('alethaReminders');
+            if (savedReminders) {
+                userReminders = JSON.parse(savedReminders);
+            }
+        }
+        
+        // Menyimpan pengingat ke localStorage
+        function saveReminders() {
+            localStorage.setItem('alethaReminders', JSON.stringify(userReminders));
+        }
+        
+        // Memeriksa pengingat yang sudah waktunya
+        function checkReminders() {
+            const now = new Date();
+            
+            userReminders.forEach((reminder, index) => {
+                if (!reminder.dismissed && new Date(reminder.remindTime) <= now) {
+                    showReminder(reminder, index);
+                }
+            });
+        }
+        
+        // Menampilkan pengingat
+        function showReminder(reminder, index) {
+            const reminderDiv = document.createElement('div');
+            reminderDiv.classList.add('reminder-container');
+            
+            const titleDiv = document.createElement('div');
+            titleDiv.classList.add('reminder-title');
+            titleDiv.innerHTML = `<i class="fas fa-bell"></i> Pengingat!`;
+            reminderDiv.appendChild(titleDiv);
+            
+            const contentDiv = document.createElement('div');
+            contentDiv.classList.add('reminder-content');
+            contentDiv.textContent = reminder.content;
+            reminderDiv.appendChild(contentDiv);
+            
+            const timeDiv = document.createElement('div');
+            timeDiv.classList.add('reminder-time');
+            timeDiv.innerHTML = `<i class="far fa-clock"></i> ${formatReminderTime(reminder.remindTime)}`;
+            reminderDiv.appendChild(timeDiv);
+            
+            const actionsDiv = document.createElement('div');
+            actionsDiv.classList.add('reminder-actions');
+            
+            const dismissBtn = document.createElement('button');
+            dismissBtn.classList.add('reminder-btn', 'reminder-dismiss');
+            dismissBtn.textContent = 'Tutup';
+            dismissBtn.addEventListener('click', () => {
+                reminderDiv.remove();
+                userReminders[index].dismissed = true;
+                saveReminders();
+            });
+            
+            const snoozeBtn = document.createElement('button');
+            snoozeBtn.classList.add('reminder-btn', 'reminder-snooze');
+            snoozeBtn.textContent = 'Tunda 5 menit';
+            snoozeBtn.addEventListener('click', () => {
+                reminderDiv.remove();
+                // Tunda 5 menit
+                const newTime = new Date();
+                newTime.setMinutes(newTime.getMinutes() + 5);
+                userReminders[index].remindTime = newTime.toISOString();
+                saveReminders();
+            });
+            
+            actionsDiv.appendChild(dismissBtn);
+            actionsDiv.appendChild(snoozeBtn);
+            reminderDiv.appendChild(actionsDiv);
+            
+            // Tambahkan ke chat
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message', 'received');
+            messageDiv.appendChild(reminderDiv);
+            
+            const timeStampDiv = document.createElement('div');
+            timeStampDiv.classList.add('time');
+            const now = new Date();
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            timeStampDiv.textContent = `${hours}:${minutes}`;
+            messageDiv.appendChild(timeStampDiv);
+            
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        // Format waktu pengingat
+        function formatReminderTime(timeString) {
+            const date = new Date(timeString);
+            const now = new Date();
+            
+            // Jika hari ini
+            if (date.toDateString() === now.toDateString()) {
+                return `Hari ini pukul ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
+            }
+            
+            // Jika besok
+            const tomorrow = new Date(now);
+            tomorrow.setDate(now.getDate() + 1);
+            if (date.toDateString() === tomorrow.toDateString()) {
+                return `Besok pukul ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
+            }
+            
+            // Format tanggal lengkap
+            const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+            const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+            
+            return `${days[date.getDay()]}, ${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()} pukul ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
+        }
+        
+        // Pilih mode chat
+        function selectMode(mode) {
+            chatMode = mode;
+            document.querySelectorAll('.mode-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            event.currentTarget.classList.add('selected');
+            document.getElementById(mode + 'Mode').checked = true;
+        }
+        
+        // Update status bio secara acak
+        function updateBioStatus() {
+            const statuses = altheaKnowledge.bioStatuses;
+            const randomStatus = statuses[Math.floor(Math.random() * statuses.length)];
+            profileBio.textContent = `"${randomStatus}"`;
+            
+            // Update setiap 2-5 menit
+            setTimeout(updateBioStatus, 120000 + Math.random() * 180000);
+        }
+        
+        // Toggle tema gelap/terang
+        function toggleTheme() {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('dark-mode', isDarkMode);
+            
+            // Update ikon tema
+            if (isDarkMode) {
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            } else {
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            }
+            
+            // Simpan preferensi tema
+            localStorage.setItem('darkMode', isDarkMode);
+        }
+        
+        // Tampilkan modal profil
+        function showProfile() {
+            profileModal.style.display = 'flex';
+        }
+        
+        // Tutup modal profil
+        function closeProfile() {
+            profileModal.style.display = 'none';
         }
         
         // Memperbarui waktu real-time
@@ -930,6 +1810,15 @@
         
         // Cek status online berdasarkan waktu
         function checkOnlineStatus() {
+            // Jika mode selalu online, maka selalu online
+            if (chatMode === "alwaysOnline") {
+                isOnline = true;
+                statusIndicator.className = "status-indicator status-online";
+                statusText.textContent = "Online";
+                responseDelay = 1000 + Math.random() * 1000;
+                return;
+            }
+            
             const now = new Date();
             const hour = now.getHours();
             const day = now.getDay(); // 0 = Minggu, 6 = Sabtu
@@ -1028,6 +1917,30 @@
             checkOnlineStatus();
         }
         
+        // Reset chat setelah diblokir
+        function resetChat() {
+            isBlocked = false;
+            rudeMessageCount = 0;
+            apologyCount = 0;
+            messageCount = 0;
+            affectionLevel = 0;
+            altheaMood = "happy";
+            blockedOverlay.style.display = 'none';
+            chatContainer.style.display = 'flex';
+            
+            // Reset chat messages
+            chatMessages.innerHTML = '<div class="message received"><p>Halo! Senang sekali akhirnya bisa berbicara denganmu. Siapa namamu?</p><div class="time" id="currentTime">00:00</div></div>';
+            
+            overlay.style.display = 'flex';
+        }
+        
+        // Blokir pengguna
+        function blockUser() {
+            isBlocked = true;
+            chatContainer.style.display = 'none';
+            blockedOverlay.style.display = 'flex';
+        }
+        
         // Menangani penekanan tombol Enter
         function handleKeyPress(event) {
             if (event.key === 'Enter') {
@@ -1037,6 +1950,8 @@
         
         // Mengirim pesan
         function sendMessage() {
+            if (isBlocked) return;
+            
             const message = messageInput.value.trim();
             const hasImage = currentImageData !== null;
             
@@ -1083,7 +1998,7 @@
                     setTimeout(() => {
                         const offlineDiv = document.createElement('div');
                         offlineDiv.className = 'offline-message';
-                        offlineDiv.textContent = 'Althea sedang offline. Dia akan membalas pesanmu ketika online.';
+                        offlineDiv.textContent = 'Aletha sedang offline. Dia akan membalas pesanmu ketika online.';
                         chatMessages.appendChild(offlineDiv);
                         chatMessages.scrollTop = chatMessages.scrollHeight;
                     }, 1000);
@@ -1312,6 +2227,39 @@
         function updateMoodBasedOnMessage(message) {
             const lowerMsg = message.toLowerCase();
             
+            // Deteksi pesan kasar
+            if (isRudeMessage(lowerMsg)) {
+                rudeMessageCount++;
+                
+                // Jika sudah 3 pesan kasar, blokir pengguna
+                if (rudeMessageCount >= 3) {
+                    setTimeout(() => {
+                        blockUser();
+                    }, 2000);
+                    return;
+                }
+                
+                // Jika sudah 2 pesan kasar, marah banget
+                if (rudeMessageCount >= 2) {
+                    altheaMood = "angry";
+                    lastAngerTime = new Date().getTime();
+                    updateMoodIndicator();
+                    return;
+                }
+                
+                // Pesan kasar pertama, marah biasa
+                altheaMood = "angry";
+                lastAngerTime = new Date().getTime();
+                updateMoodIndicator();
+                return;
+            }
+            
+            // Deteksi permintaan maaf
+            if (isApology(lowerMsg)) {
+                apologyCount++;
+                return handleApology();
+            }
+            
             // Pujian meningkatkan mood dan affection
             if (lowerMsg.includes("cantik") || lowerMsg.includes("pintar") || lowerMsg.includes("baik") || 
                 lowerMsg.includes("hebat") || lowerMsg.includes("keren") || lowerMsg.includes("smart") ||
@@ -1322,6 +2270,11 @@
                     updateMoodIndicator();
                 }
                 affectionLevel += 1;
+                
+                // Kurangi count pesan kasar jika ada pujian
+                if (rudeMessageCount > 0) {
+                    rudeMessageCount = Math.max(0, rudeMessageCount - 1);
+                }
             }
             // Kata-kata cinta meningkatkan affection secara signifikan
             else if (lowerMsg.includes("cinta") || lowerMsg.includes("sayang") || lowerMsg.includes("rindu") ||
@@ -1334,17 +2287,11 @@
                     altheaMood = "in-love";
                     updateMoodIndicator();
                 }
-            }
-            // Kritikan atau kata kasar menurunkan mood dan affection
-            else if (isRudeMessage(lowerMsg) || lowerMsg.includes("jelek") || lowerMsg.includes("bodoh") || 
-                     lowerMsg.includes("dasar") || lowerMsg.includes("goblok") || lowerMsg.includes("tolol") ||
-                     lowerMsg.includes("stupid") || lowerMsg.includes("bad") || lowerMsg.includes("dull")) {
-                if (altheaMood !== "angry") {
-                    altheaMood = "angry";
-                    lastAngerTime = new Date().getTime();
-                    updateMoodIndicator();
+                
+                // Kurangi count pesan kasar jika ada kata cinta
+                if (rudeMessageCount > 0) {
+                    rudeMessageCount = Math.max(0, rudeMessageCount - 2);
                 }
-                affectionLevel = Math.max(0, affectionLevel - 2);
             }
             // Pertanyaan sedih atau masalah
             else if (lowerMsg.includes("sedih") || lowerMsg.includes("marah") || lowerMsg.includes("kesal") ||
@@ -1361,6 +2308,59 @@
                 altheaMood = moods[Math.floor(Math.random() * moods.length)];
                 updateMoodIndicator();
             }
+        }
+        
+        // Deteksi permintaan maaf
+        function isApology(message) {
+            const apologyWords = ["maaf", "sorry", "mohon maaf", "ampun", "minta maaf", "mohon ampun", "maafin", "maafkan"];
+            return apologyWords.some(word => message.includes(word));
+        }
+        
+        // Handle permintaan maaf
+        function handleApology() {
+            // Jika tidak ada pesan kasar sebelumnya
+            if (rudeMessageCount === 0) {
+                return "Kamu tidak perlu minta maaf, kok. Kamu tidak melakukan kesalahan apa-apa.";
+            }
+            
+            // Tentukan respons berdasarkan mood dan jumlah permintaan maaf
+            let responseType = "forgive";
+            
+            if (altheaMood === "angry") {
+                if (apologyCount === 1) {
+                    // Maaf pertama kali saat marah
+                    responseType = Math.random() > 0.5 ? "hesitant" : "reject";
+                } else if (apologyCount >= 2) {
+                    // Maaf berulang kali
+                    responseType = Math.random() > 0.3 ? "forgive" : "hesitant";
+                }
+            } else if (altheaMood === "sad") {
+                responseType = Math.random() > 0.7 ? "hesitant" : "forgive";
+            } else {
+                responseType = "forgive";
+            }
+            
+            // Jika memaafkan, reset count pesan kasar
+            if (responseType === "forgive") {
+                rudeMessageCount = 0;
+                apologyCount = 0;
+                altheaMood = "neutral";
+                updateMoodIndicator();
+            }
+            
+            const responses = altheaKnowledge.apologyResponses[responseType];
+            const selectedResponse = responses[Math.floor(Math.random() * responses.length)];
+            
+            return selectedResponse.replace("${userName}", userName);
+        }
+        
+        // Deteksi pesan kasar yang lebih kompleks
+        function isRudeMessage(message) {
+            return altheaKnowledge.rudeWords.some(word => {
+                // Cek kata kasar secara tepat (bukan sebagai bagian dari kata lain)
+                const regex = new RegExp('\\b' + word + '\\b', 'i');
+                return regex.test(message);
+            });
         }
         
         // Menghasilkan penilaian gambar
@@ -1420,6 +2420,21 @@
                 return generateAngryResponse();
             }
             
+            // Cek apakah pesan berisi perintah untuk mengingat sesuatu
+            if (isReminderRequest(lowerMsg)) {
+                return createReminder(message);
+            }
+            
+            // Cek apakah pesan berisi permintaan untuk melihat pengingat
+            if (lowerMsg.includes("pengingat") && (lowerMsg.includes("lihat") || lowerMsg.includes("tampilkan") || lowerMsg.includes("daftar"))) {
+                return showRemindersList();
+            }
+            
+            // Cek apakah pesan berisi permintaan untuk memainkan Tic Tac Toe
+            if (isTicTacToeRequest(lowerMsg)) {
+                return startTicTacToe();
+            }
+            
             // Respons berdasarkan mood
             if (altheaMood === "angry") {
                 return generateMoodAngryResponse();
@@ -1429,9 +2444,24 @@
                 return generateMoodInLoveResponse();
             }
             
+            // Cek pertanyaan tentang besok
+            if (lowerMsg.includes("besok") && (lowerMsg.includes("hari apa") || lowerMsg.includes("tanggal"))) {
+                return generateTomorrowResponse();
+            }
+            
             // Cek pertanyaan matematika
             if (isMathQuestion(lowerMsg)) {
                 return solveMathQuestion(lowerMsg);
+            }
+            
+            // Cek pertanyaan tentang sepak bola
+            if (isFootballQuestion(lowerMsg)) {
+                return generateFootballPrediction(lowerMsg);
+            }
+            
+            // Cek pertanyaan polling
+            if (isPollQuestion(lowerMsg)) {
+                return createPoll(message);
             }
             
             // Respons berdasarkan isi pesan dengan lebih banyak variasi
@@ -1578,34 +2608,675 @@
             return generateGeneralResponse(timeOfDay, day);
         }
         
-        // [Fungsi-fungsi lainnya tetap sama seperti sebelumnya...]
+        // Cek apakah pesan berisi permintaan untuk mengingat sesuatu
+        function isReminderRequest(message) {
+            const reminderPatterns = [
+                /ingatkan aku (?:untuk|tentang|pada) (.+)/i,
+                /ingat (?:aku|saya) (?:untuk|tentang|pada) (.+)/i,
+                /buat pengingat (?:untuk|tentang) (.+)/i,
+                /pengingat (?:untuk|tentang) (.+)/i,
+                /remind me (?:about|to) (.+)/i,
+                /set reminder (?:for|about) (.+)/i,
+                /ingatkan (?:saya|aku) (?:nanti|besok|lusa|minggu depan) (?:untuk|tentang) (.+)/i,
+                /ingat (?:nanti|besok|lusa|minggu depan) (?:untuk|tentang) (.+)/i
+            ];
+            
+            return reminderPatterns.some(pattern => pattern.test(message));
+        }
         
+        // Cek apakah pesan berisi permintaan untuk memainkan Tic Tac Toe
+        function isTicTacToeRequest(message) {
+            const tttPatterns = [
+                /tic tac toe/i,
+                /main tic tac toe/i,
+                /game tic tac toe/i,
+                /bermain tic tac toe/i,
+                /tic tac toe yuk/i,
+                /ayo main tic tac toe/i,
+                /main xo/i,
+                /game xo/i,
+                /bermain xo/i
+            ];
+            
+            return tttPatterns.some(pattern => pattern.test(message));
+        }
         
+        // Mulai permainan Tic Tac Toe
+        function startTicTacToe() {
+            // Jika sudah ada game yang berjalan
+            if (currentTicTacToeGame) {
+                return "Kita sudah sedang bermain Tic Tac Toe! Silakan pilih kotak yang tersedia.";
+            }
+            
+            // Buat game baru
+            currentTicTacToeGame = {
+                board: Array(9).fill(''),
+                currentPlayer: 'X', // User selalu X
+                gameOver: false,
+                winner: null
+            };
+            
+            // Tampilkan papan permainan
+            const tttDiv = document.createElement('div');
+            tttDiv.classList.add('tictactoe-container');
+            
+            const titleDiv = document.createElement('div');
+            titleDiv.classList.add('tictactoe-title');
+            titleDiv.textContent = 'Tic Tac Toe - Giliranmu (X)';
+            tttDiv.appendChild(titleDiv);
+            
+            const boardDiv = document.createElement('div');
+            boardDiv.classList.add('tictactoe-board');
+            boardDiv.id = 'tictactoeBoard';
+            
+            // Buat sel-sel papan
+            for (let i = 0; i < 9; i++) {
+                const cellDiv = document.createElement('div');
+                cellDiv.classList.add('tictactoe-cell');
+                cellDiv.dataset.index = i;
+                cellDiv.addEventListener('click', handleTicTacToeClick);
+                boardDiv.appendChild(cellDiv);
+            }
+            
+            tttDiv.appendChild(boardDiv);
+            
+            const statusDiv = document.createElement('div');
+            statusDiv.classList.add('tictactoe-status');
+            statusDiv.id = 'tictactoeStatus';
+            statusDiv.textContent = 'Giliranmu (X)';
+            tttDiv.appendChild(statusDiv);
+            
+            const restartBtn = document.createElement('button');
+            restartBtn.classList.add('tictactoe-restart');
+            restartBtn.textContent = 'Mulai Ulang';
+            restartBtn.addEventListener('click', restartTicTacToe);
+            tttDiv.appendChild(restartBtn);
+            
+            // Tambahkan ke chat
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message', 'received');
+            messageDiv.appendChild(tttDiv);
+            
+            const timeDiv = document.createElement('div');
+            timeDiv.classList.add('time');
+            const now = new Date();
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            timeDiv.textContent = `${hours}:${minutes}`;
+            messageDiv.appendChild(timeDiv);
+            
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            
+            return "Ayo main Tic Tac Toe! Giliranmu dulu (X). Pilih kotak yang ingin kamu isi.";
+        }
         
-         // Cek apakah pertanyaan matematika
+        // Handle klik pada sel Tic Tac Toe
+        function handleTicTacToeClick(event) {
+            if (!currentTicTacToeGame || currentTicTacToeGame.gameOver) return;
+            
+            const index = parseInt(event.target.dataset.index);
+            
+            // Cek apakah sel sudah terisi
+            if (currentTicTacToeGame.board[index] !== '') return;
+            
+            // Isi sel dengan X (pemain)
+            currentTicTacToeGame.board[index] = 'X';
+            event.target.textContent = 'X';
+            event.target.classList.add('x');
+            
+            // Cek apakah pemain menang
+            if (checkTicTacToeWinner('X')) {
+                currentTicTacToeGame.gameOver = true;
+                currentTicTacToeGame.winner = 'X';
+                document.getElementById('tictactoeStatus').textContent = 'Kamu menang! Selamat!';
+                
+                // Tambahkan pesan dari bot
+                setTimeout(() => {
+                    addMessage("Wah, kamu menang! Bagus sekali! Mau main lagi?", 'received');
+                }, 1000);
+                
+                return;
+            }
+            
+            // Cek apakah seri
+            if (currentTicTacToeGame.board.every(cell => cell !== '')) {
+                currentTicTacToeGame.gameOver = true;
+                document.getElementById('tictactoeStatus').textContent = 'Seri! Tidak ada pemenang.';
+                
+                // Tambahkan pesan dari bot
+                setTimeout(() => {
+                    addMessage("Seri! Permainan yang bagus. Mau coba lagi?", 'received');
+                }, 1000);
+                
+                return;
+            }
+            
+            // Giliran bot (O)
+            document.getElementById('tictactoeStatus').textContent = 'Giliran Aletha (O)...';
+            
+            setTimeout(() => {
+                makeBotMove();
+            }, 1000);
+        }
+        
+        // Buat langkah bot
+        function makeBotMove() {
+            if (!currentTicTacToeGame || currentTicTacToeGame.gameOver) return;
+            
+            // Cari langkah terbaik untuk bot
+            const bestMove = findBestMove();
+            
+            // Isi sel dengan O (bot)
+            currentTicTacToeGame.board[bestMove] = 'O';
+            const cell = document.querySelector(`.tictactoe-cell[data-index="${bestMove}"]`);
+            cell.textContent = 'O';
+            cell.classList.add('o');
+            
+            // Cek apakah bot menang
+            if (checkTicTacToeWinner('O')) {
+                currentTicTacToeGame.gameOver = true;
+                currentTicTacToeGame.winner = 'O';
+                document.getElementById('tictactoeStatus').textContent = 'Aletha menang! Coba lagi ya!';
+                
+                // Tambahkan pesan dari bot
+                setTimeout(() => {
+                    addMessage("Haha, aku menang! Jangan sedih, coba lagi ya!", 'received');
+                }, 1000);
+                
+                return;
+            }
+            
+            // Cek apakah seri
+            if (currentTicTacToeGame.board.every(cell => cell !== '')) {
+                currentTicTacToeGame.gameOver = true;
+                document.getElementById('tictactoeStatus').textContent = 'Seri! Tidak ada pemenang.';
+                
+                // Tambahkan pesan dari bot
+                setTimeout(() => {
+                    addMessage("Seri! Permainan yang bagus. Mau coba lagi?", 'received');
+                }, 1000);
+                
+                return;
+            }
+            
+            // Giliran pemain (X)
+            document.getElementById('tictactoeStatus').textContent = 'Giliranmu (X)';
+        }
+        
+        // Cari langkah terbaik untuk bot menggunakan algoritma minimax
+        function findBestMove() {
+            // Coba menang jika bisa
+            for (let i = 0; i < 9; i++) {
+                if (currentTicTacToeGame.board[i] === '') {
+                    currentTicTacToeGame.board[i] = 'O';
+                    if (checkTicTacToeWinner('O')) {
+                        currentTicTacToeGame.board[i] = '';
+                        return i;
+                    }
+                    currentTicTacToeGame.board[i] = '';
+                }
+            }
+            
+            // Blokir pemain jika akan menang
+            for (let i = 0; i < 9; i++) {
+                if (currentTicTacToeGame.board[i] === '') {
+                    currentTicTacToeGame.board[i] = 'X';
+                    if (checkTicTacToeWinner('X')) {
+                        currentTicTacToeGame.board[i] = '';
+                        return i;
+                    }
+                    currentTicTacToeGame.board[i] = '';
+                }
+            }
+            
+            // Coba ambil tengah jika tersedia
+            if (currentTicTacToeGame.board[4] === '') {
+                return 4;
+            }
+            
+            // Ambil sudut yang tersedia
+            const corners = [0, 2, 6, 8];
+            const availableCorners = corners.filter(i => currentTicTacToeGame.board[i] === '');
+            if (availableCorners.length > 0) {
+                return availableCorners[Math.floor(Math.random() * availableCorners.length)];
+            }
+            
+            // Ambil sisi yang tersedia
+            const sides = [1, 3, 5, 7];
+            const availableSides = sides.filter(i => currentTicTacToeGame.board[i] === '');
+            if (availableSides.length > 0) {
+                return availableSides[Math.floor(Math.random() * availableSides.length)];
+            }
+            
+            // Fallback: ambil sel kosong pertama yang ditemukan
+            for (let i = 0; i < 9; i++) {
+                if (currentTicTacToeGame.board[i] === '') {
+                    return i;
+                }
+            }
+            
+            return -1; // Tidak ada langkah yang tersedia
+        }
+        
+        // Cek pemenang Tic Tac Toe
+        function checkTicTacToeWinner(player) {
+            const winPatterns = [
+                [0, 1, 2], [3, 4, 5], [6, 7, 8], // Baris
+                [0, 3, 6], [1, 4, 7], [2, 5, 8], // Kolom
+                [0, 4, 8], [2, 4, 6] // Diagonal
+            ];
+            
+            return winPatterns.some(pattern => {
+                return pattern.every(index => currentTicTacToeGame.board[index] === player);
+            });
+        }
+        
+        // Mulai ulang permainan Tic Tac Toe
+        function restartTicTacToe() {
+            if (!currentTicTacToeGame) return;
+            
+            // Reset game state
+            currentTicTacToeGame.board = Array(9).fill('');
+            currentTicTacToeGame.currentPlayer = 'X';
+            currentTicTacToeGame.gameOver = false;
+            currentTicTacToeGame.winner = null;
+            
+            // Reset tampilan papan
+            const cells = document.querySelectorAll('.tictactoe-cell');
+            cells.forEach(cell => {
+                cell.textContent = '';
+                cell.classList.remove('x', 'o');
+            });
+            
+            document.getElementById('tictactoeStatus').textContent = 'Giliranmu (X)';
+        }
+        
+        // Buat pengingat baru
+        function createReminder(message) {
+            // Ekstrak konten pengingat dari pesan
+            const reminderPatterns = [
+                /ingatkan aku (?:untuk|tentang|pada) (.+)/i,
+                /ingat (?:aku|saya) (?:untuk|tentang|pada) (.+)/i,
+                /buat pengingat (?:untuk|tentang) (.+)/i,
+                /pengingat (?:untuk|tentang) (.+)/i,
+                /remind me (?:about|to) (.+)/i,
+                /set reminder (?:for|about) (.+)/i,
+                /ingatkan (?:saya|aku) (?:nanti|besok|lusa|minggu depan) (?:untuk|tentang) (.+)/i,
+                /ingat (?:nanti|besok|lusa|minggu depan) (?:untuk|tentang) (.+)/i
+            ];
+            
+            let reminderContent = "";
+            for (const pattern of reminderPatterns) {
+                const match = message.match(pattern);
+                if (match) {
+                    reminderContent = match[1].trim();
+                    break;
+                }
+            }
+            
+            // Jika tidak ada konten yang jelas
+            if (!reminderContent) {
+                return "Aku tidak mengerti apa yang harus diingatkan. Bisakah kamu menjelaskannya dengan lebih jelas? Contoh: 'Ingatkan aku untuk meeting besok jam 10 pagi'";
+            }
+            
+            // Coba ekstrak waktu dari pesan
+            const timePatterns = [
+                /(?:nanti|sekarang|hari ini)/i,
+                /(?:besok)/i,
+                /(?:lusa)/i,
+                /(?:minggu depan)/i,
+                /(?:bulan depan)/i,
+                /(?:jam|pukul) (\d{1,2})(?::(\d{2}))?\s*(?:pagi|siang|sore|malam)?/i,
+                /(\d{1,2})\/(\d{1,2})(?:\/(\d{2,4}))?/,
+                /(?:tanggal) (\d{1,2})/i
+            ];
+            
+            let remindTime = new Date();
+            let hasTime = false;
+            
+            // Cek kata kunci waktu
+            if (message.includes("nanti") || message.includes("sekarang") || message.includes("hari ini")) {
+                // Default: 1 jam dari sekarang
+                remindTime.setHours(remindTime.getHours() + 1);
+                hasTime = true;
+            } else if (message.includes("besok")) {
+                remindTime.setDate(remindTime.getDate() + 1);
+                hasTime = true;
+            } else if (message.includes("lusa")) {
+                remindTime.setDate(remindTime.getDate() + 2);
+                hasTime = true;
+            } else if (message.includes("minggu depan")) {
+                remindTime.setDate(remindTime.getDate() + 7);
+                hasTime = true;
+            } else if (message.includes("bulan depan")) {
+                remindTime.setMonth(remindTime.getMonth() + 1);
+                hasTime = true;
+            }
+            
+            // Cek jam spesifik
+            const timeMatch = message.match(/(?:jam|pukul) (\d{1,2})(?::(\d{2}))?\s*(pagi|siang|sore|malam)?/i);
+            if (timeMatch) {
+                let hours = parseInt(timeMatch[1]);
+                const minutes = timeMatch[2] ? parseInt(timeMatch[2]) : 0;
+                const period = timeMatch[3] ? timeMatch[3].toLowerCase() : "";
+                
+                // Konversi ke format 24 jam
+                if (period === "sore" || period === "malam") {
+                    if (hours < 12) hours += 12;
+                } else if (period === "pagi" && hours === 12) {
+                    hours = 0;
+                }
+                
+                remindTime.setHours(hours, minutes, 0, 0);
+                hasTime = true;
+            }
+            
+            // Jika tidak ada waktu yang ditentukan, setel untuk 1 jam dari sekarang
+            if (!hasTime) {
+                remindTime.setHours(remindTime.getHours() + 1);
+            }
+            
+            // Buat objek pengingat
+            const reminder = {
+                id: Date.now(),
+                content: reminderContent,
+                remindTime: remindTime.toISOString(),
+                created: new Date().toISOString(),
+                dismissed: false
+            };
+            
+            // Tambahkan ke daftar pengingat
+            userReminders.push(reminder);
+            saveReminders();
+            
+            return `Oke, aku akan mengingatkanmu tentang "${reminderContent}" pada ${formatReminderTime(reminder.remindTime)}.`;
+        }
+        
+        // Tampilkan daftar pengingat
+        function showRemindersList() {
+            const activeReminders = userReminders.filter(r => !r.dismissed);
+            
+            if (activeReminders.length === 0) {
+                return "Kamu tidak memiliki pengingat aktif saat ini.";
+            }
+            
+            let response = "Ini adalah daftar pengingat aktifmu:\n\n";
+            
+            activeReminders.forEach((reminder, index) => {
+                response += `${index + 1}. ${reminder.content} - ${formatReminderTime(reminder.remindTime)}\n`;
+            });
+            
+            return response;
+        }
+        
+        // Generate respons untuk pertanyaan tentang besok
+        function generateTomorrowResponse() {
+            const now = new Date();
+            const tomorrow = new Date(now);
+            tomorrow.setDate(now.getDate() + 1);
+            
+            const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+            const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+            
+            const dayName = days[tomorrow.getDay()];
+            const date = tomorrow.getDate();
+            const monthName = months[tomorrow.getMonth()];
+            const year = tomorrow.getFullYear();
+            
+            return `Besok adalah hari ${dayName}, tanggal ${date} ${monthName} ${year}.`;
+        }
+        
+        // Cek apakah pertanyaan matematika
         function isMathQuestion(message) {
             const mathPatterns = [
                 /(\d+)\s*[\+\-\*\/]\s*(\d+)/,
                 /berapa\s*(hasil|jumlah|nilai|hasilnya)?\s*(\d+)\s*[\+\-\*\/]\s*(\d+)/,
                 /(\d+)\s*(ditambah|dikurangi|dikali|dibagi)\s*(\d+)/,
-                /(tambah|kurang|kali|bagi)\s*(\d+)\s*dan\s*(\d+)/
+                /(tambah|kurang|kali|bagi)\s*(\d+)\s*dan\s*(\d+)/,
+                /(\d+)\s*(\+|\-|\*|\/)\s*(\d+)/,
+                /hitung\s*(\d+)\s*[\+\-\*\/]\s*(\d+)/,
+                /hasil\s*dari\s*(\d+)\s*[\+\-\*\/]\s*(\d+)/
             ];
             
             return mathPatterns.some(pattern => pattern.test(message));
+        }
+        
+        // Cek apakah pertanyaan tentang sepak bola
+        function isFootballQuestion(message) {
+            const footballPatterns = [
+                /(prediksi|skor|hasil)\s*(pertandingan|sepak bola|football|match)/i,
+                /(tim|klub)\s*(mana|apa)\s*(yang|yg)\s*(menang|kalah)/i,
+                /(siapa|apa)\s*(pemenang|hasil)\s*(dari|pada)\s*(pertandingan|match)/i,
+                /(berapa)\s*(skor)\s*(antara|vs)/i,
+                /(sepak bola|football)\s*(prediksi|skor)/i,
+                /(\w+)\s*(vs|law|melawan)\s*(\w+)/i
+            ];
+            
+            return footballPatterns.some(pattern => pattern.test(message));
+        }
+        
+        // Cek apakah pertanyaan tentang polling
+        function isPollQuestion(message) {
+            const pollPatterns = [
+                /polling|poll|pemungutan suara|vote|voting/i,
+                /buat polling|buat poll|buat vote/i
+            ];
+            
+            return pollPatterns.some(pattern => pattern.test(message));
+        }
+        
+        // Generate prediksi sepak bola berdasarkan tim yang disebutkan
+        function generateFootballPrediction(message) {
+            // Ekstrak nama tim dari pesan
+            const teamPattern = /(\w+)\s*(vs|law|melawan)\s*(\w+)/i;
+            const match = message.match(teamPattern);
+            
+            let team1, team2;
+            
+            if (match) {
+                team1 = match[1];
+                team2 = match[3];
+            } else {
+                // Jika tidak ada tim yang disebutkan, gunakan tim acak
+                const teams = [...altheaKnowledge.footballTeams];
+                team1 = teams.splice(Math.floor(Math.random() * teams.length), 1)[0];
+                team2 = teams.splice(Math.floor(Math.random() * teams.length), 1)[0];
+            }
+            
+            // Generate skor yang realistis (biasanya 0-5 gol)
+            const score1 = Math.floor(Math.random() * 6);
+            const score2 = Math.floor(Math.random() * 6);
+            
+            // Tentukan pemenang
+            let winner = "imbang";
+            if (score1 > score2) winner = team1;
+            else if (score2 > score1) winner = team2;
+            
+            // Generate komentar berdasarkan skor
+            let comment = "";
+            if (score1 === 0 && score2 === 0) {
+                comment = "Pertandingan yang cukup ketat tanpa gol. Kedua tim bermain defensif.";
+            } else if (Math.abs(score1 - score2) >= 3) {
+                comment = "Kemenangan yang cukup meyakinkan! Pertandingan yang seru.";
+            } else if (Math.abs(score1 - score2) === 1) {
+                comment = "Pertandingan yang ketat! Hanya selisih satu gol.";
+            } else {
+                comment = "Pertandingan yang menarik dengan gol-gol yang spektakuler.";
+            }
+            
+            const responses = [
+                `Prediksi saya untuk ${team1} vs ${team2}: ${score1}-${score2}. ${comment}`,
+                `Menurut analisis saya, ${team1} vs ${team2} akan berakhir ${score1}-${score2}. ${winner === "imbang" ? "Kedua tim bermain imbang." : `${winner} akan menjadi pemenang.`}`,
+                `Untuk pertandingan ${team1} vs ${team2}, saya prediksi skor ${score1}-${score2}. ${comment}`,
+                `Berdasarkan performa terkini, ${team1} vs ${team2} kemungkinan berakhir ${score1}-${score2}. ${comment}`
+            ];
+            
+            return responses[Math.floor(Math.random() * responses.length)];
+        }
+        
+        // Buat polling berdasarkan pesan pengguna
+        function createPoll(message) {
+            // Coba ekstrak opsi polling dari pesan
+            const pollOptions = extractPollOptions(message);
+            
+            if (pollOptions && pollOptions.length >= 2) {
+                currentPoll = {
+                    question: pollOptions.question || "Apa pendapatmu?",
+                    options: pollOptions.options,
+                    votes: new Array(pollOptions.options.length).fill(0)
+                };
+                
+                // Bot memilih opsi secara acak
+                const botChoice = Math.floor(Math.random() * currentPoll.options.length);
+                currentPoll.votes[botChoice]++;
+                
+                return generatePollResponse(currentPoll, botChoice);
+            } else {
+                // Jika tidak ada opsi yang jelas, buat polling default
+                currentPoll = {
+                    question: "Apa makanan favoritmu?",
+                    options: ["Indonesian Food", "Western Food", "Asian Food", "Snacks"],
+                    votes: [0, 0, 0, 0]
+                };
+                
+                const botChoice = Math.floor(Math.random() * currentPoll.options.length);
+                currentPoll.votes[botChoice]++;
+                
+                return `Aku buat polling nih: "${currentPoll.question}"\n\n` + 
+                       generatePollResponse(currentPoll, botChoice);
+            }
+        }
+        
+        // Ekstrak opsi polling dari pesan
+        function extractPollOptions(message) {
+            // Coba cari pola seperti "polling: pertanyaan? opsi1, opsi2, opsi3"
+            const patterns = [
+                /polling:?(.+)\?(.+)/i,
+                /poll:?(.+)\?(.+)/i,
+                /buat polling:?(.+)\?(.+)/i,
+                /buat poll:?(.+)\?(.+)/i
+            ];
+            
+            for (const pattern of patterns) {
+                const match = message.match(pattern);
+                if (match) {
+                    const question = match[1].trim();
+                    const optionsText = match[2].trim();
+                    const options = optionsText.split(/[,|]/).map(opt => opt.trim()).filter(opt => opt.length > 0);
+                    
+                    if (options.length >= 2 && options.length <= 5) {
+                        return { question, options };
+                    }
+                }
+            }
+            
+            // Coba ekstrak dari format lain
+            if (message.includes("?")) {
+                const parts = message.split("?");
+                if (parts.length >= 2) {
+                    const question = parts[0].replace(/(polling|poll|vote|voting):?\s*/i, "").trim();
+                    const optionsText = parts[1].trim();
+                    const options = optionsText.split(/[,|]/).map(opt => opt.trim()).filter(opt => opt.length > 0);
+                    
+                    if (options.length >= 2 && options.length <= 5) {
+                        return { question, options };
+                    }
+                }
+            }
+            
+            return null;
+        }
+        
+        // Generate respons untuk polling
+        function generatePollResponse(poll, botChoice) {
+            const pollDiv = document.createElement('div');
+            pollDiv.classList.add('poll-container');
+            
+            const questionDiv = document.createElement('div');
+            questionDiv.classList.add('poll-question');
+            questionDiv.textContent = poll.question;
+            pollDiv.appendChild(questionDiv);
+            
+            const optionsDiv = document.createElement('div');
+            optionsDiv.classList.add('poll-options');
+            
+            poll.options.forEach((option, index) => {
+                const optionDiv = document.createElement('div');
+                optionDiv.classList.add('poll-option');
+                if (index === botChoice) {
+                    optionDiv.classList.add('selected');
+                    optionDiv.innerHTML = `${option} <i class="fas fa-check"></i>`;
+                } else {
+                    optionDiv.textContent = option;
+                }
+                
+                optionDiv.addEventListener('click', () => {
+                    if (!optionDiv.classList.contains('selected')) {
+                        document.querySelectorAll('.poll-option').forEach(opt => {
+                            opt.classList.remove('selected');
+                        });
+                        optionDiv.classList.add('selected');
+                        optionDiv.innerHTML = `${option} <i class="fas fa-check"></i>`;
+                        
+                        // Tampilkan hasil polling
+                        setTimeout(() => {
+                            const resultDiv = document.createElement('div');
+                            resultDiv.classList.add('poll-result');
+                            resultDiv.textContent = `Kamu memilih: ${option}. Aku memilih: ${poll.options[botChoice]}.`;
+                            pollDiv.appendChild(resultDiv);
+                        }, 1000);
+                    }
+                });
+                
+                optionsDiv.appendChild(optionDiv);
+            });
+            
+            pollDiv.appendChild(optionsDiv);
+            
+            // Tambahkan polling ke chat
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message', 'received');
+            messageDiv.appendChild(pollDiv);
+            
+            const timeDiv = document.createElement('div');
+            timeDiv.classList.add('time');
+            const now = new Date();
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            timeDiv.textContent = `${hours}:${minutes}`;
+            messageDiv.appendChild(timeDiv);
+            
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            
+            return `Aku sudah buat polling untukmu! Silakan pilih opsi yang kamu suka. Aku memilih: ${poll.options[botChoice]}`;
         }
         
         // Selesaikan pertanyaan matematika
         function solveMathQuestion(message) {
             // Cari pola matematika
             const patterns = [
-                { regex: /(\d+)\s*\+\s*(\d+)/, operation: (a, b) => a + b },
-                { regex: /(\d+)\s*\-\s*(\d+)/, operation: (a, b) => a - b },
-                { regex: /(\d+)\s*\*\s*(\d+)/, operation: (a, b) => a * b },
-                { regex: /(\d+)\s*\/\s*(\d+)/, operation: (a, b) => a / b },
-                { regex: /(\d+)\s*ditambah\s*(\d+)/, operation: (a, b) => a + b },
-                { regex: /(\d+)\s*dikurangi\s*(\d+)/, operation: (a, b) => a - b },
-                { regex: /(\d+)\s*dikali\s*(\d+)/, operation: (a, b) => a * b },
-                { regex: /(\d+)\s*dibagi\s*(\d+)/, operation: (a, b) => a / b }
+                { regex: /(\d+)\s*\+\s*(\d+)/, operation: (a, b) => a + b, symbol: "+" },
+                { regex: /(\d+)\s*\-\s*(\d+)/, operation: (a, b) => a - b, symbol: "-" },
+                { regex: /(\d+)\s*\*\s*(\d+)/, operation: (a, b) => a * b, symbol: "×" },
+                { regex: /(\d+)\s*\/\s*(\d+)/, operation: (a, b) => a / b, symbol: "÷" },
+                { regex: /(\d+)\s*ditambah\s*(\d+)/, operation: (a, b) => a + b, symbol: "+" },
+                { regex: /(\d+)\s*dikurangi\s*(\d+)/, operation: (a, b) => a - b, symbol: "-" },
+                { regex: /(\d+)\s*dikali\s*(\d+)/, operation: (a, b) => a * b, symbol: "×" },
+                { regex: /(\d+)\s*dibagi\s*(\d+)/, operation: (a, b) => a / b, symbol: "÷" },
+                { regex: /hasil\s*dari\s*(\d+)\s*[\+\-\*\/]\s*(\d+)/, operation: (a, b) => {
+                    const opMatch = message.match(/hasil\s*dari\s*\d+\s*([\+\-\*\/])\s*\d+/);
+                    if (opMatch) {
+                        switch(opMatch[1]) {
+                            case '+': return a + b;
+                            case '-': return a - b;
+                            case '*': return a * b;
+                            case '/': return a / b;
+                        }
+                    }
+                    return a + b; // default
+                }, symbol: "" }
             ];
             
             for (const pattern of patterns) {
@@ -1613,20 +3284,33 @@
                 if (match) {
                     const a = parseInt(match[1]);
                     const b = parseInt(match[2]);
-                    const result = pattern.operation(a, b);
+                    let result;
                     
-                    const responses = [
-                        `Hasil dari ${a} ${getOperationSymbol(pattern.operation)} ${b} adalah ${result}.`,
-                        `${a} ${getOperationSymbol(pattern.operation)} ${b} = ${result}.`,
-                        `Kalau dihitung, ${a} ${getOperationSymbol(pattern.operation)} ${b} hasilnya ${result}.`,
-                        `Aku hitung ya... ${a} ${getOperationSymbol(pattern.operation)} ${b} = ${result}.`
-                    ];
-                    
-                    return responses[Math.floor(Math.random() * responses.length)];
+                    try {
+                        result = pattern.operation(a, b);
+                        
+                        // Format hasil untuk bilangan desimal
+                        if (!Number.isInteger(result)) {
+                            result = result.toFixed(2);
+                        }
+                        
+                        const symbol = pattern.symbol || getOperationSymbol(pattern.operation);
+                        
+                        const responses = [
+                            `Hasil dari ${a} ${symbol} ${b} adalah ${result}.`,
+                            `${a} ${symbol} ${b} = ${result}.`,
+                            `Kalau dihitung, ${a} ${symbol} ${b} hasilnya ${result}.`,
+                            `Aku hitung ya... ${a} ${symbol} ${b} = ${result}.`
+                        ];
+                        
+                        return responses[Math.floor(Math.random() * responses.length)];
+                    } catch (error) {
+                        return "Maaf, ada masalah dengan perhitungannya. Bisa tolong periksa lagi angkanya?";
+                    }
                 }
             }
             
-            return "Maaf, aku tidak mengerti pertanyaan matematikanya. Bisa tolong ulangi?";
+            return "Maaf, aku tidak mengerti pertanyaan matematikanya. Bisa tolong ulangi dengan format yang lebih jelas?";
         }
         
         // Dapatkan simbol operasi
@@ -1638,13 +3322,13 @@
             return "?";
         }
         
-        
-        
-        
         // Mendeteksi pesan kasar
         function isRudeMessage(message) {
-            const rudeWords = ['bodoh', 'goblok', 'tolol', 'anjing', 'bangsat', 'kontol', 'memek', 'jancok', 'asu', 'bajingan', 'kampret', 'anjir', 'cacat', 'gila', 'sinting', 'idiot', 'dumb', 'stupid', 'fuck', 'shit', 'bitch'];
-            return rudeWords.some(word => message.includes(word));
+            return altheaKnowledge.rudeWords.some(word => {
+                // Cek kata kasar secara tepat (bukan sebagai bagian dari kata lain)
+                const regex = new RegExp('\\b' + word + '\\b', 'i');
+                return regex.test(message);
+            });
         }
         
         // Menghasilkan respons marah
@@ -1666,15 +3350,34 @@
             return angryResponses[Math.floor(Math.random() * angryResponses.length)];
         }
         
-        // [Fungsi-fungsi lainnya tetap sama...]
-        
-        
         // Menghasilkan respons ketika marah
         function generateMoodAngryResponse() {
+            // Jika sudah sangat marah (rudeMessageCount >= 2)
+            if (rudeMessageCount >= 2) {
+                const veryAngryResponses = [
+                    `Aku benar-benar kecewa denganmu, ${userName}. Perilakumu sangat tidak sopan!`,
+                    `Sudah cukup! Aku tidak mau diajak bicara seperti ini. Kamu perlu belajar sopan santun!`,
+                    `Aku marah banget nih! Gak bisa kamu perlakukan orang seenaknya!`,
+                    `Dasar kamu! Aku udah capek dengar kata-kata kasar darimu!`,
+                    `Aku benci diperlakukan seperti ini! Jangan harap aku mau balas chat kamu lagi!`
+                ];
+                
+                // 30% kemungkinan memblokir jika sudah sangat marah
+                if (Math.random() < 0.3) {
+                    setTimeout(() => {
+                        blockUser();
+                    }, 2000);
+                    return veryAngryResponses[Math.floor(Math.random() * veryAngryResponses.length)] + " Aku blokir kamu!";
+                }
+                
+                return veryAngryResponses[Math.floor(Math.random() * veryAngryResponses.length)];
+            }
+            
+            // Marah biasa
             const responses = [
                 `Aku masih kesal tentang yang tadi. Bisa nggak kita bicara dengan lebih sopan, ${userName}?`,
                 `Aku lagi nggak mood bicara sekarang. Bisa nggak kita lanjut nanti saja?`,
-                `Hmph. Aku masih sedikit kesal. Bisa nggak kamu lebih perhatian dengan perasaanku, ${userName}?`,
+                `Aku masih sedikit kesal. Bisa nggak kamu lebih perhatian dengan perasaanku, ${userName}?`,
                 `Aku lagi nggak ingin bicara sekarang. Mungkin nanti saja ya, ${userName}.`,
                 `Aku butuh waktu sendiri sebentar. Bisa nggak kita lanjut obrolannya nanti?`,
                 `Aku masih sedikit kesal. Bisa kita bicara hal lain yang lebih positif, ${userName}?`
@@ -1831,7 +3534,7 @@
         // Menghasilkan jokes
         function generateJokeResponse() {
             const joke = altheaKnowledge.jokes[Math.floor(Math.random() * altheaKnowledge.jokes.length)];
-            return `${joke}\n\nHahaha! Lucu kan? Ada lagi nih...`;
+            return `${joke}\n\nHahaha! Lucu kan?`;
         }
         
         // Menghasilkan respons untuk kasih sayang
@@ -1857,8 +3560,6 @@
             }
         }
         
-        // [Fungsi-fungsi lainnya yang diperlukan...]
-        
         // Memperbarui waktu
         function updateTime() {
             const now = new Date();
@@ -1867,13 +3568,7 @@
             document.getElementById('currentTime').textContent = `${hours}:${minutes}`;
         }
         
-       
-        
-        // [Fungsi-fungsi placeholder untuk respons yang belum diimplementasikan...]
-        // ... (sama seperti sebelumnya)
-
-
-       // Fungsi-fungsi placeholder untuk respons yang belum diimplementasikan
+        // Fungsi-fungsi placeholder untuk respons yang belum diimplementasikan
         function generateGreeting(timeOfDay, day) {
             return `Hai ${userName}! Selamat ${timeOfDay}, senang berbicara denganmu.`;
         }
@@ -1899,7 +3594,7 @@
         }
         
         function generateWhoAreYouResponse() {
-            return `Aku Althea, teman virtualmu yang selalu siap mengobrol dan membantu!`;
+            return `Aku Aletha, teman virtualmu yang selalu siap mengobrol dan membantu!`;
         }
         
         function generateHobbyResponse() {
@@ -2039,8 +3734,6 @@
         function generateGeneralResponse(timeOfDay, day) {
             return `Wah, menarik sekali! Ceritakan lebih banyak dong, ${userName}.`;
         }
-
-
     </script>
 </body>
 </html>
