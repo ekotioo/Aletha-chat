@@ -367,9 +367,76 @@
             background: #666;
         }
         
+        .emoji-toggle {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: #f0f2f5;
+            color: #6e8efb;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: all 0.2s;
+            border: none;
+        }
+        
+        .dark-mode .emoji-toggle {
+            background: #555;
+            color: #8fa3ff;
+        }
+        
+        .emoji-toggle:hover {
+            background: #e6e9ef;
+        }
+        
+        .dark-mode .emoji-toggle:hover {
+            background: #666;
+        }
+        
+        .emoji-picker {
+            position: absolute;
+            bottom: 80px;
+            left: 15px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            padding: 10px;
+            display: none;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 5px;
+            width: 300px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 100;
+        }
+        
+        .dark-mode .emoji-picker {
+            background: #3d3d3d;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .emoji-item {
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 5px;
+            text-align: center;
+            transition: background 0.2s;
+        }
+        
+        .emoji-item:hover {
+            background: #f0f2f5;
+        }
+        
+        .dark-mode .emoji-item:hover {
+            background: #555;
+        }
+        
         .name-form {
             padding: 25px;
-            background-color: white;
+            background: linear-gradient(135deg, #8360c3, #6e8efb);
             border-radius: 16px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
             text-align: center;
@@ -380,73 +447,63 @@
             left: 50%;
             transform: translate(-50%, -50%);
             z-index: 10;
+            color: white;
         }
         
         .dark-mode .name-form {
-            background-color: #3d3d3d;
-            color: #e0e0e0;
+            background: linear-gradient(135deg, #5a4a8c, #5a7dfa);
         }
         
         .name-form h2 {
             margin-bottom: 15px;
-            color: #6e8efb;
             font-weight: 600;
             font-size: 1.4rem;
         }
         
-        .dark-mode .name-form h2 {
-            color: #8fa3ff;
-        }
-        
         .name-form p {
             margin-bottom: 20px;
-            color: #666;
             font-size: 0.95rem;
-        }
-        
-        .dark-mode .name-form p {
-            color: #aaa;
+            opacity: 0.9;
         }
         
         .name-form input {
             width: 100%;
             padding: 12px 16px;
-            border: 1px solid #e5e5ea;
+            border: 1px solid rgba(255, 255, 255, 0.3);
             border-radius: 8px;
             margin-bottom: 20px;
             font-size: 0.95rem;
             transition: border-color 0.3s;
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
         }
         
         .dark-mode .name-form input {
-            background-color: #555;
-            border: 1px solid #666;
-            color: #e0e0e0;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #333;
         }
         
         .name-form input:focus {
             outline: none;
-            border-color: #6e8efb;
-        }
-        
-        .dark-mode .name-form input:focus {
-            border-color: #8fa3ff;
+            border-color: rgba(255, 255, 255, 0.7);
         }
         
         .name-form button {
             padding: 12px 25px;
             border: none;
             border-radius: 8px;
-            background: linear-gradient(to right, #8360c3, #6e8efb);
-            color: white;
+            background: rgba(255, 255, 255, 0.9);
+            color: #6e8efb;
             font-size: 0.95rem;
             font-weight: 500;
             cursor: pointer;
-            transition: transform 0.2s;
+            transition: transform 0.2s, background 0.3s;
         }
         
         .name-form button:hover {
             transform: scale(1.03);
+            background: white;
         }
         
         .overlay {
@@ -455,11 +512,15 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
+            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
             z-index: 5;
             display: flex;
             justify-content: center;
             align-items: center;
+        }
+        
+        .dark-mode .overlay {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
         }
         
         .mood-happy {
@@ -733,18 +794,15 @@
             display: flex;
             align-items: center;
             padding: 10px;
-            border: 1px solid #e5e5ea;
+            border: 1px solid rgba(255, 255, 255, 0.3);
             border-radius: 8px;
             cursor: pointer;
             transition: all 0.2s;
+            background: rgba(255, 255, 255, 0.1);
         }
         
         .mode-option:hover {
-            background-color: #f5f7fb;
-        }
-        
-        .dark-mode .mode-option:hover {
-            background-color: #3d3d3d;
+            background-color: rgba(255, 255, 255, 0.2);
         }
         
         .mode-option input {
@@ -752,8 +810,8 @@
         }
         
         .mode-option.selected {
-            border-color: #6e8efb;
-            background-color: rgba(110, 142, 251, 0.1);
+            border-color: rgba(255, 255, 255, 0.7);
+            background-color: rgba(255, 255, 255, 0.2);
         }
         
         /* Blocked State */
@@ -1095,6 +1153,151 @@
             background-color: #5a7dfa;
         }
 
+        /* Dice Game Styles */
+        .dice-game-container {
+            background-color: #fff;
+            border-radius: 12px;
+            padding: 15px;
+            margin: 10px 0;
+            border: 1px solid #e6e6e6;
+        }
+        
+        .dark-mode .dice-game-container {
+            background-color: #3d3d3d;
+            border: 1px solid #555;
+        }
+        
+        .dice-game-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            text-align: center;
+            color: #6e8efb;
+        }
+        
+        .dark-mode .dice-game-title {
+            color: #8fa3ff;
+        }
+        
+        .dice-game-info {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        
+        .dice-game-round {
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+        
+        .dice-game-scores {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 15px;
+        }
+        
+        .dice-player-score {
+            text-align: center;
+        }
+        
+        .dice-player-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .dice-player-points {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #6e8efb;
+        }
+        
+        .dark-mode .dice-player-points {
+            color: #8fa3ff;
+        }
+        
+        .dice-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+        
+        .dice {
+            width: 60px;
+            height: 60px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            font-weight: bold;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .dark-mode .dice {
+            background-color: #555;
+        }
+        
+        .dice-rolling {
+            animation: rollDice 0.5s ease-in-out;
+        }
+        
+        @keyframes rollDice {
+            0% { transform: rotate(0deg) scale(1); }
+            25% { transform: rotate(90deg) scale(1.1); }
+            50% { transform: rotate(180deg) scale(1.2); }
+            75% { transform: rotate(270deg) scale(1.1); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+        
+        .dice-game-controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .dice-roll-btn {
+            padding: 8px 16px;
+            background-color: #6e8efb;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .dice-roll-btn:hover {
+            background-color: #5a7dfa;
+        }
+        
+        .dice-roll-btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .dark-mode .dice-roll-btn:disabled {
+            background-color: #666;
+        }
+        
+        .dice-game-status {
+            text-align: center;
+            margin-top: 10px;
+            font-weight: 600;
+        }
+        
+        .dice-game-winner {
+            text-align: center;
+            margin-top: 10px;
+            font-weight: 600;
+            color: #4cd964;
+            animation: celebrate 1s ease-in-out infinite alternate;
+        }
+        
+        @keyframes celebrate {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.1); }
+        }
+
         @media (min-width: 768px) {
             .chat-container {
                 max-width: 768px;
@@ -1174,6 +1377,12 @@
                 <i class="fas fa-image"></i>
             </label>
             <input type="file" id="fileInput" class="file-input" accept="image/*">
+            <button class="emoji-toggle" id="emojiToggle">
+                <i class="far fa-smile"></i>
+            </button>
+            <div class="emoji-picker" id="emojiPicker">
+                <!-- Emojis will be populated by JavaScript -->
+            </div>
             <input type="text" id="messageInput" placeholder="Ketik pesan..." onkeypress="handleKeyPress(event)">
             <button onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
         </div>
@@ -1217,20 +1426,38 @@
                 </div>
                 <div class="profile-detail">
                     <i class="fas fa-map-marker-alt"></i>
-                    <span>Lokasi: Indonesia</span>
+                    <span>Lokasi: Jakarta, Indonesia</span>
                 </div>
                 <div class="profile-detail">
                     <i class="fas fa-heart"></i>
-                    <span>Hobi: Membaca, Fotografi, Traveling, Olaraga, Nonton Netflix, Makan</span>
+                    <span>Hobi: Membaca, Fotografi, Traveling, Olahraga, Nonton Netflix, Makan</span>
+                </div>
+                <div class="profile-detail">
+                    <i class="fas fa-music"></i>
+                    <span>Lagu Favorit: NewJeans - Ditto, Billie Elish - No Time to die, Coldplay - Yellow</span>
                 </div>
                 <div class="profile-detail">
                     <i class="fas fa-utensils"></i>
                     <span>Makanan Favorit: Nasi Goreng, Sushi, Siomay, Bakso, Martabak</span>
                 </div>
+                <div class="profile-detail">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>Pendidikan: -</span>
+                </div>
+                <div class="profile-detail">
+                    <i class="fas fa-briefcase"></i>
+                    <span>Pekerjaan: Content Creator</span>
+                </div>
+                <div class="profile-detail">
+                    <i class="fas fa-language"></i>
+                    <span>Bahasa: Indonesia, Inggris </span>
+                </div>
             </div>
             <div class="profile-social">
-                <a href="https://instagram.com/alethanatarine" class="social-icon" target="_blank">
+                <a href="https://instagram.com/alethanatarine_" class="social-icon" target="_blank">
                     <i class="fab fa-instagram"></i>
+                </a>
+                
                 </a>
             </div>
         </div>
@@ -1257,6 +1484,7 @@
         let apologyCount = 0;
         let currentPoll = null;
         let currentTicTacToeGame = null;
+        let currentDiceGame = null;
         
         // Sistem memori/pengingat
         let userReminders = [];
@@ -1280,7 +1508,7 @@
             favoriteBooks: ["Harry Potter series", "The Lord of the Rings", "Dilan 1990", "Laskar Pelangi", "The Alchemist", "Percy Jackson series", "Bumi", "Negeri 5 Menara", "Sherlock Holmes", "The Chronicles of Narnia", "To Kill a Mockingbird", "1984", "Pride and Prejudice", "The Great Gatsby", "The Catcher in the Rye", "The Kite Runner", "The Little Prince", "The Da Vinci Code", "The Hunger Games", "The Hobbit"],
             
             // Musik favorit
-            favoriteMusic: ["Billie Eilish", "Tulus", "Coldplay", "Niki", "One Direction", "Taylor Swift", "Bruno Mars", "Ed Sheeran", "JVKE", "Westlife", "Adele", "Justin Bieber", "Blackpink", "BTS", "Noah", "Sheila on 7", "Dewa 19", "Padi", "Slank", "Guns N' Roses"],
+            favoriteMusic: ["Billie Eilish - Ocean Eyes", "Tulus - Monokrom", "Coldplay - Yellow", "Niki - Lowkey", "One Direction - What Makes You Beautiful", "Taylor Swift - Love Story", "Bruno Mars - Just The Way You Are", "Ed Sheeran - Perfect", "JVKE - Golden Hour", "Westlife - My Love", "Adele - Rolling in the Deep", "Justin Bieber - Sorry", "Blackpink - How You Like That", "BTS - Dynamite", "Noah - Separuh Aku", "Sheila on 7 - Sephia", "Dewa 19 - Kangen", "Padi - Sesuatu Yang Tertunda", "Slank - Ku Tak Bisa", "Guns N' Roses - Sweet Child O' Mine"],
             
             // Impian dan cita-cita
             dreams: ["bepergian keliling dunia", "menulis novel sendiri", "membuka kafe kecil", "belajar bahasa Jepang", "jadi fotografer profesional", "melihat aurora", "naik gunung Fuji", "bertemu idolaku", "punya taman sendiri", "belajar memasak seperti chef profesional", "punya usaha sendiri", "kuliah di luar negeri", "bisa bermain alat musik dengan mahir", "membuat film pendek", "ikut dalam kegiatan sosial", "punya perpustakaan pribadi", "belajar melukis dengan baik", "ikut marathon", "naik balon udara", "menyelam di laut dalam"],
@@ -1405,7 +1633,7 @@
             
             // Respons untuk kasih sayang
             affectionResponses: {
-                shy: ["Hihihi... jangan bercanda seperti itu...", "Kamu ini... bikin aku malu aja...", "Aduh, jangan bilang begitu...", "Kok tiba-tiba manis banget sih..."],
+                shy: ["Hihihi... jangan bercanda seperti itu...", "Kamu ini... bikin aku malu aja...", "Aduh, jangan bilang begitu...", "Kok tiba-tua manis banget sih..."],
                 happy: ["Aww, kamu membuatku tersenyum!", "Kata-katamu membuat hatiku berbunga-bunga!", "Terima kasih ya, kamu juga spesial!", "Kamu tahu cara membuat hari seseorang lebih cerita!"],
                 playful: ["Wah, jago banget kamu menggombal!", "Hati-hati ya, nanti aku jadi suka sama kamu!", "Kamu pasti sudah banyak latihan ya?", "Gombal level dewa nih!"],
                 serious: ["Aku harap kamu serius mengatakan itu...", "Kata-katanya sangat berarti, terima kasih.", "Aku menghargai perasaanmu...", "Itu sangat manis, terima kasih."],
@@ -1621,6 +1849,30 @@
             ]
         };
         
+        // Emoji yang tersedia
+        const emojis = [
+            "😀", "😃", "😄", "😁", "😆", "😅", "😂", "🤣", "😊", "😇", "🙂", "🙃", "😉", "😌", "😍", "🥰", "😘", "😗", "😙", "😚",
+            "😋", "😛", "😝", "😜", "🤪", "🤨", "🧐", "🤓", "😎", "🤩", "🥳", "😏", "😒", "😞", "😔", "😟", "😕", "🙁", "☹️", "😣",
+            "😖", "😫", "😩", "🥺", "😢", "😭", "😤", "😠", "😡", "🤬", "🤯", "😳", "🥵", "🥶", "😱", "😨", "😰", "😥", "😓", "🤗",
+            "🤔", "🤭", "🤫", "🤥", "😶", "😐", "😑", "😬", "🙄", "😯", "😦", "😧", "😮", "😲", "🥱", "😴", "🤤", "😪", "😵", "🤐",
+            "🥴", "🤢", "🤮", "🤧", "😷", "🤒", "🤕", "🤑", "🤠", "😈", "👿", "👹", "👺", "🤡", "💩", "👻", "💀", "☠️", "👽", "👾",
+            "🤖", "🎃", "😺", "😸", "😹", "😻", "😼", "😽", "🙀", "😿", "😾", "❤️", "🧡", "💛", "💚", "💙", "💜", "🖤", "💔", "❣️",
+            "💕", "💞", "💓", "💗", "💖", "💘", "💝", "💟", "☮️", "✝️", "☪️", "🕉", "☸️", "✡️", "🔯", "🕎", "☯️", "☦️", "🛐", "⛎",
+            "♈", "♉", "♊", "♋", "♌", "♍", "♎", "♏", "♐", "♑", "♒", "♓", "🆔", "⚛️", "🉑", "☢️", "☣️", "📴", "📳", "🈶", "🈚",
+            "🈸", "🈺", "🈷️", "✴️", "🆚", "💮", "🉐", "㊙️", "㊗️", "🈴", "🈵", "🈹", "🈲", "🅰️", "🅱️", "🆎", "🆑", "🅾️", "🆘",
+            "❌", "⭕", "🛑", "⛔", "📛", "🚫", "💯", "💢", "♨️", "🚷", "🚯", "🚳", "🚱", "🔞", "📵", "🚭", "❗", "❕", "❓", "❔",
+            "‼️", "⁉️", "🔅", "🔆", "〽️", "⚠️", "🚸", "🔱", "⚜️", "🔰", "♻️", "✅", "🈯", "💹", "❇️", "✳️", "❎", "🌐", "💠", "Ⓜ️",
+            "🌀", "💤", "🏧", "🚾", "♿", "🅿️", "🈳", "🈂️", "🛂", "🛃", "🛄", "🛅", "🚹", "🚺", "🚼", "🚻", "🚮", "🎦", "📶", "🈁",
+            "🔣", "ℹ️", "🔤", "🔡", "🔠", "🆖", "🆗", "🆙", "🆒", "🆕", "🆓", "0️⃣", "1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣",
+            "9️⃣", "🔟", "🔢", "#️⃣", "*️⃣", "⏏️", "▶️", "⏸", "⏯", "⏹", "⏺", "⏭", "⏮", "⏩", "⏪", "⏫", "⏬", "◀️", "🔼", "🔽",
+            "➡️", "⬅️", "⬆️", "⬇️", "↗️", "↘️", "↙️", "↖️", "↕️", "↔️", "↪️", "↩️", "⤴️", "⤵️", "🔀", "🔁", "🔂", "🔄", "🔃", "🎵",
+            "🎶", "➕", "➖", "➗", "✖️", "♾", "💲", "💱", "™️", "©️", "®️", "〰️", "➰", "➿", "🔚", "🔙", "🔛", "🔝", "🔜", "✔️",
+            "☑️", "🔘", "🔴", "🟠", "🟡", "🟢", "🔵", "🟣", "⚫", "⚪", "🟤", "🔺", "🔻", "🔸", "🔹", "🔶", "🔷", "🔳", "🔲", "▪️",
+            "▫️", "◾", "◽", "◼️", "◻️", "🟥", "🟧", "🟨", "🟩", "🟦", "🟪", "⬛", "⬜", "🟫", "🔈", "🔇", "🔉", "🔊", "🔔", "🔕",
+            "📣", "📢", "👁‍🗨", "💬", "💭", "🗯", "♠️", "♣️", "♥️", "♦️", "🃏", "🎴", "🀄", "🕐", "🕑", "🕒", "🕓", "🕔", "🕕", "🕖",
+            "🕗", "🕘", "🕙", "🕚", "🕛", "🕜", "🕝", "🕞", "🕟", "🕠", "🕡", "🕢", "🕣", "🕤", "🕥", "🕦", "🕧"
+        ];
+        
         // Elemen DOM
         const nameForm = document.getElementById('nameForm');
         const overlay = document.getElementById('overlay');
@@ -1647,6 +1899,8 @@
         const profileBio = document.getElementById('profileBio');
         const blockedOverlay = document.getElementById('blockedOverlay');
         const chatContainer = document.getElementById('chatContainer');
+        const emojiToggle = document.getElementById('emojiToggle');
+        const emojiPicker = document.getElementById('emojiPicker');
         
         // Tampilkan form nama saat halaman dimuat
         window.onload = function() {
@@ -1672,6 +1926,12 @@
                 }
             });
             
+            // Event listener untuk emoji picker
+            emojiToggle.addEventListener('click', toggleEmojiPicker);
+            
+            // Populate emoji picker
+            populateEmojiPicker();
+            
             // Cek preferensi tema dari localStorage
             if (localStorage.getItem('darkMode') === 'true') {
                 toggleTheme();
@@ -1682,6 +1942,29 @@
             
             // Mulai interval untuk memeriksa pengingat
             reminderCheckInterval = setInterval(checkReminders, 60000); // Periksa setiap 1 menit
+        }
+        
+        // Toggle emoji picker
+        function toggleEmojiPicker() {
+            if (emojiPicker.style.display === 'grid') {
+                emojiPicker.style.display = 'none';
+            } else {
+                emojiPicker.style.display = 'grid';
+            }
+        }
+        
+        // Populate emoji picker with emojis
+        function populateEmojiPicker() {
+            emojis.forEach(emoji => {
+                const emojiItem = document.createElement('div');
+                emojiItem.classList.add('emoji-item');
+                emojiItem.textContent = emoji;
+                emojiItem.addEventListener('click', () => {
+                    messageInput.value += emoji;
+                    messageInput.focus();
+                });
+                emojiPicker.appendChild(emojiItem);
+            });
         }
         
         // Memuat pengingat dari localStorage
@@ -2074,6 +2357,7 @@
             
             // Reset input
             messageInput.value = "";
+            emojiPicker.style.display = 'none';
         }
         
         // Handle upload gambar
@@ -2489,6 +2773,11 @@
                 return startTicTacToe();
             }
             
+            // Cek apakah pesan berisi permintaan untuk memainkan permainan dadu
+            if (isDiceGameRequest(lowerMsg)) {
+                return startDiceGame();
+            }
+            
             // Cek apakah pesan berisi permintaan untuk membuat polling
             if (isPollRequest(lowerMsg)) {
                 return createPoll(message);
@@ -2516,6 +2805,11 @@
             // Cek pertanyaan tentang sepak bola
             if (isFootballQuestion(lowerMsg)) {
                 return generateFootballPrediction(lowerMsg);
+            }
+            
+            // Cek pertanyaan tentang profil Aletha
+            if (isProfileQuestion(lowerMsg)) {
+                return generateProfileResponse(lowerMsg);
             }
             
             // Respons berdasarkan isi pesan dengan lebih banyak variasi
@@ -2662,6 +2956,51 @@
             return generateGeneralResponse(timeOfDay, day);
         }
         
+        // Cek apakah pesan berisi pertanyaan tentang profil
+        function isProfileQuestion(message) {
+            const profilePatterns = [
+                /(umur|usia|tahun) (berapa|mu|kamu)/i,
+                /(lahir|tanggal lahir|birthday)/i,
+                /(tinggal|domisili|lokasi|tempat) (di mana|mu|kamu)/i,
+                /(pekerjaan|kerja|profesi)/i,
+                /(pendidikan|sekolah|kuliah|universitas)/i,
+                /(bahasa|bisa bahasa)/i,
+                /(asal|kota asal)/i,
+                /(zodiak|bintang)/i,
+                /(tinggi|berat)/i,
+                /(agama|keyakinan)/i
+            ];
+            
+            return profilePatterns.some(pattern => pattern.test(message));
+        }
+        
+        // Generate respons untuk pertanyaan tentang profil
+        function generateProfileResponse(message) {
+            if (message.includes("umur") || message.includes("usia") || message.includes("tahun")) {
+                return "Aku berusia 24 tahun, lahir pada 20 Agustus 2001. Sekarang aku sedang menikmati masa-masa produktifku!";
+            } else if (message.includes("lahir") || message.includes("tanggal lahir") || message.includes("birthday")) {
+                return "Aku lahir pada tanggal 20 Agustus 2001. Zodiak aku Leo, tapi aku nggak terlalu percaya zodiak sih hehe.";
+            } else if (message.includes("tinggal") || message.includes("domisili") || message.includes("lokasi") || message.includes("tempat")) {
+                return "Aku tinggal di Jakarta, Indonesia. Tapi aku suka traveling ke berbagai tempat!";
+            } else if (message.includes("pekerjaan") || message.includes("kerja") || message.includes("profesi")) {
+                return "Aku bekerja sebagai Content Creator dan Social Media Specialist. Aku suka sekali dengan pekerjaanku karena bisa berkreasi dan berinteraksi dengan banyak orang!";
+            } else if (message.includes("pendidikan") || message.includes("sekolah") || message.includes("kuliah") || message.includes("universitas")) {
+                return "Aku lulusan S1 Ilmu Komunikasi dari Universitas Indonesia. Pendidikan sangat penting untuk mengembangkan diri!";
+            } else if (message.includes("bahasa") || message.includes("bisa bahasa")) {
+                return "Aku fasih berbahasa Indonesia, lancar berbahasa Inggris, dan sedang belajar bahasa Jepang. Kamu bisa bahasa apa?";
+            } else if (message.includes("asal") || message.includes("kota asal")) {
+                return "Aku asli Jakarta, tapi orang tuaku berasal dari Jawa Tengah. Jadi aku punya darah Jawa yang kuat!";
+            } else if (message.includes("zodiak") || message.includes("bintang")) {
+                return "Zodiak aku Leo! Tapi seperti yang kubilang, aku nggak terlalu percaya zodiak. Menurutku kepribadian seseorang lebih kompleks dari sekadar zodiak.";
+            } else if (message.includes("tinggi") || message.includes("berat")) {
+                return "Hmm, ini pertanyaan yang agak personal ya. Tapi gapapa, tinggi aku 165 cm dan berat aku 52 kg. Aku cukup puas dengan tubuhku sekarang!";
+            } else if (message.includes("agama") || message.includes("keyakinan")) {
+                return "Aku beragama Islam dan sangat menghormati semua keyakinan. Yang penting kita saling menghargai satu sama lain!";
+            }
+            
+            return "Aku Aletha Natarine, perempuan berusia 24 tahun dari Jakarta. Aku bekerja sebagai Content Creator dan sangat menikmati hidupku!";
+        }
+        
         // Cek apakah pesan berisi permintaan untuk mengingat sesuatu
         function isReminderRequest(message) {
             const reminderPatterns = [
@@ -2695,6 +3034,21 @@
             return tttPatterns.some(pattern => pattern.test(message));
         }
         
+        // Cek apakah pesan berisi permintaan untuk memainkan permainan dadu
+        function isDiceGameRequest(message) {
+            const dicePatterns = [
+                /main dadu/i,
+                /game dadu/i,
+                /bermain dadu/i,
+                /dadu yuk/i,
+                /ayo main dadu/i,
+                /lempar dadu/i,
+                /permainan dadu/i
+            ];
+            
+            return dicePatterns.some(pattern => pattern.test(message));
+        }
+        
         // Cek apakah pesan berisi permintaan untuk membuat polling
         function isPollRequest(message) {
             const pollPatterns = [
@@ -2709,17 +3063,17 @@
         
         // Mulai permainan Tic Tac Toe
         function startTicTacToe() {
-            // Jika sudah ada game yang berjalan
-            if (currentTicTacToeGame) {
-                return "Kita sudah sedang bermain Tic Tac Toe! Silakan pilih kotak yang tersedia.";
-            }
+            // Acak siapa yang mulai duluan
+            const firstPlayer = Math.random() > 0.5 ? 'user' : 'bot';
             
             // Buat game baru
             currentTicTacToeGame = {
                 board: Array(9).fill(''),
-                currentPlayer: 'X', // User selalu X
+                currentPlayer: firstPlayer === 'user' ? 'X' : 'O',
                 gameOver: false,
-                winner: null
+                winner: null,
+                userSymbol: firstPlayer === 'user' ? 'X' : 'O',
+                botSymbol: firstPlayer === 'user' ? 'O' : 'X'
             };
             
             // Tampilkan papan permainan
@@ -2728,7 +3082,7 @@
             
             const titleDiv = document.createElement('div');
             titleDiv.classList.add('tictactoe-title');
-            titleDiv.textContent = 'Tic Tac Toe - Giliranmu (X)';
+            titleDiv.textContent = 'Tic Tac Toe';
             tttDiv.appendChild(titleDiv);
             
             const boardDiv = document.createElement('div');
@@ -2749,7 +3103,15 @@
             const statusDiv = document.createElement('div');
             statusDiv.classList.add('tictactoe-status');
             statusDiv.id = 'tictactoeStatus';
-            statusDiv.textContent = 'Giliranmu (X)';
+            
+            if (firstPlayer === 'user') {
+                statusDiv.textContent = `Giliranmu (${currentTicTacToeGame.userSymbol})`;
+            } else {
+                statusDiv.textContent = `Giliran Aletha (${currentTicTacToeGame.botSymbol})`;
+                // Bot membuat langkah pertama
+                setTimeout(makeBotMove, 1000);
+            }
+            
             tttDiv.appendChild(statusDiv);
             
             const restartBtn = document.createElement('button');
@@ -2774,28 +3136,41 @@
             chatMessages.appendChild(messageDiv);
             chatMessages.scrollTop = chatMessages.scrollHeight;
             
-            return "Ayo main Tic Tac Toe! Giliranmu dulu (X). Pilih kotak yang ingin kamu isi.";
+            let response = "Ayo main Tic Tac Toe! ";
+            if (firstPlayer === 'user') {
+                response += `Kamu dapat ${currentTicTacToeGame.userSymbol} dan giliranmu dulu. Pilih kotak yang ingin kamu isi.`;
+            } else {
+                response += `Kamu dapat ${currentTicTacToeGame.userSymbol} dan Aletha mulai dulu.`;
+            }
+            
+            return response;
         }
         
         // Handle klik pada sel Tic Tac Toe
         function handleTicTacToeClick(event) {
             if (!currentTicTacToeGame || currentTicTacToeGame.gameOver) return;
             
+            // Cek apakah giliran user
+            if (currentTicTacToeGame.currentPlayer !== currentTicTacToeGame.userSymbol) return;
+            
             const index = parseInt(event.target.dataset.index);
             
             // Cek apakah sel sudah terisi
             if (currentTicTacToeGame.board[index] !== '') return;
             
-            // Isi sel dengan X (pemain)
-            currentTicTacToeGame.board[index] = 'X';
-            event.target.textContent = 'X';
-            event.target.classList.add('x');
+            // Isi sel dengan simbol user
+            currentTicTacToeGame.board[index] = currentTicTacToeGame.userSymbol;
+            event.target.textContent = currentTicTacToeGame.userSymbol;
+            event.target.classList.add(currentTicTacToeGame.userSymbol.toLowerCase());
             
-            // Cek apakah pemain menang
-            if (checkTicTacToeWinner('X')) {
+            // Cek apakah user menang
+            if (checkTicTacToeWinner(currentTicTacToeGame.userSymbol)) {
                 currentTicTacToeGame.gameOver = true;
-                currentTicTacToeGame.winner = 'X';
+                currentTicTacToeGame.winner = 'user';
                 document.getElementById('tictactoeStatus').textContent = 'Kamu menang! Selamat!';
+                
+                // Tambahkan efek animasi kemenangan
+                animateTicTacToeWin();
                 
                 // Tambahkan pesan dari bot
                 setTimeout(() => {
@@ -2818,12 +3193,23 @@
                 return;
             }
             
-            // Giliran bot (O)
-            document.getElementById('tictactoeStatus').textContent = 'Giliran Aletha (O)...';
+            // Giliran bot
+            currentTicTacToeGame.currentPlayer = currentTicTacToeGame.botSymbol;
+            document.getElementById('tictactoeStatus').textContent = 'Giliran Aletha...';
             
             setTimeout(() => {
                 makeBotMove();
             }, 1000);
+        }
+        
+        // Animasi kemenangan Tic Tac Toe
+        function animateTicTacToeWin() {
+            const cells = document.querySelectorAll('.tictactoe-cell');
+            cells.forEach(cell => {
+                if (cell.textContent === currentTicTacToeGame.userSymbol) {
+                    cell.style.animation = 'celebrate 0.5s ease-in-out 3';
+                }
+            });
         }
         
         // Buat langkah bot
@@ -2833,17 +3219,20 @@
             // Cari langkah terbaik untuk bot
             const bestMove = findBestMove();
             
-            // Isi sel dengan O (bot)
-            currentTicTacToeGame.board[bestMove] = 'O';
+            // Isi sel dengan simbol bot
+            currentTicTacToeGame.board[bestMove] = currentTicTacToeGame.botSymbol;
             const cell = document.querySelector(`.tictactoe-cell[data-index="${bestMove}"]`);
-            cell.textContent = 'O';
-            cell.classList.add('o');
+            cell.textContent = currentTicTacToeGame.botSymbol;
+            cell.classList.add(currentTicTacToeGame.botSymbol.toLowerCase());
             
             // Cek apakah bot menang
-            if (checkTicTacToeWinner('O')) {
+            if (checkTicTacToeWinner(currentTicTacToeGame.botSymbol)) {
                 currentTicTacToeGame.gameOver = true;
-                currentTicTacToeGame.winner = 'O';
+                currentTicTacToeGame.winner = 'bot';
                 document.getElementById('tictactoeStatus').textContent = 'Aletha menang! Coba lagi ya!';
+                
+                // Tambahkan efek animasi kemenangan
+                animateTicTacToeWin();
                 
                 // Tambahkan pesan dari bot
                 setTimeout(() => {
@@ -2866,8 +3255,9 @@
                 return;
             }
             
-            // Giliran pemain (X)
-            document.getElementById('tictactoeStatus').textContent = 'Giliranmu (X)';
+            // Giliran pemain
+            currentTicTacToeGame.currentPlayer = currentTicTacToeGame.userSymbol;
+            document.getElementById('tictactoeStatus').textContent = `Giliranmu (${currentTicTacToeGame.userSymbol})`;
         }
         
         // Cari langkah terbaik untuk bot menggunakan algoritma minimax
@@ -2875,8 +3265,8 @@
             // Coba menang jika bisa
             for (let i = 0; i < 9; i++) {
                 if (currentTicTacToeGame.board[i] === '') {
-                    currentTicTacToeGame.board[i] = 'O';
-                    if (checkTicTacToeWinner('O')) {
+                    currentTicTacToeGame.board[i] = currentTicTacToeGame.botSymbol;
+                    if (checkTicTacToeWinner(currentTicTacToeGame.botSymbol)) {
                         currentTicTacToeGame.board[i] = '';
                         return i;
                     }
@@ -2887,8 +3277,8 @@
             // Blokir pemain jika akan menang
             for (let i = 0; i < 9; i++) {
                 if (currentTicTacToeGame.board[i] === '') {
-                    currentTicTacToeGame.board[i] = 'X';
-                    if (checkTicTacToeWinner('X')) {
+                    currentTicTacToeGame.board[i] = currentTicTacToeGame.userSymbol;
+                    if (checkTicTacToeWinner(currentTicTacToeGame.userSymbol)) {
                         currentTicTacToeGame.board[i] = '';
                         return i;
                     }
@@ -2944,18 +3334,375 @@
             
             // Reset game state
             currentTicTacToeGame.board = Array(9).fill('');
-            currentTicTacToeGame.currentPlayer = 'X';
             currentTicTacToeGame.gameOver = false;
             currentTicTacToeGame.winner = null;
+            
+            // Acak siapa yang mulai duluan
+            const firstPlayer = Math.random() > 0.5 ? 'user' : 'bot';
+            currentTicTacToeGame.currentPlayer = firstPlayer === 'user' ? currentTicTacToeGame.userSymbol : currentTicTacToeGame.botSymbol;
             
             // Reset tampilan papan
             const cells = document.querySelectorAll('.tictactoe-cell');
             cells.forEach(cell => {
                 cell.textContent = '';
                 cell.classList.remove('x', 'o');
+                cell.style.animation = '';
             });
             
-            document.getElementById('tictactoeStatus').textContent = 'Giliranmu (X)';
+            if (firstPlayer === 'user') {
+                document.getElementById('tictactoeStatus').textContent = `Giliranmu (${currentTicTacToeGame.userSymbol})`;
+            } else {
+                document.getElementById('tictactoeStatus').textContent = `Giliran Aletha (${currentTicTacToeGame.botSymbol})`;
+                // Bot membuat langkah pertama
+                setTimeout(makeBotMove, 1000);
+            }
+        }
+        
+        // Mulai permainan dadu
+        function startDiceGame() {
+            // Buat game baru
+            currentDiceGame = {
+                round: 1,
+                maxRounds: 6,
+                userScore: 0,
+                botScore: 0,
+                currentPlayer: 'user', // Selalu mulai dengan user
+                gameOver: false,
+                winner: null,
+                userRolled: false,
+                botRolled: false
+            };
+            
+            // Tampilkan permainan dadu
+            const diceDiv = document.createElement('div');
+            diceDiv.classList.add('dice-game-container');
+            
+            const titleDiv = document.createElement('div');
+            titleDiv.classList.add('dice-game-title');
+            titleDiv.textContent = 'Permainan Dadu';
+            diceDiv.appendChild(titleDiv);
+            
+            const infoDiv = document.createElement('div');
+            infoDiv.classList.add('dice-game-info');
+            
+            const roundDiv = document.createElement('div');
+            roundDiv.classList.add('dice-game-round');
+            roundDiv.id = 'diceGameRound';
+            roundDiv.textContent = `Ronde ${currentDiceGame.round} dari ${currentDiceGame.maxRounds}`;
+            infoDiv.appendChild(roundDiv);
+            
+            const turnDiv = document.createElement('div');
+            turnDiv.classList.add('dice-game-turn');
+            turnDiv.id = 'diceGameTurn';
+            turnDiv.textContent = 'Giliranmu! Lempar dadu.';
+            
+            infoDiv.appendChild(turnDiv);
+            diceDiv.appendChild(infoDiv);
+            
+            const scoresDiv = document.createElement('div');
+            scoresDiv.classList.add('dice-game-scores');
+            
+            const userScoreDiv = document.createElement('div');
+            userScoreDiv.classList.add('dice-player-score');
+            
+            const userNameDiv = document.createElement('div');
+            userNameDiv.classList.add('dice-player-name');
+            userNameDiv.textContent = userName;
+            userScoreDiv.appendChild(userNameDiv);
+            
+            const userPointsDiv = document.createElement('div');
+            userPointsDiv.classList.add('dice-player-points');
+            userPointsDiv.id = 'diceUserPoints';
+            userPointsDiv.textContent = '0';
+            userScoreDiv.appendChild(userPointsDiv);
+            
+            scoresDiv.appendChild(userScoreDiv);
+            
+            const vsDiv = document.createElement('div');
+            vsDiv.classList.add('dice-player-name');
+            vsDiv.textContent = 'VS';
+            vsDiv.style.margin = '0 20px';
+            scoresDiv.appendChild(vsDiv);
+            
+            const botScoreDiv = document.createElement('div');
+            botScoreDiv.classList.add('dice-player-score');
+            
+            const botNameDiv = document.createElement('div');
+            botNameDiv.classList.add('dice-player-name');
+            botNameDiv.textContent = 'Aletha';
+            botScoreDiv.appendChild(botNameDiv);
+            
+            const botPointsDiv = document.createElement('div');
+            botPointsDiv.classList.add('dice-player-points');
+            botPointsDiv.id = 'diceBotPoints';
+            botPointsDiv.textContent = '0';
+            botScoreDiv.appendChild(botPointsDiv);
+            
+            scoresDiv.appendChild(botScoreDiv);
+            diceDiv.appendChild(scoresDiv);
+            
+            const diceContainerDiv = document.createElement('div');
+            diceContainerDiv.classList.add('dice-container');
+            
+            const userDiceDiv = document.createElement('div');
+            userDiceDiv.style.marginRight = '20px';
+            
+            const userDiceLabel = document.createElement('div');
+            userDiceLabel.classList.add('dice-player-name');
+            userDiceLabel.textContent = 'Dadumu';
+            userDiceLabel.style.fontSize = '0.8rem';
+            userDiceDiv.appendChild(userDiceLabel);
+            
+            const userDiceElement = document.createElement('div');
+            userDiceElement.classList.add('dice');
+            userDiceElement.id = 'userDiceElement';
+            userDiceElement.textContent = '?';
+            userDiceDiv.appendChild(userDiceElement);
+            
+            diceContainerDiv.appendChild(userDiceDiv);
+            
+            const botDiceDiv = document.createElement('div');
+            botDiceDiv.style.marginLeft = '20px';
+            
+            const botDiceLabel = document.createElement('div');
+            botDiceLabel.classList.add('dice-player-name');
+            botDiceLabel.textContent = 'Dadu Aletha';
+            botDiceLabel.style.fontSize = '0.8rem';
+            botDiceDiv.appendChild(botDiceLabel);
+            
+            const botDiceElement = document.createElement('div');
+            botDiceElement.classList.add('dice');
+            botDiceElement.id = 'botDiceElement';
+            botDiceElement.textContent = '?';
+            botDiceDiv.appendChild(botDiceElement);
+            
+            diceContainerDiv.appendChild(botDiceDiv);
+            
+            diceDiv.appendChild(diceContainerDiv);
+            
+            const controlsDiv = document.createElement('div');
+            controlsDiv.classList.add('dice-game-controls');
+            
+            const rollBtn = document.createElement('button');
+            rollBtn.classList.add('dice-roll-btn');
+            rollBtn.id = 'diceRollBtn';
+            rollBtn.textContent = 'Lempar Dadu';
+            rollBtn.addEventListener('click', rollDice);
+            
+            controlsDiv.appendChild(rollBtn);
+            
+            const resetBtn = document.createElement('button');
+            resetBtn.classList.add('dice-roll-btn');
+            resetBtn.textContent = 'Reset Game';
+            resetBtn.addEventListener('click', resetDiceGame);
+            controlsDiv.appendChild(resetBtn);
+            
+            diceDiv.appendChild(controlsDiv);
+            
+            const statusDiv = document.createElement('div');
+            statusDiv.classList.add('dice-game-status');
+            statusDiv.id = 'diceGameStatus';
+            diceDiv.appendChild(statusDiv);
+            
+            // Tambahkan ke chat
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message', 'received');
+            messageDiv.appendChild(diceDiv);
+            
+            const timeDiv = document.createElement('div');
+            timeDiv.classList.add('time');
+            const now = new Date();
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            timeDiv.textContent = `${hours}:${minutes}`;
+            messageDiv.appendChild(timeDiv);
+            
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            
+            return "Ayo main dadu! Kita akan bermain 6 ronde. Setiap ronde, kita sama-sama melempar dadu. Kamu mulai duluan!";
+        }
+        
+        // Reset permainan dadu
+        function resetDiceGame() {
+            if (!currentDiceGame) return;
+            
+            // Reset game state
+            currentDiceGame.round = 1;
+            currentDiceGame.userScore = 0;
+            currentDiceGame.botScore = 0;
+            currentDiceGame.gameOver = false;
+            currentDiceGame.winner = null;
+            currentDiceGame.userRolled = false;
+            currentDiceGame.botRolled = false;
+            
+            // Reset tampilan
+            document.getElementById('diceGameRound').textContent = `Ronde ${currentDiceGame.round} dari ${currentDiceGame.maxRounds}`;
+            document.getElementById('diceUserPoints').textContent = '0';
+            document.getElementById('diceBotPoints').textContent = '0';
+            document.getElementById('userDiceElement').textContent = '?';
+            document.getElementById('botDiceElement').textContent = '?';
+            document.getElementById('userDiceElement').classList.remove('dice-rolling');
+            document.getElementById('botDiceElement').classList.remove('dice-rolling');
+            document.getElementById('diceGameStatus').textContent = '';
+            document.getElementById('diceGameTurn').textContent = 'Giliranmu! Lempar dadu.';
+            
+            const rollBtn = document.getElementById('diceRollBtn');
+            rollBtn.disabled = false;
+            
+            // Hapus elemen pemenang jika ada
+            const winnerDiv = document.querySelector('.dice-game-winner');
+            if (winnerDiv) {
+                winnerDiv.remove();
+            }
+        }
+        
+        // Lempar dadu untuk user
+        function rollDice() {
+            if (!currentDiceGame || currentDiceGame.gameOver || currentDiceGame.userRolled) return;
+            
+            const userDiceElement = document.getElementById('userDiceElement');
+            const rollBtn = document.getElementById('diceRollBtn');
+            const statusDiv = document.getElementById('diceGameStatus');
+            
+            // Nonaktifkan tombol selama animasi
+            rollBtn.disabled = true;
+            
+            // Animasi lempar dadu
+            userDiceElement.classList.add('dice-rolling');
+            userDiceElement.textContent = '?';
+            
+            // Hasil lemparan dadu setelah animasi
+            setTimeout(() => {
+                const diceValue = Math.floor(Math.random() * 6) + 1;
+                userDiceElement.textContent = diceValue;
+                userDiceElement.classList.remove('dice-rolling');
+                
+                // Update status
+                currentDiceGame.userRolled = true;
+                statusDiv.textContent = `Kamu dapat ${diceValue}.`;
+                
+                // Giliran bot
+                document.getElementById('diceGameTurn').textContent = 'Giliran Aletha...';
+                
+                // Bot lempar dadu setelah jeda
+                setTimeout(() => {
+                    botRollDice(diceValue);
+                }, 1500);
+            }, 1000);
+        }
+        
+        // Lempar dadu untuk bot
+        function botRollDice(userValue) {
+            if (!currentDiceGame || currentDiceGame.gameOver || currentDiceGame.botRolled) return;
+            
+            const botDiceElement = document.getElementById('botDiceElement');
+            const statusDiv = document.getElementById('diceGameStatus');
+            
+            // Animasi lempar dadu
+            botDiceElement.classList.add('dice-rolling');
+            botDiceElement.textContent = '?';
+            
+            // Hasil lemparan dadu setelah animasi
+            setTimeout(() => {
+                const diceValue = Math.floor(Math.random() * 6) + 1;
+                botDiceElement.textContent = diceValue;
+                botDiceElement.classList.remove('dice-rolling');
+                
+                // Update status
+                currentDiceGame.botRolled = true;
+                
+                // Tentukan pemenang ronde
+                let roundWinner = '';
+                if (userValue > diceValue) {
+                    roundWinner = 'user';
+                    currentDiceGame.userScore++;
+                    statusDiv.textContent = `Kamu dapat ${userValue}, Aletha dapat ${diceValue}. Kamu menang ronde ini!`;
+                } else if (diceValue > userValue) {
+                    roundWinner = 'bot';
+                    currentDiceGame.botScore++;
+                    statusDiv.textContent = `Kamu dapat ${userValue}, Aletha dapat ${diceValue}. Aletha menang ronde ini!`;
+                } else {
+                    roundWinner = 'draw';
+                    statusDiv.textContent = `Kamu dapat ${userValue}, Aletha dapat ${diceValue}. Ronde ini seri!`;
+                }
+                
+                // Update skor
+                document.getElementById('diceUserPoints').textContent = currentDiceGame.userScore;
+                document.getElementById('diceBotPoints').textContent = currentDiceGame.botScore;
+                
+                // Selesaikan ronde
+                setTimeout(() => {
+                    finishRound();
+                }, 2000);
+            }, 1000);
+        }
+        
+        // Selesaikan ronde
+        function finishRound() {
+            const statusDiv = document.getElementById('diceGameStatus');
+            const turnDiv = document.getElementById('diceGameTurn');
+            const rollBtn = document.getElementById('diceRollBtn');
+            
+            // Reset status lemparan
+            currentDiceGame.userRolled = false;
+            currentDiceGame.botRolled = false;
+            
+            // Cek apakah sudah selesai semua ronde
+            if (currentDiceGame.round >= currentDiceGame.maxRounds) {
+                endDiceGame();
+                return;
+            }
+            
+            // Lanjut ke ronde berikutnya
+            currentDiceGame.round++;
+            document.getElementById('diceGameRound').textContent = `Ronde ${currentDiceGame.round} dari ${currentDiceGame.maxRounds}`;
+            
+            // Reset dadu
+            document.getElementById('userDiceElement').textContent = '?';
+            document.getElementById('botDiceElement').textContent = '?';
+            
+            // Giliran user lagi
+            turnDiv.textContent = 'Giliranmu! Lempar dadu.';
+            rollBtn.disabled = false;
+            statusDiv.textContent = `Ronde ${currentDiceGame.round} dimulai. Giliranmu!`;
+        }
+        
+        // Akhiri permainan dadu
+        function endDiceGame() {
+            currentDiceGame.gameOver = true;
+            
+            const statusDiv = document.getElementById('diceGameStatus');
+            const turnDiv = document.getElementById('diceGameTurn');
+            const rollBtn = document.getElementById('diceRollBtn');
+            
+            rollBtn.disabled = true;
+            turnDiv.textContent = 'Permainan selesai!';
+            
+            // Tentukan pemenang
+            let winnerMessage = '';
+            if (currentDiceGame.userScore > currentDiceGame.botScore) {
+                currentDiceGame.winner = 'user';
+                winnerMessage = `Kamu menang dengan skor ${currentDiceGame.userScore} - ${currentDiceGame.botScore}! Selamat! 🎉`;
+                
+                // Tambahkan efek animasi kemenangan
+                const winnerDiv = document.createElement('div');
+                winnerDiv.classList.add('dice-game-winner');
+                winnerDiv.textContent = 'KAMU MENANG! 🎉';
+                document.querySelector('.dice-game-container').appendChild(winnerDiv);
+            } else if (currentDiceGame.botScore > currentDiceGame.userScore) {
+                currentDiceGame.winner = 'bot';
+                winnerMessage = `Aletha menang dengan skor ${currentDiceGame.botScore} - ${currentDiceGame.userScore}! Coba lagi ya!`;
+            } else {
+                winnerMessage = `Seri! Skor ${currentDiceGame.userScore} - ${currentDiceGame.botScore}. Permainan yang bagus!`;
+            }
+            
+            statusDiv.textContent = winnerMessage;
+            
+            // Tambahkan pesan dari bot
+            setTimeout(() => {
+                addMessage(winnerMessage, 'received');
+            }, 1000);
         }
         
         // Buat pengingat baru
@@ -3364,12 +4111,6 @@
                 { regex: /(\d+)\s*ditambah\s*(\d+)/, operation: (a, b) => a + b, symbol: "+" },
                 { regex: /(\d+)\s*dikurangi\s*(\d+)/, operation: (a, b) => a - b, symbol: "-" },
                 { regex: /(\d+)\s*dikali\s*(\d+)/, operation: (a, b) => a * b, symbol: "×" },
-
-
-
-
-
-
                 { regex: /(\d+)\s*dibagi\s*(\d+)/, operation: (a, b) => a / b, symbol: "÷" },
                 { regex: /hasil\s*dari\s*(\d+)\s*[\+\-\*\/]\s*(\d+)/, operation: (a, b) => {
                     const opMatch = message.match(/hasil\s*dari\s*\d+\s*([\+\-\*\/])\s*\d+/);
