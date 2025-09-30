@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat dengan Aletha Natarine</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
     <style>
         * {
             margin: 0;
@@ -1298,6 +1299,502 @@
             100% { transform: scale(1.1); }
         }
 
+        /* History Panel Styles */
+        .history-panel {
+            position: fixed;
+            top: 0;
+            left: -350px;
+            width: 350px;
+            height: 100%;
+            background-color: white;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 200;
+            transition: left 0.3s ease;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .dark-mode .history-panel {
+            background-color: #2d2d2d;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .history-panel.open {
+            left: 0;
+        }
+        
+        .history-header {
+            padding: 20px;
+            background-color: #6e8efb;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .history-header h3 {
+            font-weight: 600;
+        }
+        
+        .history-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+        
+        .history-content {
+            flex: 1;
+            padding: 20px;
+        }
+        
+        .history-item {
+            padding: 15px;
+            border-bottom: 1px solid #e6e6e6;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .dark-mode .history-item {
+            border-bottom: 1px solid #555;
+        }
+        
+        .history-item:hover {
+            background-color: #f5f7fb;
+        }
+        
+        .dark-mode .history-item:hover {
+            background-color: #3d3d3d;
+        }
+        
+        .history-item.active {
+            background-color: #e6f0ff;
+            border-left: 3px solid #6e8efb;
+        }
+        
+        .dark-mode .history-item.active {
+            background-color: #2d4d7d;
+            border-left: 3px solid #8fa3ff;
+        }
+        
+        .history-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .history-preview {
+            font-size: 0.8rem;
+            color: #666;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        
+        .dark-mode .history-preview {
+            color: #aaa;
+        }
+        
+        .history-date {
+            font-size: 0.7rem;
+            color: #888;
+            margin-top: 5px;
+        }
+        
+        .dark-mode .history-date {
+            color: #999;
+        }
+        
+        .history-actions {
+            padding: 20px;
+            border-top: 1px solid #e6e6e6;
+        }
+        
+        .dark-mode .history-actions {
+            border-top: 1px solid #555;
+        }
+        
+        .new-chat-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(to right, #8360c3, #6e8efb);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: transform 0.2s;
+        }
+        
+        .new-chat-btn:hover {
+            transform: scale(1.02);
+        }
+
+        /* Settings Panel Styles */
+        .settings-panel {
+            position: fixed;
+            top: 0;
+            right: -350px;
+            width: 350px;
+            height: 100%;
+            background-color: white;
+            box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 200;
+            transition: right 0.3s ease;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .dark-mode .settings-panel {
+            background-color: #2d2d2d;
+            box-shadow: -2px 0 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .settings-panel.open {
+            right: 0;
+        }
+        
+        .settings-header {
+            padding: 20px;
+            background-color: #6e8efb;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .settings-header h3 {
+            font-weight: 600;
+        }
+        
+        .settings-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+        
+        .settings-content {
+            flex: 1;
+            padding: 20px;
+        }
+        
+        .settings-section {
+            margin-bottom: 25px;
+        }
+        
+        .settings-section h4 {
+            margin-bottom: 15px;
+            color: #6e8efb;
+            font-weight: 600;
+        }
+        
+        .dark-mode .settings-section h4 {
+            color: #8fa3ff;
+        }
+        
+        .settings-option {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #e6e6e6;
+        }
+        
+        .dark-mode .settings-option {
+            border-bottom: 1px solid #555;
+        }
+        
+        .settings-option:last-child {
+            border-bottom: none;
+        }
+        
+        .settings-label {
+            font-weight: 500;
+        }
+        
+        .settings-description {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        .dark-mode .settings-description {
+            color: #aaa;
+        }
+        
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+        
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .toggle-slider {
+            background-color: #6e8efb;
+        }
+        
+        input:checked + .toggle-slider:before {
+            transform: translateX(26px);
+        }
+        
+        .volume-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .volume-slider {
+            flex: 1;
+            -webkit-appearance: none;
+            width: 100%;
+            height: 5px;
+            border-radius: 5px;
+            background: #e6e6e6;
+            outline: none;
+        }
+        
+        .dark-mode .volume-slider {
+            background: #555;
+        }
+        
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: #6e8efb;
+            cursor: pointer;
+        }
+        
+        .volume-slider::-moz-range-thumb {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: #6e8efb;
+            cursor: pointer;
+            border: none;
+        }
+        
+        /* Tutorial Modal Styles */
+        .tutorial-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 300;
+        }
+        
+        .tutorial-content {
+            background-color: white;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 25px;
+            position: relative;
+        }
+        
+        .dark-mode .tutorial-content {
+            background-color: #3d3d3d;
+            color: #e0e0e0;
+        }
+        
+        .tutorial-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #888;
+        }
+        
+        .dark-mode .tutorial-close {
+            color: #aaa;
+        }
+        
+        .tutorial-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #6e8efb;
+        }
+        
+        .dark-mode .tutorial-title {
+            color: #8fa3ff;
+        }
+        
+        .tutorial-section {
+            margin-bottom: 25px;
+        }
+        
+        .tutorial-section h3 {
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .tutorial-section p {
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+        
+        .tutorial-section ul {
+            padding-left: 20px;
+            margin-bottom: 10px;
+        }
+        
+        .tutorial-section li {
+            margin-bottom: 5px;
+        }
+        
+        .tutorial-tabs {
+            display: flex;
+            border-bottom: 1px solid #e6e6e6;
+            margin-bottom: 20px;
+        }
+        
+        .dark-mode .tutorial-tabs {
+            border-bottom: 1px solid #555;
+        }
+        
+        .tutorial-tab {
+            padding: 10px 15px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+        }
+        
+        .tutorial-tab.active {
+            border-bottom: 2px solid #6e8efb;
+            color: #6e8efb;
+            font-weight: 500;
+        }
+        
+        .dark-mode .tutorial-tab.active {
+            border-bottom: 2px solid #8fa3ff;
+            color: #8fa3ff;
+        }
+        
+        .tutorial-tab-content {
+            display: none;
+        }
+        
+        .tutorial-tab-content.active {
+            display: block;
+        }
+        
+        /* Header Buttons */
+        .header-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .header-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #f0f2f5;
+            color: #6e8efb;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: all 0.2s;
+            border: none;
+        }
+        
+        .dark-mode .header-btn {
+            background: #555;
+            color: #8fa3ff;
+        }
+        
+        .header-btn:hover {
+            background: #e6e9ef;
+        }
+        
+        .dark-mode .header-btn:hover {
+            background: #666;
+        }
+
+        /* Google Login Button */
+        .google-login-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 12px;
+            background-color: white;
+            color: #333;
+            border: 1px solid #e6e6e6;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+            margin-bottom: 15px;
+        }
+        
+        .google-login-btn:hover {
+            background-color: #f5f7fb;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .dark-mode .google-login-btn {
+            background-color: #3d3d3d;
+            color: #e0e0e0;
+            border: 1px solid #555;
+        }
+        
+        .dark-mode .google-login-btn:hover {
+            background-color: #4d4d4d;
+        }
+        
+        .google-logo {
+            width: 18px;
+            height: 18px;
+        }
+
         @media (min-width: 768px) {
             .chat-container {
                 max-width: 768px;
@@ -1312,14 +1809,20 @@
     </style>
 </head>
 <body>
+    <!-- Overlay Login -->
     <div class="overlay" id="overlay">
         <div class="name-form" id="nameForm">
             <h2>Aletha Chat Virtual (Beta)</h2>
-            <p>Sebelum memulai percakapan dengan Aletha, perkenalkan dirimu dulu ya</p>
+            <p>Silakan login untuk memulai percakapan dengan Aletha</p>
             
             <div style="margin-bottom: 20px;">
                 <img src="aletha.jpg" alt="Aletha Natarine" class="profile-pic" id="profilePreview">
             </div>
+            
+            <button class="google-login-btn" id="googleLoginBtn">
+                <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google" class="google-logo">
+                Login dengan Google
+            </button>
             
             <div class="mode-selection">
                 <h3>Pilih Mode Chat:</h3>
@@ -1333,14 +1836,28 @@
                 </div>
             </div>
             
-            <input type="text" id="userName" placeholder="Masukkan nama kamu">
-            
-            <button onclick="startChat()">Mulai Chat Sekarang</button>
+            <div id="manualLogin" style="display: none;">
+                <input type="text" id="userName" placeholder="Masukkan nama kamu">
+                <button onclick="startChat()">Mulai Chat Sekarang</button>
+            </div>
         </div>
     </div>
     
+    <!-- Chat Container -->
     <div class="chat-container" id="chatContainer">
         <div class="chat-header">
+            <div class="header-buttons">
+                <button class="header-btn" id="historyBtn" onclick="toggleHistoryPanel()">
+                    <i class="fas fa-history"></i>
+                </button>
+                <button class="header-btn" id="settingsBtn" onclick="toggleSettingsPanel()">
+                    <i class="fas fa-cog"></i>
+                </button>
+                <button class="header-btn" id="tutorialBtn" onclick="showTutorial()">
+                    <i class="fas fa-question-circle"></i>
+                </button>
+            </div>
+            
             <img src="aletha.jpg" alt="Aletha Natarine" class="profile-pic" id="chatProfilePic" onclick="showProfile()">
             <div class="header-info">
                 <h2>Aletha Natarine</h2>
@@ -1391,6 +1908,200 @@
             <button class="remove-image-btn" onclick="removeImagePreview()">&times;</button>
             <img id="imagePreview" class="image-preview" src="" alt="Preview gambar">
             <input type="text" id="captionInput" class="caption-input" placeholder="Tambahkan keterangan gambar...">
+        </div>
+    </div>
+
+    <!-- History Panel -->
+    <div class="history-panel" id="historyPanel">
+        <div class="history-header">
+            <h3>Riwayat Chat</h3>
+            <button class="history-close" onclick="toggleHistoryPanel()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="history-content" id="historyContent">
+            <!-- History items will be populated by JavaScript -->
+        </div>
+        <div class="history-actions">
+            <button class="new-chat-btn" onclick="startNewChat()">Chat Baru</button>
+        </div>
+    </div>
+
+    <!-- Settings Panel -->
+    <div class="settings-panel" id="settingsPanel">
+        <div class="settings-header">
+            <h3>Pengaturan</h3>
+            <button class="settings-close" onclick="toggleSettingsPanel()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="settings-content">
+            <div class="settings-section">
+                <h4>Audio</h4>
+                <div class="settings-option">
+                    <div>
+                        <div class="settings-label">Backsound</div>
+                        <div class="settings-description">Putar musik latar saat chatting</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="backsoundToggle" onchange="toggleBacksound()">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                <div class="settings-option">
+                    <div>
+                        <div class="settings-label">Volume</div>
+                        <div class="settings-description">Atur volume backsound</div>
+                    </div>
+                    <div class="volume-control">
+                        <input type="range" min="0" max="100" value="50" class="volume-slider" id="volumeSlider" onchange="changeVolume(this.value)">
+                    </div>
+                </div>
+                <div class="settings-option">
+                    <div>
+                        <div class="settings-label">Getaran Pengingat</div>
+                        <div class="settings-description">Aktifkan getaran saat pengingat muncul</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="vibrationToggle" onchange="toggleVibration()">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="settings-section">
+                <h4>Tampilan</h4>
+                <div class="settings-option">
+                    <div>
+                        <div class="settings-label">Mode Gelap</div>
+                        <div class="settings-description">Ubah tampilan menjadi mode gelap</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="darkModeToggle" onchange="toggleTheme()">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="settings-section">
+                <h4>Akun</h4>
+                <div class="settings-option">
+                    <div>
+                        <div class="settings-label">Pengguna</div>
+                        <div class="settings-description" id="userEmailDisplay">Belum login</div>
+                    </div>
+                    <button class="header-btn" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tutorial Modal -->
+    <div class="tutorial-modal" id="tutorialModal">
+        <div class="tutorial-content">
+            <span class="tutorial-close" onclick="closeTutorial()">&times;</span>
+            <h2 class="tutorial-title">Tutorial Chat dengan Aletha</h2>
+            
+            <div class="tutorial-tabs">
+                <div class="tutorial-tab active" onclick="switchTutorialTab('chatting')">Chat Dasar</div>
+                <div class="tutorial-tab" onclick="switchTutorialTab('reminders')">Pengingat</div>
+                <div class="tutorial-tab" onclick="switchTutorialTab('games')">Permainan</div>
+                <div class="tutorial-tab" onclick="switchTutorialTab('features')">Fitur Lain</div>
+            </div>
+            
+            <div class="tutorial-tab-content active" id="chattingTab">
+                <div class="tutorial-section">
+                    <h3>Cara Berbicara dengan Aletha</h3>
+                    <p>Aletha adalah chatbot AI yang dapat berinteraksi dengan Anda seperti manusia. Berikut beberapa tips untuk percakapan yang lebih baik:</p>
+                    <ul>
+                        <li>Gunakan bahasa yang sopan dan ramah</li>
+                        <li>Ajukan pertanyaan spesifik untuk mendapatkan jawaban yang lebih akurat</li>
+                        <li>Aletha dapat memahami konteks percakapan</li>
+                        <li>Anda dapat mengedit pesan yang sudah dikirim dengan mengklik ikon pensil</li>
+                    </ul>
+                </div>
+                
+                <div class="tutorial-section">
+                    <h3>Fitur Percakapan</h3>
+                    <ul>
+                        <li><strong>Emoji:</strong> Klik ikon smiley untuk menambahkan emoji</li>
+                        <li><strong>Gambar:</strong> Klik ikon gambar untuk mengirim foto</li>
+                        <li><strong>Edit Pesan:</strong> Arahkan kursor ke pesan Anda untuk melihat ikon edit</li>
+                        <li><strong>Mode Online/Offline:</strong> Aletha dapat online atau offline tergantung mode yang dipilih</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="tutorial-tab-content" id="remindersTab">
+                <div class="tutorial-section">
+                    <h3>Membuat Pengingat</h3>
+                    <p>Anda dapat meminta Aletha untuk mengingatkan Anda tentang sesuatu. Berikut caranya:</p>
+                    <ul>
+                        <li>Katakan: "Ingatkan aku untuk meeting besok jam 10 pagi"</li>
+                        <li>Atau: "Buat pengingat untuk beli susu nanti sore"</li>
+                        <li>Aletha akan mengingatkan Anda pada waktu yang ditentukan</li>
+                        <li>Pengingat akan muncul di chat dengan getaran (jika diaktifkan)</li>
+                    </ul>
+                </div>
+                
+                <div class="tutorial-section">
+                    <h3>Melihat Daftar Pengingat</h3>
+                    <p>Untuk melihat semua pengingat aktif, katakan:</p>
+                    <ul>
+                        <li>"Tampilkan pengingat saya"</li>
+                        <li>"Lihat daftar pengingat"</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="tutorial-tab-content" id="gamesTab">
+                <div class="tutorial-section">
+                    <h3>Permainan Tic Tac Toe</h3>
+                    <p>Anda dapat bermain Tic Tac Toe dengan Aletha:</p>
+                    <ul>
+                        <li>Katakan: "Ayo main tic tac toe"</li>
+                        <li>Klik pada kotak untuk menempatkan simbol Anda</li>
+                        <li>Aletha akan merespons dengan langkahnya</li>
+                        <li>Gunakan tombol "Mulai Ulang" untuk memulai permainan baru</li>
+                    </ul>
+                </div>
+                
+                <div class="tutorial-section">
+                    <h3>Permainan Dadu</h3>
+                    <p>Bermain dadu dengan Aletha:</p>
+                    <ul>
+                        <li>Katakan: "Main dadu yuk"</li>
+                        <li>Klik tombol "Lempar Dadu" untuk memulai</li>
+                        <li>Permainan terdiri dari 6 ronde</li>
+                        <li>Pemain dengan skor tertinggi menang</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="tutorial-tab-content" id="featuresTab">
+                <div class="tutorial-section">
+                    <h3>Fitur Lainnya</h3>
+                    <ul>
+                        <li><strong>Riwayat Chat:</strong> Akses percakapan sebelumnya melalui panel riwayat</li>
+                        <li><strong>Backsound:</strong> Aktifkan musik latar di pengaturan</li>
+                        <li><strong>Mode Gelap:</strong> Ubah tampilan menjadi mode gelap</li>
+                        <li><strong>Polling:</strong> Buat polling dengan mengatakan "buat polling"</li>
+                        <li><strong>Matematika:</strong> Aletha dapat membantu perhitungan matematika sederhana</li>
+                    </ul>
+                </div>
+                
+                <div class="tutorial-section">
+                    <h3>Tips Tambahan</h3>
+                    <ul>
+                        <li>Aletha memiliki mood yang dapat berubah berdasarkan percakapan</li>
+                        <li>Gunakan kata-kata positif untuk meningkatkan mood Aletha</li>
+                        <li>Hindari kata-kata kasar agar tidak diblokir</li>
+                        <li>Jika diblokir, Anda dapat memulai chat baru</li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -1457,9 +2168,15 @@
         </div>
     </div>
 
+    <!-- Audio Element for Backsound -->
+    <audio id="backsound" loop>
+        <source src="https://assets.mixkit.co/music/preview/mixkit-tech-house-vibes-130.mp3" type="audio/mpeg">
+    </audio>
+
     <script>
         // Data pengguna
         let userName = "";
+        let userEmail = "";
         let messageCount = 0;
         let familiarityLevel = 0;
         let altheaMood = "happy"; // happy, neutral, sad, angry, in-love
@@ -1483,6 +2200,17 @@
         // Sistem memori/pengingat
         let userReminders = [];
         let reminderCheckInterval = null;
+        
+        // Sistem history chat
+        let chatHistory = [];
+        let currentChatId = null;
+        
+        // Sistem backsound
+        let isBacksoundEnabled = false;
+        let backsoundVolume = 0.5;
+        
+        // Sistem getaran
+        let isVibrationEnabled = false;
         
         // Database pengetahuan Althea yang lebih luas
         const altheaKnowledge = {
@@ -1895,6 +2623,360 @@
         const chatContainer = document.getElementById('chatContainer');
         const emojiToggle = document.getElementById('emojiToggle');
         const emojiPicker = document.getElementById('emojiPicker');
+        const historyPanel = document.getElementById('historyPanel');
+        const historyContent = document.getElementById('historyContent');
+        const settingsPanel = document.getElementById('settingsPanel');
+        const tutorialModal = document.getElementById('tutorialModal');
+        const backsoundElement = document.getElementById('backsound');
+        const googleLoginBtn = document.getElementById('googleLoginBtn');
+        const userEmailDisplay = document.getElementById('userEmailDisplay');
+        
+        // Google OAuth Configuration
+        const clientId = "YOUR_GOOGLE_CLIENT_ID"; // Replace with your actual Google Client ID
+        
+        // Initialize Google OAuth
+        function initializeGoogleSignIn() {
+            google.accounts.id.initialize({
+                client_id: clientId,
+                callback: handleGoogleSignIn
+            });
+            
+            google.accounts.id.renderButton(
+                googleLoginBtn,
+                { theme: "outline", size: "large" }
+            );
+        }
+        
+        // Handle Google Sign In
+        function handleGoogleSignIn(response) {
+            // Decode the JWT token to get user info
+            const responsePayload = decodeJWTResponse(response.credential);
+            
+            userName = responsePayload.name;
+            userEmail = responsePayload.email;
+            
+            // Update UI with user info
+            userEmailDisplay.textContent = userEmail;
+            
+            // Start chat
+            startChat();
+        }
+        
+        // Decode JWT token
+        function decodeJWTResponse(token) {
+            const base64Url = token.split('.')[1];
+            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+            }).join(''));
+            
+            return JSON.parse(jsonPayload);
+        }
+        
+        // Manual login fallback
+        function showManualLogin() {
+            document.getElementById('manualLogin').style.display = 'block';
+            googleLoginBtn.style.display = 'none';
+        }
+        
+        // Toggle history panel
+        function toggleHistoryPanel() {
+            historyPanel.classList.toggle('open');
+            if (historyPanel.classList.contains('open')) {
+                loadChatHistory();
+            }
+        }
+        
+        // Toggle settings panel
+        function toggleSettingsPanel() {
+            settingsPanel.classList.toggle('open');
+        }
+        
+        // Show tutorial modal
+        function showTutorial() {
+            tutorialModal.style.display = 'flex';
+        }
+        
+        // Close tutorial modal
+        function closeTutorial() {
+            tutorialModal.style.display = 'none';
+        }
+        
+        // Switch tutorial tab
+        function switchTutorialTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tutorial-tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remove active class from all tab buttons
+            document.querySelectorAll('.tutorial-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabName + 'Tab').classList.add('active');
+            
+            // Add active class to clicked tab button
+            event.target.classList.add('active');
+        }
+        
+        // Toggle backsound
+        function toggleBacksound() {
+            isBacksoundEnabled = !isBacksoundEnabled;
+            
+            if (isBacksoundEnabled) {
+                backsoundElement.volume = backsoundVolume;
+                backsoundElement.play().catch(e => {
+                    console.log("Autoplay prevented, user interaction required");
+                });
+            } else {
+                backsoundElement.pause();
+            }
+            
+            // Save setting
+            saveSettings();
+        }
+        
+        // Change volume
+        function changeVolume(value) {
+            backsoundVolume = value / 100;
+            backsoundElement.volume = backsoundVolume;
+            
+            // Save setting
+            saveSettings();
+        }
+        
+        // Toggle vibration
+        function toggleVibration() {
+            isVibrationEnabled = !isVibrationEnabled;
+            
+            // Save setting
+            saveSettings();
+        }
+        
+        // Vibrate device
+        function vibrate() {
+            if (isVibrationEnabled && navigator.vibrate) {
+                navigator.vibrate(200);
+            }
+        }
+        
+        // Save settings to localStorage
+        function saveSettings() {
+            const settings = {
+                isBacksoundEnabled,
+                backsoundVolume,
+                isVibrationEnabled,
+                isDarkMode
+            };
+            
+            localStorage.setItem('alethaSettings', JSON.stringify(settings));
+        }
+        
+        // Load settings from localStorage
+        function loadSettings() {
+            const savedSettings = localStorage.getItem('alethaSettings');
+            
+            if (savedSettings) {
+                const settings = JSON.parse(savedSettings);
+                
+                isBacksoundEnabled = settings.isBacksoundEnabled || false;
+                backsoundVolume = settings.backsoundVolume || 0.5;
+                isVibrationEnabled = settings.isVibrationEnabled || false;
+                
+                // Update UI
+                document.getElementById('backsoundToggle').checked = isBacksoundEnabled;
+                document.getElementById('volumeSlider').value = backsoundVolume * 100;
+                document.getElementById('vibrationToggle').checked = isVibrationEnabled;
+                
+                // Apply backsound setting
+                if (isBacksoundEnabled) {
+                    backsoundElement.volume = backsoundVolume;
+                    backsoundElement.play().catch(e => {
+                        console.log("Autoplay prevented");
+                    });
+                }
+            }
+        }
+        
+        // Load chat history from localStorage
+        function loadChatHistory() {
+            const savedHistory = localStorage.getItem('alethaChatHistory');
+            
+            if (savedHistory) {
+                chatHistory = JSON.parse(savedHistory);
+                renderChatHistory();
+            } else {
+                chatHistory = [];
+                historyContent.innerHTML = '<p style="text-align: center; padding: 20px; color: #888;">Belum ada riwayat chat</p>';
+            }
+        }
+        
+        // Render chat history in the panel
+        function renderChatHistory() {
+            historyContent.innerHTML = '';
+            
+            if (chatHistory.length === 0) {
+                historyContent.innerHTML = '<p style="text-align: center; padding: 20px; color: #888;">Belum ada riwayat chat</p>';
+                return;
+            }
+            
+            // Sort by date (newest first)
+            const sortedHistory = [...chatHistory].sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            sortedHistory.forEach(chat => {
+                const historyItem = document.createElement('div');
+                historyItem.classList.add('history-item');
+                
+                if (chat.id === currentChatId) {
+                    historyItem.classList.add('active');
+                }
+                
+                const title = document.createElement('div');
+                title.classList.add('history-title');
+                title.textContent = chat.title || `Chat dengan Aletha`;
+                
+                const preview = document.createElement('div');
+                preview.classList.add('history-preview');
+                preview.textContent = chat.preview || "Mulai percakapan...";
+                
+                const date = document.createElement('div');
+                date.classList.add('history-date');
+                date.textContent = formatDate(new Date(chat.date));
+                
+                historyItem.appendChild(title);
+                historyItem.appendChild(preview);
+                historyItem.appendChild(date);
+                
+                historyItem.addEventListener('click', () => {
+                    loadChat(chat.id);
+                });
+                
+                historyContent.appendChild(historyItem);
+            });
+        }
+        
+        // Format date for display
+        function formatDate(date) {
+            const now = new Date();
+            const diffTime = Math.abs(now - date);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            
+            if (diffDays === 1) {
+                return 'Hari ini';
+            } else if (diffDays === 2) {
+                return 'Kemarin';
+            } else if (diffDays <= 7) {
+                return `${diffDays - 1} hari lalu`;
+            } else {
+                return date.toLocaleDateString('id-ID', {
+                    day: 'numeric',
+                    month: 'short',
+                    year: 'numeric'
+                });
+            }
+        }
+        
+        // Save current chat to history
+        function saveChatToHistory() {
+            if (!currentChatId) return;
+            
+            // Get chat preview (first few messages)
+            const messages = chatMessages.querySelectorAll('.message p');
+            let preview = '';
+            
+            if (messages.length > 0) {
+                // Get the last few messages for preview
+                const lastMessages = Array.from(messages).slice(-3);
+                preview = lastMessages.map(msg => msg.textContent).join(' | ');
+                
+                // Truncate if too long
+                if (preview.length > 100) {
+                    preview = preview.substring(0, 100) + '...';
+                }
+            }
+            
+            // Find existing chat or create new one
+            const existingChatIndex = chatHistory.findIndex(chat => chat.id === currentChatId);
+            
+            if (existingChatIndex !== -1) {
+                // Update existing chat
+                chatHistory[existingChatIndex].preview = preview;
+                chatHistory[existingChatIndex].date = new Date().toISOString();
+            } else {
+                // Create new chat entry
+                chatHistory.push({
+                    id: currentChatId,
+                    title: `Chat dengan Aletha - ${userName}`,
+                    preview: preview,
+                    date: new Date().toISOString(),
+                    messages: chatMessages.innerHTML
+                });
+            }
+            
+            // Save to localStorage
+            localStorage.setItem('alethaChatHistory', JSON.stringify(chatHistory));
+        }
+        
+        // Load a specific chat from history
+        function loadChat(chatId) {
+            const chat = chatHistory.find(c => c.id === chatId);
+            
+            if (chat) {
+                currentChatId = chatId;
+                chatMessages.innerHTML = chat.messages;
+                toggleHistoryPanel();
+                
+                // Scroll to bottom
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+                
+                // Update history panel
+                renderChatHistory();
+            }
+        }
+        
+        // Start a new chat
+        function startNewChat() {
+            // Save current chat first
+            saveChatToHistory();
+            
+            // Generate new chat ID
+            currentChatId = 'chat_' + Date.now();
+            
+            // Clear chat messages
+            chatMessages.innerHTML = '<div class="message received"><p>Halo! Senang sekali akhirnya bisa berbicara denganmu. Ada yang bisa aku bantu?</p><div class="time" id="currentTime">00:00</div></div>';
+            
+            // Reset counters
+            messageCount = 0;
+            familiarityLevel = 0;
+            affectionLevel = 0;
+            altheaMood = "happy";
+            rudeMessageCount = 0;
+            apologyCount = 0;
+            
+            // Update mood indicator
+            updateMoodIndicator();
+            
+            // Close history panel
+            toggleHistoryPanel();
+            
+            // Update history panel
+            renderChatHistory();
+        }
+        
+        // Logout user
+        function logout() {
+            // Clear user data
+            userName = "";
+            userEmail = "";
+            
+            // Reset chat
+            resetChat();
+            
+            // Close settings panel
+            toggleSettingsPanel();
+        }
         
         // Tampilkan form nama saat halaman dimuat
         window.onload = function() {
@@ -1936,6 +3018,31 @@
             
             // Mulai interval untuk memeriksa pengingat
             reminderCheckInterval = setInterval(checkReminders, 60000); // Periksa setiap 1 menit
+            
+            // Load settings
+            loadSettings();
+            
+            // Load chat history
+            loadChatHistory();
+            
+            // Check if user is already logged in
+            const savedUser = localStorage.getItem('alethaUser');
+            if (savedUser) {
+                const user = JSON.parse(savedUser);
+                userName = user.name;
+                userEmail = user.email;
+                userEmailDisplay.textContent = userEmail;
+                startChat();
+            } else {
+                // Initialize Google Sign-In
+                // Note: In a real implementation, you would use your actual Google Client ID
+                // initializeGoogleSignIn();
+                
+                // For demo purposes, show manual login option
+                setTimeout(() => {
+                    showManualLogin();
+                }, 1000);
+            }
         }
         
         // Toggle emoji picker
@@ -1987,6 +3094,9 @@
         
         // Menampilkan pengingat
         function showReminder(reminder, index) {
+            // Trigger vibration
+            vibrate();
+            
             const reminderDiv = document.createElement('div');
             reminderDiv.classList.add('reminder-container');
             
@@ -2048,6 +3158,9 @@
             
             chatMessages.appendChild(messageDiv);
             chatMessages.scrollTop = chatMessages.scrollHeight;
+            
+            // Save chat to history
+            saveChatToHistory();
         }
         
         // Format waktu pengingat
@@ -2102,12 +3215,17 @@
             // Update ikon tema
             if (isDarkMode) {
                 themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                document.getElementById('darkModeToggle').checked = true;
             } else {
                 themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+                document.getElementById('darkModeToggle').checked = false;
             }
             
             // Simpan preferensi tema
             localStorage.setItem('darkMode', isDarkMode);
+            
+            // Save settings
+            saveSettings();
         }
         
         // Tampilkan modal profil
@@ -2233,19 +3351,38 @@
         
         // Memulai chat setelah memasukkan nama
         function startChat() {
-            userName = document.getElementById('userName').value.trim();
-            if (userName === "") {
-                alert("Silakan masukkan nama Anda terlebih dahulu.");
-                return;
+            // If using manual login
+            if (!userName) {
+                userName = document.getElementById('userName').value.trim();
+                if (userName === "") {
+                    alert("Silakan masukkan nama Anda terlebih dahulu.");
+                    return;
+                }
+            }
+            
+            // Save user info
+            if (userName && userEmail) {
+                localStorage.setItem('alethaUser', JSON.stringify({
+                    name: userName,
+                    email: userEmail
+                }));
             }
             
             overlay.style.display = 'none';
+            
+            // Generate chat ID if not exists
+            if (!currentChatId) {
+                currentChatId = 'chat_' + Date.now();
+            }
             
             // Tambahkan pesan selamat datang
             addMessage(`Hai ${userName}! Senang sekali akhirnya bisa berbicara denganmu. Ada yang bisa aku bantu?`, 'received');
             
             // Perbarui status
             checkOnlineStatus();
+            
+            // Save initial chat to history
+            saveChatToHistory();
         }
         
         // Reset chat setelah diblokir
@@ -2262,6 +3399,9 @@
             // Reset chat messages
             chatMessages.innerHTML = '<div class="message received"><p>Halo! Senang sekali akhirnya bisa berbicara denganmu. Siapa namamu?</p><div class="time" id="currentTime">00:00</div></div>';
             
+            // Clear user data
+            localStorage.removeItem('alethaUser');
+            
             overlay.style.display = 'flex';
         }
         
@@ -2270,6 +3410,9 @@
             isBlocked = true;
             chatContainer.style.display = 'none';
             blockedOverlay.style.display = 'flex';
+            
+            // Save chat to history before blocking
+            saveChatToHistory();
         }
         
         // Menangani penekanan tombol Enter
@@ -2352,6 +3495,9 @@
             // Reset input
             messageInput.value = "";
             emojiPicker.style.display = 'none';
+            
+            // Save chat to history
+            saveChatToHistory();
         }
         
         // Handle upload gambar
@@ -2517,6 +3663,9 @@
                         }, responseDelay);
                     }, 500);
                 }
+                
+                // Save chat to history
+                saveChatToHistory();
             }
         }
         
@@ -3137,6 +4286,9 @@
                 response += `Kamu dapat ${currentTicTacToeGame.userSymbol} dan Aletha mulai dulu.`;
             }
             
+            // Save chat to history
+            saveChatToHistory();
+            
             return response;
         }
         
@@ -3514,6 +4666,9 @@
             chatMessages.appendChild(messageDiv);
             chatMessages.scrollTop = chatMessages.scrollHeight;
             
+            // Save chat to history
+            saveChatToHistory();
+            
             return "Ayo main dadu! Kita akan bermain 6 ronde. Setiap ronde, kita sama-sama melempar dadu. Kamu mulai duluan!";
         }
         
@@ -3697,6 +4852,9 @@
             setTimeout(() => {
                 addMessage(winnerMessage, 'received');
             }, 1000);
+            
+            // Save chat to history
+            saveChatToHistory();
         }
         
         // Buat pengingat baru
@@ -3972,6 +5130,9 @@
             chatMessages.appendChild(messageDiv);
             chatMessages.scrollTop = chatMessages.scrollHeight;
             
+            // Save chat to history
+            saveChatToHistory();
+            
             return `Aku sudah buat polling untukmu! Silakan pilih opsi yang kamu suka. Aku memilih: ${poll.options[botChoice]}`;
         }
         
@@ -4046,6 +5207,9 @@
             setTimeout(() => {
                 addMessage(resultMessage, 'received');
             }, 500);
+            
+            // Save chat to history
+            saveChatToHistory();
         }
         
         // Generate respons untuk pertanyaan tentang besok
@@ -4627,6 +5791,3 @@
     </script>
 </body>
 </html>
-
-
-
