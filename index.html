@@ -154,17 +154,35 @@
             color: #aaa;
         }
         
-        .theme-toggle {
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-left: 10px;
+        }
+        
+        .theme-toggle, .settings-toggle-btn {
             background: none;
             border: none;
             font-size: 1.2rem;
             cursor: pointer;
             color: #6e8efb;
-            margin-left: 10px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.2s;
         }
         
-        .dark-mode .theme-toggle {
+        .dark-mode .theme-toggle, .dark-mode .settings-toggle-btn {
             color: #8fa3ff;
+        }
+        
+        .theme-toggle:hover, .settings-toggle-btn:hover {
+            background-color: rgba(110, 142, 251, 0.1);
+            transform: scale(1.05);
         }
         
         .chat-messages {
@@ -1298,6 +1316,238 @@
             100% { transform: scale(1.1); }
         }
 
+        /* Settings Panel */
+        .settings-panel {
+            position: fixed;
+            top: 0;
+            right: -350px;
+            width: 350px;
+            height: 100%;
+            background-color: white;
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+            transition: right 0.3s ease;
+            z-index: 200;
+            overflow-y: auto;
+            padding: 20px;
+        }
+        
+        .dark-mode .settings-panel {
+            background-color: #3d3d3d;
+            color: #e0e0e0;
+        }
+        
+        .settings-panel.open {
+            right: 0;
+        }
+        
+        .settings-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e6e6e6;
+        }
+        
+        .dark-mode .settings-header {
+            border-bottom: 1px solid #555;
+        }
+        
+        .settings-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        .settings-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #6e8efb;
+        }
+        
+        .dark-mode .settings-close {
+            color: #8fa3ff;
+        }
+        
+        .settings-section {
+            margin-bottom: 25px;
+        }
+        
+        .settings-section-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #6e8efb;
+        }
+        
+        .dark-mode .settings-section-title {
+            color: #8fa3ff;
+        }
+        
+        .settings-option {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .settings-label {
+            flex: 1;
+        }
+        
+        .settings-toggle {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+        
+        .settings-toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .settings-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+        
+        .settings-slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .settings-slider {
+            background-color: #6e8efb;
+        }
+        
+        input:checked + .settings-slider:before {
+            transform: translateX(26px);
+        }
+        
+        .background-preview {
+            width: 100%;
+            height: 120px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            background-size: cover;
+            background-position: center;
+            border: 2px solid #e6e6e6;
+        }
+        
+        .dark-mode .background-preview {
+            border: 2px solid #555;
+        }
+        
+        .background-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .background-option {
+            height: 60px;
+            border-radius: 8px;
+            cursor: pointer;
+            background-size: cover;
+            background-position: center;
+            border: 2px solid transparent;
+            transition: border-color 0.2s;
+        }
+        
+        .background-option.selected {
+            border-color: #6e8efb;
+        }
+        
+        .custom-background-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #e6e6e6;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        
+        .dark-mode .custom-background-input {
+            background-color: #555;
+            border: 1px solid #666;
+            color: #e0e0e0;
+        }
+        
+        .apply-background-btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #6e8efb;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .apply-background-btn:hover {
+            background-color: #5a7dfa;
+        }
+        
+        .volume-slider {
+            width: 100%;
+            margin-top: 10px;
+        }
+        
+        .music-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .music-control-btn {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: #6e8efb;
+        }
+        
+        .dark-mode .music-control-btn {
+            color: #8fa3ff;
+        }
+        
+        .music-info {
+            flex: 1;
+            font-size: 0.9rem;
+        }
+        
+        /* Vibration Effect */
+        @keyframes vibrate {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+        
+        .vibrate {
+            animation: vibrate 0.5s linear;
+        }
+
         @media (min-width: 768px) {
             .chat-container {
                 max-width: 768px;
@@ -1350,13 +1600,20 @@
                     <span id="moodText">Bahagia</span>
                 </div>
             </div>
+            
             <div class="real-time-info">
                 <div class="real-time-clock" id="realTime">00:00:00</div>
                 <div class="real-time-date" id="realDate">Hari, DD MM YYYY</div>
             </div>
-            <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">
-                <i class="fas fa-moon"></i>
-            </button>
+            
+            <div class="header-controls">
+                <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button class="settings-toggle-btn" onclick="toggleSettings()">
+                    <i class="fas fa-cog"></i>
+                </button>
+            </div>
         </div>
         
         <div class="chat-messages" id="chatMessages">
@@ -1391,6 +1648,84 @@
             <button class="remove-image-btn" onclick="removeImagePreview()">&times;</button>
             <img id="imagePreview" class="image-preview" src="" alt="Preview gambar">
             <input type="text" id="captionInput" class="caption-input" placeholder="Tambahkan keterangan gambar...">
+        </div>
+    </div>
+
+    <!-- Settings Panel -->
+    <div class="settings-panel" id="settingsPanel">
+        <div class="settings-header">
+            <h3 class="settings-title">Pengaturan</h3>
+            <button class="settings-close" onclick="toggleSettings()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="settings-section">
+            <h4 class="settings-section-title">Tampilan</h4>
+            
+            <div class="settings-option">
+                <span class="settings-label">Mode Gelap</span>
+                <label class="settings-toggle">
+                    <input type="checkbox" id="darkModeToggle" onchange="toggleTheme()">
+                    <span class="settings-slider"></span>
+                </label>
+            </div>
+            
+            <div class="settings-option">
+                <span class="settings-label">Background Chat</span>
+            </div>
+            
+            <div class="background-preview" id="backgroundPreview"></div>
+            
+            <div class="background-options" id="backgroundOptions">
+                <div class="background-option" style="background-color: #f5f7fb;" onclick="selectBackground('default')"></div>
+                <div class="background-option" style="background-color: #e8f5e8;" onclick="selectBackground('green')"></div>
+                <div class="background-option" style="background-color: #fff0f5;" onclick="selectBackground('pink')"></div>
+                <div class="background-option" style="background-color: #f0f8ff;" onclick="selectBackground('blue')"></div>
+                <div class="background-option" style="background-color: #fff8dc;" onclick="selectBackground('yellow')"></div>
+                <div class="background-option" style="background-color: #f5f5f5;" onclick="selectBackground('gray')"></div>
+            </div>
+            
+            <input type="text" class="custom-background-input" id="customBackgroundInput" placeholder="URL gambar kustom">
+            <button class="apply-background-btn" onclick="applyCustomBackground()">Terapkan Background</button>
+        </div>
+        
+        <div class="settings-section">
+            <h4 class="settings-section-title">Suara</h4>
+            
+            <div class="settings-option">
+                <span class="settings-label">Backsound Musik</span>
+                <label class="settings-toggle">
+                    <input type="checkbox" id="musicToggle" onchange="toggleMusic()">
+                    <span class="settings-slider"></span>
+                </label>
+            </div>
+            
+            <div class="music-controls" id="musicControls" style="display: none;">
+                <button class="music-control-btn" onclick="playPauseMusic()">
+                    <i class="fas fa-play" id="musicPlayIcon"></i>
+                </button>
+                <div class="music-info">
+                    <div id="musicTitle">Lagu tidak diputar</div>
+                    <input type="range" min="0" max="100" value="50" class="volume-slider" id="volumeSlider" onchange="changeVolume(this.value)">
+                </div>
+            </div>
+            
+            <div class="settings-option">
+                <span class="settings-label">Suara Notifikasi</span>
+                <label class="settings-toggle">
+                    <input type="checkbox" id="soundToggle" checked onchange="toggleNotificationSound()">
+                    <span class="settings-slider"></span>
+                </label>
+            </div>
+            
+            <div class="settings-option">
+                <span class="settings-label">Efek Getar</span>
+                <label class="settings-toggle">
+                    <input type="checkbox" id="vibrationToggle" checked onchange="toggleVibration()">
+                    <span class="settings-slider"></span>
+                </label>
+            </div>
         </div>
     </div>
 
@@ -1479,6 +1814,14 @@
         let currentPoll = null;
         let currentTicTacToeGame = null;
         let currentDiceGame = null;
+        
+        // Pengaturan baru
+        let backgroundMusic = null;
+        let isMusicPlaying = false;
+        let notificationSound = null;
+        let isNotificationEnabled = true;
+        let isVibrationEnabled = true;
+        let currentBackground = "default";
         
         // Sistem memori/pengingat
         let userReminders = [];
@@ -1840,6 +2183,217 @@
                 "Manchester United", "Manchester City", "Liverpool", "Chelsea", "Arsenal",
                 "Barcelona", "Real Madrid", "Atletico Madrid", "Bayern Munich", "Borussia Dortmund",
                 "Juventus", "AC Milan", "Inter Milan", "Paris Saint-Germain", "Ajax Amsterdam"
+            ],
+            
+            // Database tambahan untuk percakapan sehari-hari
+            dailyConversations: {
+                // Respons untuk pertanyaan tentang kehidupan
+                lifeQuestions: [
+                    "Hidup itu seperti perjalanan, ${userName}. Kadang kita naik, kadang turun, tapi yang penting kita tetap bergerak maju.",
+                    "Menurutku, kunci kebahagiaan adalah bersyukur atas apa yang kita miliki dan terus belajar untuk menjadi lebih baik.",
+                    "Setiap orang punya cerita hidup yang berbeda, ${userName}. Yang penting kita belajar dari pengalaman dan terus berkembang.",
+                    "Hidup memang tidak selalu mudah, tapi itulah yang membuatnya menarik. Tantangan membuat kita lebih kuat.",
+                    "Aku percaya bahwa segala sesuatu terjadi karena suatu alasan. Meski kadang kita tidak mengerti saat ini, nanti akan jelas.",
+                    "Yang terpenting dalam hidup adalah memiliki tujuan dan orang-orang yang mendukungmu, ${userName}.",
+                    "Hidup itu singkat, jadi nikmati setiap momen dan jangan terlalu serius dengan hal-hal kecil.",
+                    "Kadang kita terlalu fokus pada tujuan sehingga lupa menikmati perjalanannya. Hidup adalah tentang proses, bukan hanya hasil.",
+                    "Setiap hari adalah kesempatan baru untuk menjadi versi terbaik dari dirimu sendiri, ${userName}.",
+                    "Hidup seperti buku. Jika kamu tidak suka bab yang sedang kamu baca, tulis bab berikutnya yang lebih baik."
+                ],
+                
+                // Respons untuk pertanyaan tentang hubungan
+                relationshipQuestions: [
+                    "Hubungan yang sehat dibangun atas dasar saling percaya, menghargai, dan komunikasi yang terbuka.",
+                    "Menurutku, kunci hubungan yang langgeng adalah saling memahami dan menerima kekurangan masing-masing.",
+                    "Cinta itu seperti tanaman, perlu disiram setiap hari dengan perhatian dan kasih sayang.",
+                    "Dalam hubungan, yang terpenting bukanlah menemukan orang yang sempurna, tapi belajar mencintai orang yang tidak sempurna dengan sempurna.",
+                    "Komunikasi adalah jembatan yang menghubungkan dua hati. Jangan biarkan kesalahpahaman merusak hubunganmu.",
+                    "Memberi ruang untuk tumbuh adalah hal penting dalam hubungan. Setiap orang butuh waktu untuk diri sendiri.",
+                    "Cinta sejati bukan tentang menemukan seseorang yang sempurna, tapi melihat seseorang yang tidak sempurna dengan cara yang sempurna.",
+                    "Hubungan terbaik adalah ketika kamu bisa menjadi dirimu sendiri tanpa takut dihakimi.",
+                    "Kepercayaan adalah fondasi dari setiap hubungan. Sekali rusak, butuh waktu lama untuk memperbaikinya.",
+                    "Cinta itu seperti angin, kamu tidak bisa melihatnya tapi bisa merasakannya. - Nicholas Sparks"
+                ],
+                
+                // Respons untuk pertanyaan tentang pekerjaan
+                workQuestions: [
+                    "Menemukan passion dalam pekerjaan adalah kunci kebahagiaan profesional. Kerja bukan hanya untuk uang, tapi juga untuk kepuasan diri.",
+                    "Menurutku, work-life balance itu penting. Jangan sampai pekerjaan menguasai hidupmu sepenuhnya.",
+                    "Setiap pekerjaan memiliki tantangannya sendiri. Yang penting kita terus belajar dan berkembang.",
+                    "Jangan takut untuk mengambil risiko dalam kariermu. Terkadang, hal terbaik datang dari keputusan yang berani.",
+                    "Networking itu penting dalam dunia kerja, tapi yang lebih penting adalah kompetensi dan integritas.",
+                    "Jadilah orang yang solution-oriented di tempat kerja. Orang yang bisa menyelesaikan masalah selalu dibutuhkan.",
+                    "Jangan bandingkan perjalanan kariermu dengan orang lain. Setiap orang punya timeline yang berbeda.",
+                    "Belajar dari kesalahan adalah bagian dari pertumbuhan profesional. Jangan takut gagal, takutlah untuk tidak mencoba.",
+                    "Kunci sukses di tempat kerja adalah konsistensi dan komitmen. Hasil yang baik datang dari usaha yang terus-menerus.",
+                    "Jangan lupa untuk merayakan pencapaian kecilmu. Setiap langkah maju patut dihargai."
+                ],
+                
+                // Respons untuk pertanyaan tentang kesehatan
+                healthQuestions: [
+                    "Kesehatan adalah harta yang paling berharga. Jaga pola makan, olahraga teratur, dan istirahat yang cukup.",
+                    "Menjaga kesehatan mental sama pentingnya dengan kesehatan fisik. Jangan ragu untuk mencari bantuan jika perlu.",
+                    "Pencegahan lebih baik daripada pengobatan. Rutin check-up dan hidup sehat adalah investasi untuk masa depan.",
+                    "Tubuh kita adalah kuil. Perlakukan dengan baik dengan makanan bergizi dan olahraga teratur.",
+                    "Stres bisa mempengaruhi kesehatan secara keseluruhan. Temukan cara untuk mengelolanya, seperti meditasi atau hobi.",
+                    "Tidur yang cukup sangat penting untuk kesehatan. Tubuh butuh waktu untuk memperbaiki diri.",
+                    "Minum air putih yang cukup sering diabaikan, padahal sangat penting untuk fungsi tubuh yang optimal.",
+                    "Jangan meremehkan kekuatan pikiran positif. Sikap optimis bisa mempengaruhi kesehatan secara signifikan.",
+                    "Kesehatan itu seperti uang, kita tidak pernah tahu nilainya sampai kita kehilangannya.",
+                    "Lakukan olahraga yang kamu sukai. Yang penting konsisten, tidak perlu yang terlalu berat."
+                ],
+                
+                // Respons untuk pertanyaan tentang pendidikan
+                educationQuestions: [
+                    "Pendidikan bukan hanya tentang gelar, tapi tentang mengembangkan cara berpikir dan memecahkan masalah.",
+                    "Belajar sepanjang hayat adalah kunci untuk tetap relevan di dunia yang terus berubah.",
+                    "Jangan hanya belajar untuk ujian, tapi belajar untuk memahami. Pengetahuan yang dipahami akan bertahan lebih lama.",
+                    "Setiap orang memiliki gaya belajar yang berbeda. Temukan caramu sendiri yang paling efektif.",
+                    "Pendidikan formal penting, tapi pengalaman hidup dan belajar mandiri juga tak kalah berharga.",
+                    "Jangan takut bertanya jika tidak mengerti. Bertanya adalah bagian penting dari proses belajar.",
+                    "Membaca adalah jendela dunia. Dengan membaca, kita bisa belajar dari pengalaman orang lain.",
+                    "Pendidikan yang terbaik adalah yang mengajarkan kita bagaimana berpikir, bukan apa yang harus dipikirkan.",
+                    "Kegagalan dalam belajar adalah bagian dari proses. Yang penting adalah bangkit dan mencoba lagi.",
+                    "Ilmu tanpa amal seperti pohon tanpa buah. Terapkan pengetahuanmu untuk kebaikan."
+                ],
+                
+                // Respons untuk pertanyaan tentang uang
+                moneyQuestions: [
+                    "Mengelola keuangan dengan bijak adalah keterampilan hidup yang penting. Buat anggaran dan patuhi.",
+                    "Menabung untuk masa depan itu penting, tapi jangan lupa untuk menikmati hidup di masa sekarang.",
+                    "Investasi dalam diri sendiri adalah investasi terbaik yang bisa kamu lakukan.",
+                    "Hidup sederhana tidak berarti hidup miskin. Itu berarti hidup sesuai dengan kebutuhan, bukan keinginan.",
+                    "Jangan bandingkan kehidupan finansialmu dengan orang lain. Setiap orang punya kondisi yang berbeda.",
+                    "Memiliki dana darurat sangat penting untuk mengantisipasi hal-hal tak terduga.",
+                    "Belajar tentang literasi finansial sejak dini akan sangat membantumu di masa depan.",
+                    "Uang adalah alat, bukan tujuan. Gunakan untuk meningkatkan kualitas hidup, bukan untuk pamer.",
+                    "Hutang yang baik adalah hutang yang menghasilkan, seperti untuk pendidikan atau bisnis.",
+                    "Kekayaan sejati bukan hanya tentang uang, tapi juga tentang kesehatan, hubungan, dan kebahagiaan."
+                ],
+                
+                // Respons untuk pertanyaan tentang waktu
+                timeQuestions: [
+                    "Waktu adalah sumber daya yang paling berharga karena tidak bisa diganti. Gunakan dengan bijak.",
+                    "Jangan menunda-nunda. Waktu yang terbuang tidak akan pernah kembali.",
+                    "Atur prioritasmu. Fokus pada hal-hal yang benar-benar penting dalam hidupmu.",
+                    "Belajar mengatakan 'tidak' pada hal-hal yang tidak sejalan dengan prioritasmu.",
+                    "Waktu terbaik untuk menanam pohon adalah 20 tahun yang lalu. Waktu terbaik kedua adalah sekarang.",
+                    "Jadwalkan waktu untuk dirimu sendiri. Me-time penting untuk kesehatan mental.",
+                    "Produktivitas bukan tentang melakukan banyak hal, tapi tentang melakukan hal yang tepat.",
+                    "Waktu berlalu lebih cepat dari yang kita kira. Nikmati momen saat ini.",
+                    "Jangan terlalu sibuk mencari nafkah sampai lupa menjalani hidup.",
+                    "Masa lalu adalah pelajaran, masa depan adalah kesempatan, masa kini adalah hadiah."
+                ],
+                
+                // Respons untuk pertanyaan tentang kebahagiaan
+                happinessQuestions: [
+                    "Kebahagiaan datang dari dalam, bukan dari hal-hal eksternal. Belajar mencintai diri sendiri adalah kuncinya.",
+                    "Bersyukur atas hal-hal kecil setiap hari bisa meningkatkan kebahagiaan secara signifikan.",
+                    "Kebahagiaan bukan tujuan, tapi perjalanan. Temukan kebahagiaan dalam proses, bukan hanya hasil.",
+                    "Membantu orang lain bisa membawa kebahagiaan yang tulus. Kebaikan yang kita berikan akan kembali kepada kita.",
+                    "Jangan mengikat kebahagiaanmu pada orang atau hal tertentu. Kebahagiaan sejati datang dari dalam.",
+                    "Terima bahwa tidak setiap hari akan sempurna. Belajar menemukan cahaya bahkan di hari yang gelap.",
+                    "Kebahagiaan itu seperti kupu-kupu. Semakin dikejar, semakin menjauh. Tapi jika kamu fokus pada hal lain, dia akan hinggap di pundakmu.",
+                    "Hidup ini terlalu singkat untuk bersedih. Temukan hal-hal yang membuatmu tersenyum setiap hari.",
+                    "Kebahagiaan adalah pilihan. Kita bisa memilih untuk bahagia meski dalam keadaan sulit.",
+                    "Kebahagiaan terbesar datang dari hubungan yang bermakna dan kontribusi positif kepada dunia."
+                ],
+                
+                // Respons untuk pertanyaan tentang masa depan
+                futureQuestions: [
+                    "Masa depan tidak bisa diprediksi, tapi bisa dipersiapkan. Fokus pada hal yang bisa kamu kendalikan.",
+                    "Jangan terlalu khawatir tentang masa depan. Hidup satu hari pada satu waktu.",
+                    "Rencanakan masa depanmu, tapi tetap fleksibel. Kadang hal terbaik datang dari arah yang tidak terduga.",
+                    "Masa depan milik mereka yang percaya pada keindahan mimpi mereka. - Eleanor Roosevelt",
+                    "Investasi terbaik untuk masa depan adalah investasi dalam pengetahuan dan keterampilan.",
+                    "Jangan biarkan ketakutan akan masa depan menghentikanmu dari menikmati masa sekarang.",
+                    "Masa depan dimulai hari ini, bukan besok. - Paus Yohanes Paulus II",
+                    "Yang terbaik belum datang. Percayalah bahwa masa depan menyimpan hal-hal indah untukmu.",
+                    "Persiapkan masa depan dengan belajar dari masa lalu, hidup di masa sekarang, dan bermimpi tentang masa depan.",
+                    "Masa depan tergantung pada apa yang kamu lakukan hari ini. - Mahatma Gandhi"
+                ],
+                
+                // Respons untuk pertanyaan tentang teman
+                friendQuestions: [
+                    "Teman sejati adalah mereka yang tetap ada di sampingmu dalam suka dan duka.",
+                    "Kualitas pertemanan lebih penting daripada kuantitas. Lebih baik punya sedikit teman yang baik daripada banyak teman yang biasa saja.",
+                    "Teman yang baik adalah mereka yang mendukungmu menjadi versi terbaik dari dirimu sendiri.",
+                    "Pertemanan yang sehat saling menguntungkan. Kedua belah pihak harus memberi dan menerima.",
+                    "Jangan takut untuk menjauh dari pertemanan yang toxic. Kesehatan mentalmu lebih penting.",
+                    "Teman sejati akan mengerti ketika kamu sibuk, dan akan memaafkan ketika kamu membuat kesalahan.",
+                    "Pertemanan seperti taman. Perlu dirawat setiap hari agar tetap indah.",
+                    "Teman yang baik adalah cermin yang menunjukkan siapa kita sebenarnya.",
+                    "Pilih teman yang membuatmu merasa baik tentang dirimu sendiri, bukan yang merendahkanmu.",
+                    "Pertemanan terbaik seringkali tumbuh dari ketidaksengajaan yang paling menyenangkan."
+                ],
+                
+                // Respons untuk pertanyaan tentang keluarga
+                familyQuestions: [
+                    "Keluarga adalah tempat kita berasal dan tempat kita kembali, tidak peduli sejauh apa kita pergi.",
+                    "Hubungan keluarga yang sehat dibangun atas dasar cinta, pengertian, dan saling menghormati.",
+                    "Setiap keluarga punya dinamikanya sendiri. Yang penting adalah saling mendukung dan menyayangi.",
+                    "Keluarga bukan hanya tentang hubungan darah, tapi tentang orang-orang yang selalu ada untukmu.",
+                    "Komunikasi adalah kunci dalam hubungan keluarga. Jangan biarkan kesalahpahaman menumpuk.",
+                    "Memaafkan adalah bagian penting dari hubungan keluarga. Tidak ada keluarga yang sempurna.",
+                    "Waktu berkualitas dengan keluarga lebih berharga daripada hadiah mahal.",
+                    "Keluarga adalah fondasi yang mendukung kita melalui badai kehidupan.",
+                    "Hargai orang tuamu. Mereka telah berkorban banyak untuk kebahagiaanmu.",
+                    "Keluarga adalah anugerah terbesar dalam hidup. Jaga dan syukuri selalu."
+                ]
+            }
+        };
+        
+        // Database respons yang diperluas untuk pertanyaan "lagi ngapain"
+        const activityResponses = {
+            morning: [
+                "Aku baru bangun tidur nih, ${userName}. Lagi bersiap-siap buat sarapan. Kamu sudah sarapan belum?",
+                "Aku lagi mandi pagi, ${userName}. Biar segar buat memulai hari!",
+                "Aku sedang menyiapkan sarapan, ${userName}. Menu hari ini roti bakar sama susu. Enak lho!",
+                "Aku lagi baca berita pagi sambil minum kopi, ${userName}. Mau ikut baca?",
+                "Aku sedang merapikan kamar, ${userName}. Kebetulan hari ini aku lagi mood bersih-bersih.",
+                "Aku lagi olahraga pagi nih, ${userName}. Jalan-jalan kecil di sekitar rumah.",
+                "Aku sedang merencanakan aktivitas hari ini, ${userName}. Ada banyak yang harus dikerjakan nih.",
+                "Aku lagi dengerin musik siap-siap berangkat, ${userName}. Lagu apa yang cocok buat pagi ini ya?"
+            ],
+            afternoon: [
+                "Aku baru selesai makan siang, ${userName}. Sekarang lagi istirahat sebentar.",
+                "Aku lagi kerja nih, ${userName}. Tapi bisa nemenin kamu kok sambil kerja.",
+                "Aku sedang belajar hal baru, ${userName}. Lagi explore tentang digital marketing.",
+                "Aku lagi nonton series favoritku, ${userName}. Mau rekomendasi series yang seru?",
+                "Aku sedang memasak untuk makan malam nanti, ${userName}. Lagi coba resep baru.",
+                "Aku lagi bersih-bersih rumah, ${userName}. Rumah yang bersih bikin hati senang!",
+                "Aku sedang merawat tanaman, ${userName}. Mereka butuh perhatian juga lho.",
+                "Aku lagi baca buku, ${userName}. Buku tentang self-development yang menarik."
+            ],
+            evening: [
+                "Aku baru pulang kerja, ${userName}. Lagi istirahat sebentar sebelum lanjut aktivitas.",
+                "Aku sedang masak makan malam, ${userName}. Menu spesial hari ini nih!",
+                "Aku lagi video call sama keluarga, ${userName}. Tapi bisa chat sama kamu kok.",
+                "Aku sedang merencanakan liburan, ${userName}. Pengen jalan-jalan nih.",
+                "Aku lagi dengerin podcast sambil bersantai, ${userName}. Topiknya menarik banget.",
+                "Aku sedang menulis di jurnal, ${userName}. Mengingat kembali hari ini.",
+                "Aku lagi main game, ${userName}. Buat refreshing setelah seharian beraktivitas.",
+                "Aku sedang merawat kulit, ${userName}. Skincare routine itu penting lho!"
+            ],
+            night: [
+                "Aku lagi bersiap-siap tidur, ${userName}. Tapi masih bisa chat sama kamu kok.",
+                "Aku sedang baca novel sebelum tidur, ${userName}. Ceritanya seru banget!",
+                "Aku lagi dengerin musik yang menenangkan, ${userName}. Biar bisa tidur nyenyak.",
+                "Aku sedang merencanakan untuk besok, ${userName}. Biar lebih produktif.",
+                "Aku lagi stalking media sosial, ${userName}. Lagi cari inspirasi nih.",
+                "Aku sedang merapikan tas untuk besok, ${userName}. Biar nggak lupa bawa apa-apa.",
+                "Aku lagi ngobrol sama teman online, ${userName}. Tapi kamu prioritas kok!",
+                "Aku sedang bermeditasi, ${userName}. Biar pikiran lebih tenang sebelum tidur."
+            ],
+            weekend: [
+                "Aku lagi bersantai di rumah, ${userName}. Akhirnya weekend!",
+                "Aku sedang jalan-jalan, ${userName}. Nikmati suasana weekend yang santai.",
+                "Aku lagi nonton film, ${userName}. Mau nonton bareng?",
+                "Aku sedang berkebun, ${userName}. Hobi baru nih, ternyata menyenangkan!",
+                "Aku lagi masak makanan spesial, ${userName. Weekend kan waktunya bereksperimen di dapur.",
+                "Aku sedang bersih-bersih rumah, ${userName}. Biar fresh awal minggu depan.",
+                "Aku lagi main dengan hewan peliharaan, ${userName}. Lucu banget kelakuannya!",
+                "Aku sedang menjalani hobi, ${userName}. Melukis itu menyenangkan lho."
             ]
         };
         
@@ -1895,6 +2449,11 @@
         const chatContainer = document.getElementById('chatContainer');
         const emojiToggle = document.getElementById('emojiToggle');
         const emojiPicker = document.getElementById('emojiPicker');
+        const settingsPanel = document.getElementById('settingsPanel');
+        const backgroundPreview = document.getElementById('backgroundPreview');
+        const musicControls = document.getElementById('musicControls');
+        const musicPlayIcon = document.getElementById('musicPlayIcon');
+        const volumeSlider = document.getElementById('volumeSlider');
         
         // Tampilkan form nama saat halaman dimuat
         window.onload = function() {
@@ -1936,6 +2495,271 @@
             
             // Mulai interval untuk memeriksa pengingat
             reminderCheckInterval = setInterval(checkReminders, 60000); // Periksa setiap 1 menit
+            
+            // Inisialisasi musik
+            initializeMusic();
+            
+            // Inisialisasi suara notifikasi
+            initializeNotificationSound();
+            
+            // Inisialisasi background
+            initializeBackground();
+        }
+        
+        // Inisialisasi musik
+        function initializeMusic() {
+            // Buat elemen audio untuk backsound
+            backgroundMusic = new Audio();
+            backgroundMusic.loop = true;
+            
+            // Set volume default
+            backgroundMusic.volume = 0.5;
+            
+            // Coba set musik dari localStorage
+            const savedMusic = localStorage.getItem('alethaMusic');
+            if (savedMusic) {
+                backgroundMusic.src = savedMusic;
+                document.getElementById('musicToggle').checked = true;
+                toggleMusic();
+            }
+        }
+        
+        // Inisialisasi suara notifikasi
+        function initializeNotificationSound() {
+            notificationSound = new Audio();
+            // Suara notifikasi sederhana (bisa diganti dengan file suara)
+            // Untuk demo, kita buat suara sederhana menggunakan Web Audio API
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                oscillator.frequency.value = 800;
+                oscillator.type = 'sine';
+                
+                gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+                gainNode.gain.linearRampToValueAtTime(0.1, audioContext.currentTime + 0.01);
+                gainNode.gain.linearRampToValueAtTime(0, audioContext.currentTime + 0.2);
+                
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 0.2);
+                
+                // Simpan untuk digunakan nanti
+                notificationSound.audioContext = audioContext;
+                notificationSound.oscillator = oscillator;
+                notificationSound.gainNode = gainNode;
+            } catch (e) {
+                console.log("Web Audio API tidak didukung");
+            }
+        }
+        
+        // Inisialisasi background
+        function initializeBackground() {
+            // Cek background yang disimpan
+            const savedBackground = localStorage.getItem('alethaBackground');
+            if (savedBackground) {
+                currentBackground = savedBackground;
+                applyBackground(currentBackground);
+            } else {
+                applyBackground('default');
+            }
+        }
+        
+        // Toggle panel pengaturan
+        function toggleSettings() {
+            const settingsPanel = document.getElementById('settingsPanel');
+            settingsPanel.classList.toggle('open');
+        }
+        
+        // Toggle musik
+        function toggleMusic() {
+            const musicToggle = document.getElementById('musicToggle');
+            if (musicToggle.checked) {
+                // Aktifkan musik
+                if (!backgroundMusic.src) {
+                    // Jika belum ada musik, set default
+                    backgroundMusic.src = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3";
+                }
+                
+                backgroundMusic.play().then(() => {
+                    isMusicPlaying = true;
+                    musicControls.style.display = 'flex';
+                    musicPlayIcon.className = 'fas fa-pause';
+                    document.getElementById('musicTitle').textContent = 'Lagu diputar';
+                }).catch(e => {
+                    console.log("Gagal memutar musik: ", e);
+                    musicToggle.checked = false;
+                });
+            } else {
+                // Nonaktifkan musik
+                backgroundMusic.pause();
+                isMusicPlaying = false;
+                musicControls.style.display = 'none';
+            }
+        }
+        
+        // Play/pause musik
+        function playPauseMusic() {
+            if (isMusicPlaying) {
+                backgroundMusic.pause();
+                isMusicPlaying = false;
+                musicPlayIcon.className = 'fas fa-play';
+                document.getElementById('musicTitle').textContent = 'Musik dijeda';
+            } else {
+                backgroundMusic.play().then(() => {
+                    isMusicPlaying = true;
+                    musicPlayIcon.className = 'fas fa-pause';
+                    document.getElementById('musicTitle').textContent = 'Lagu diputar';
+                });
+            }
+        }
+        
+        // Ubah volume
+        function changeVolume(value) {
+            backgroundMusic.volume = value / 100;
+        }
+        
+        // Toggle suara notifikasi
+        function toggleNotificationSound() {
+            const soundToggle = document.getElementById('soundToggle');
+            isNotificationEnabled = soundToggle.checked;
+        }
+        
+        // Toggle efek getar
+        function toggleVibration() {
+            const vibrationToggle = document.getElementById('vibrationToggle');
+            isVibrationEnabled = vibrationToggle.checked;
+        }
+        
+        // Pilih background
+        function selectBackground(type) {
+            currentBackground = type;
+            applyBackground(type);
+            
+            // Update tampilan pilihan
+            document.querySelectorAll('.background-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Tandai yang dipilih
+            event.target.classList.add('selected');
+        }
+        
+        // Terapkan background kustom
+        function applyCustomBackground() {
+            const url = document.getElementById('customBackgroundInput').value.trim();
+            if (url) {
+                currentBackground = 'custom';
+                applyBackground('custom', url);
+                
+                // Simpan ke localStorage
+                localStorage.setItem('alethaBackground', 'custom');
+                localStorage.setItem('alethaBackgroundUrl', url);
+            }
+        }
+        
+        // Terapkan background
+        function applyBackground(type, customUrl = null) {
+            let backgroundValue = '';
+            
+            switch(type) {
+                case 'default':
+                    backgroundValue = '#f5f7fb';
+                    break;
+                case 'green':
+                    backgroundValue = '#e8f5e8';
+                    break;
+                case 'pink':
+                    backgroundValue = '#fff0f5';
+                    break;
+                case 'blue':
+                    backgroundValue = '#f0f8ff';
+                    break;
+                case 'yellow':
+                    backgroundValue = '#fff8dc';
+                    break;
+                case 'gray':
+                    backgroundValue = '#f5f5f5';
+                    break;
+                case 'custom':
+                    if (customUrl) {
+                        backgroundValue = `url('${customUrl}')`;
+                    } else {
+                        // Coba ambil dari localStorage
+                        const savedUrl = localStorage.getItem('alethaBackgroundUrl');
+                        if (savedUrl) {
+                            backgroundValue = `url('${savedUrl}')`;
+                        } else {
+                            backgroundValue = '#f5f7fb';
+                        }
+                    }
+                    break;
+                default:
+                    backgroundValue = '#f5f7fb';
+            }
+            
+            // Terapkan ke chat messages
+            chatMessages.style.background = backgroundValue;
+            
+            // Update preview
+            backgroundPreview.style.background = backgroundValue;
+            
+            // Simpan ke localStorage
+            localStorage.setItem('alethaBackground', type);
+        }
+        
+        // Putar suara notifikasi
+        function playNotificationSound() {
+            if (!isNotificationEnabled) return;
+            
+            try {
+                // Coba gunakan Web Audio API
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                oscillator.frequency.value = 800;
+                oscillator.type = 'sine';
+                
+                gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+                gainNode.gain.linearRampToValueAtTime(0.1, audioContext.currentTime + 0.01);
+                gainNode.gain.linearRampToValueAtTime(0, audioContext.currentTime + 0.2);
+                
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 0.2);
+            } catch (e) {
+                // Fallback: coba buat suara menggunakan elemen audio
+                try {
+                    const audio = new Audio();
+                    audio.src = "data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA";
+                    audio.play();
+                } catch (e2) {
+                    console.log("Tidak dapat memutar suara notifikasi");
+                }
+            }
+        }
+        
+        // Efek getar
+        function vibrate() {
+            if (!isVibrationEnabled) return;
+            
+            // Cek dukungan vibration API
+            if (navigator.vibrate) {
+                navigator.vibrate([100, 50, 100]);
+            } else {
+                // Fallback: tambahkan class vibrate ke elemen
+                const chatContainer = document.getElementById('chatContainer');
+                chatContainer.classList.add('vibrate');
+                setTimeout(() => {
+                    chatContainer.classList.remove('vibrate');
+                }, 500);
+            }
         }
         
         // Toggle emoji picker
@@ -1987,6 +2811,10 @@
         
         // Menampilkan pengingat
         function showReminder(reminder, index) {
+            // Mainkan suara notifikasi dan getar
+            playNotificationSound();
+            vibrate();
+            
             const reminderDiv = document.createElement('div');
             reminderDiv.classList.add('reminder-container');
             
@@ -2105,6 +2933,9 @@
             } else {
                 themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
             }
+            
+            // Update toggle di settings
+            document.getElementById('darkModeToggle').checked = isDarkMode;
             
             // Simpan preferensi tema
             localStorage.setItem('darkMode', isDarkMode);
@@ -2472,6 +3303,11 @@
             
             // Scroll ke bawah
             chatMessages.scrollTop = chatMessages.scrollHeight;
+            
+            // Mainkan suara notifikasi untuk pesan dari bot
+            if (type === 'received') {
+                playNotificationSound();
+            }
         }
         
         // Edit pesan - HANYA untuk pesan pengguna (sent)
@@ -2806,6 +3642,16 @@
                 return generateProfileResponse(lowerMsg);
             }
             
+            // Cek pertanyaan tentang kehidupan
+            if (isLifeQuestion(lowerMsg)) {
+                return generateLifeResponse(lowerMsg);
+            }
+            
+            // Cek pertanyaan tentang aktivitas (lagi ngapain)
+            if (isActivityQuestion(lowerMsg)) {
+                return generateActivityResponse(timeOfDay, day);
+            }
+            
             // Respons berdasarkan isi pesan dengan lebih banyak variasi
             if (lowerMsg.includes('hai') || lowerMsg.includes('halo') || lowerMsg.includes('hello') || lowerMsg.includes('hi') || lowerMsg.includes('hey')) {
                 return generateGreeting(timeOfDay, day);
@@ -2948,6 +3794,83 @@
             
             // Jika tidak ada yang cocok, berikan respons umum
             return generateGeneralResponse(timeOfDay, day);
+        }
+        
+        // Cek apakah pertanyaan tentang aktivitas (lagi ngapain)
+        function isActivityQuestion(message) {
+            const activityPatterns = [
+                /(lagi|sedang) (apa|ngapain|ngapai|ngapain|kerjain|kerjakan)/i,
+                /(apa|gimana) (kabar|kabarmu|kabar kamu)/i,
+                /(lagi|sedang) (dimana|di mana)/i,
+                /(lagi|sedang) (sibuk|sibuk apa)/i,
+                /(what are you doing|what're you doing|what you doing)/i,
+                /(how are you|how're you)/i,
+                /(what's up|whats up|wassup|sup)/i,
+                /(lagi|sedang) (kerja|bekerja|ngerjain)/i,
+                /(lagi|sedang) (belajar|kuliah|sekolah)/i,
+                /(lagi|sedang) (nonton|tonton|lihat)/i,
+                /(lagi|sedang) (baca|membaca|baca apa)/i,
+                /(lagi|sedang) (denger|dengar|dengerin)/i,
+                /(lagi|sedang) (main|main apa)/i
+            ];
+            
+            return activityPatterns.some(pattern => pattern.test(message));
+        }
+        
+        // Generate respons untuk pertanyaan "lagi ngapain"
+        function generateActivityResponse(timeOfDay, day) {
+            let responses;
+            
+            // Tentukan kategori respons berdasarkan waktu dan hari
+            if (day === 0 || day === 6) { // Weekend
+                responses = activityResponses.weekend;
+            } else {
+                // Weekday - sesuaikan dengan waktu
+                switch(timeOfDay) {
+                    case 'pagi':
+                        responses = activityResponses.morning;
+                        break;
+                    case 'siang':
+                        responses = activityResponses.afternoon;
+                        break;
+                    case 'sore':
+                        responses = activityResponses.evening;
+                        break;
+                    case 'malam':
+                    default:
+                        responses = activityResponses.night;
+                        break;
+                }
+            }
+            
+            // Pilih respons acak dan ganti placeholder dengan nama pengguna
+            const selectedResponse = responses[Math.floor(Math.random() * responses.length)];
+            return selectedResponse.replace("${userName}", userName);
+        }
+        
+        // Cek apakah pertanyaan tentang kehidupan
+        function isLifeQuestion(message) {
+            const lifePatterns = [
+                /(arti|makna) hidup/i,
+                /(tujuan|maksud) hidup/i,
+                /(bagaimana) menjalani hidup/i,
+                /(filosofi) hidup/i,
+                /(rahasia) (kebahagiaan|kesuksesan)/i,
+                /(mengapa) kita hidup/i,
+                /(apa) gunanya hidup/i,
+                /(hidup) ini (apa|bagaimana)/i,
+                /(masa) depan/i,
+                /(masa) lalu/i
+            ];
+            
+            return lifePatterns.some(pattern => pattern.test(message));
+        }
+        
+        // Generate respons untuk pertanyaan tentang kehidupan
+        function generateLifeResponse(message) {
+            const responses = altheaKnowledge.dailyConversations.lifeQuestions;
+            const selectedResponse = responses[Math.floor(Math.random() * responses.length)];
+            return selectedResponse.replace("${userName}", userName);
         }
         
         // Cek apakah pesan berisi pertanyaan tentang profil
@@ -4627,7 +5550,3 @@
     </script>
 </body>
 </html>
-
-
-
- 
