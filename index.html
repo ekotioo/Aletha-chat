@@ -1679,12 +1679,25 @@
             
             <div class="background-options" id="backgroundOptions">
                 <div class="background-option" style="background-color: #f5f7fb;" onclick="selectBackground('default')"></div>
-                <div class="background-option" style="background-color: #e8f5e8;" onclick="selectBackground('green')"></div>
-                <div class="background-option" style="background-color: #fff0f5;" onclick="selectBackground('pink')"></div>
-                <div class="background-option" style="background-color: #f0f8ff;" onclick="selectBackground('blue')"></div>
-                <div class="background-option" style="background-color: #fff8dc;" onclick="selectBackground('yellow')"></div>
-                <div class="background-option" style="background-color: #f5f5f5;" onclick="selectBackground('gray')"></div>
-            </div>
+<div class="background-option" style="background-color: #e8f5e8;" onclick="selectBackground('green')"></div>
+<div class="background-option" style="background-color: #fff0f5;" onclick="selectBackground('pink')"></div>
+<div class="background-option" style="background-color: #f0f8ff;" onclick="selectBackground('blue')"></div>
+<div class="background-option" style="background-color: #fff8dc;" onclick="selectBackground('yellow')"></div>
+<div class="background-option" style="background-color: #f5f5f5;" onclick="selectBackground('gray')"></div>
+
+<!-- Tambahan -->
+<div class="background-option" style="background-color: #faf0e6;" onclick="selectBackground('beige')"></div>
+<div class="background-option" style="background-color: #fdf5e6;" onclick="selectBackground('cream')"></div>
+<div class="background-option" style="background-color: #ffe4e1;" onclick="selectBackground('peach')"></div>
+<div class="background-option" style="background-color: #e6e6fa;" onclick="selectBackground('lavender')"></div>
+<div class="background-option" style="background-color: #d1f0ff;" onclick="selectBackground('sky')"></div>
+<div class="background-option" style="background-color: #e0ffe0;" onclick="selectBackground('mint')"></div>
+<div class="background-option" style="background-color: #1e1e1e;" onclick="selectBackground('dark')"></div>
+<div class="background-option" style="background-color: #2c2c54;" onclick="selectBackground('midnight')"></div>
+<div class="background-option" style="background-color: #222f3e;" onclick="selectBackground('ocean')"></div>
+<div class="background-option" style="background-color: #3d3d3d;" onclick="selectBackground('charcoal')"></div>
+<div class="background-option" style="background-color: #fef9e7;" onclick="selectBackground('lightgold')"></div>
+<div class="background-option" style="background-color: #f0fff0;" onclick="selectBackground('honeydew')"></div>
             
             <input type="text" class="custom-background-input" id="customBackgroundInput" placeholder="URL gambar kustom">
             <button class="apply-background-btn" onclick="applyCustomBackground()">Terapkan Background</button>
@@ -2719,8 +2732,8 @@ bioStatuses: [
                 // Aktifkan musik
                 if (!backgroundMusic.src) {
                     // Jika belum ada musik, set default
-                    backgroundMusic.src = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3";
-                }
+                   backgroundMusic.src = "bakcsound.mp3";
+                   }
                 
                 backgroundMusic.play().then(() => {
                     isMusicPlaying = true;
@@ -2804,24 +2817,60 @@ bioStatuses: [
             let backgroundValue = '';
             
             switch(type) {
-                case 'default':
-                    backgroundValue = '#f5f7fb';
-                    break;
-                case 'green':
-                    backgroundValue = '#e8f5e8';
-                    break;
-                case 'pink':
-                    backgroundValue = '#fff0f5';
-                    break;
-                case 'blue':
-                    backgroundValue = '#f0f8ff';
-                    break;
-                case 'yellow':
-                    backgroundValue = '#fff8dc';
-                    break;
-                case 'gray':
-                    backgroundValue = '#f5f5f5';
-                    break;
+    case 'default':
+        backgroundValue = '#f5f7fb';
+        break;
+    case 'green':
+        backgroundValue = '#e8f5e8';
+        break;
+    case 'pink':
+        backgroundValue = '#fff0f5';
+        break;
+    case 'blue':
+        backgroundValue = '#f0f8ff';
+        break;
+    case 'yellow':
+        backgroundValue = '#fff8dc';
+        break;
+    case 'gray':
+        backgroundValue = '#f5f5f5';
+        break;
+    case 'beige':
+        backgroundValue = '#faf0e6';
+        break;
+    case 'cream':
+        backgroundValue = '#fdf5e6';
+        break;
+    case 'peach':
+        backgroundValue = '#ffe4e1';
+        break;
+    case 'lavender':
+        backgroundValue = '#e6e6fa';
+        break;
+    case 'sky':
+        backgroundValue = '#d1f0ff';
+        break;
+    case 'mint':
+        backgroundValue = '#e0ffe0';
+        break;
+    case 'dark':
+        backgroundValue = '#1e1e1e';
+        break;
+    case 'midnight':
+        backgroundValue = '#2c2c54';
+        break;
+    case 'ocean':
+        backgroundValue = '#222f3e';
+        break;
+    case 'charcoal':
+        backgroundValue = '#3d3d3d';
+        break;
+    case 'lightgold':
+        backgroundValue = '#fef9e7';
+        break;
+    case 'honeydew':
+        backgroundValue = '#f0fff0';
+        break;
                 case 'custom':
                     if (customUrl) {
                         backgroundValue = `url('${customUrl}')`;
@@ -5688,3 +5737,5 @@ bioStatuses: [
     </script>
 </body>
 </html>
+
+
