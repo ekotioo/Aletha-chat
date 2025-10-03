@@ -1548,6 +1548,83 @@
             animation: vibrate 0.5s linear;
         }
 
+
+
+   /* TTS Controls */
+.tts-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #f5f7fb;
+    border-radius: 8px;
+    border: 1px solid #e6e6e6;
+}
+
+.dark-mode .tts-controls {
+    background-color: #3d3d3d;
+    border: 1px solid #555;
+}
+
+.tts-control-btn {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: #6e8efb;
+    padding: 5px;
+    border-radius: 5px;
+    transition: background-color 0.2s;
+}
+
+.tts-control-btn:hover {
+    background-color: rgba(110, 142, 251, 0.1);
+}
+
+.dark-mode .tts-control-btn {
+    color: #8fa3ff;
+}
+
+.tts-voice-select {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #e6e6e6;
+    border-radius: 5px;
+    background-color: white;
+    font-size: 0.9rem;
+}
+
+.dark-mode .tts-voice-select {
+    background-color: #555;
+    border: 1px solid #666;
+    color: #e0e0e0;
+}
+
+.tts-rate-slider, .tts-pitch-slider {
+    width: 100%;
+    margin-top: 5px;
+}
+
+.tts-slider-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.dark-mode .tts-slider-label {
+    color: #aaa;
+}
+        
+        .tts-rate-slider, .tts-pitch-slider {
+            width: 100%;
+            margin-top: 5px;
+        }
+
+
+
         @media (min-width: 768px) {
             .chat-container {
                 max-width: 768px;
@@ -1739,7 +1816,33 @@
                     <span class="settings-slider"></span>
                 </label>
             </div>
-        </div>
+            
+            
+            <div class="settings-option">
+                <span class="settings-label">Text-to-Speech (TTS)</span>
+                <label class="settings-toggle">
+                    <input type="checkbox" id="ttsToggle" checked onchange="toggleTTS()">
+                    <span class="settings-slider"></span>
+                </label>
+            </div>
+            
+            <div class="tts-controls" id="ttsControls">
+                <button class="tts-control-btn" onclick="testTTS()">
+                    <i class="fas fa-volume-up"></i>
+                </button>
+                <select class="tts-voice-select" id="ttsVoiceSelect" onchange="changeTTSVoice()">
+                    <option value="">Pilih suara...</option>
+                </select>
+                <div style="width: 100%;">
+                    <div>Kecepatan: <span id="ttsRateValue">1.0</span></div>
+                    <input type="range" min="0.5" max="2" step="0.1" value="1" class="tts-rate-slider" id="ttsRateSlider" onchange="changeTTSRate(this.value)">
+                </div>
+                <div style="width: 100%;">
+                    <div>Tinggi nada: <span id="ttsPitchValue">1.0</span></div>
+                    <input type="range" min="0.5" max="2" step="0.1" value="1" class="tts-pitch-slider" id="ttsPitchSlider" onchange="changeTTSPitch(this.value)">
+                </div>
+            </div>
+             </div>
     </div>
 
     <!-- Blocked State -->
@@ -1778,11 +1881,11 @@
                 </div>
                 <div class="profile-detail">
                     <i class="fas fa-heart"></i>
-                    <span>Hobi: Membaca, Fotografi, Traveling, Olahraga, Nonton Netflix, Makan</span>
+                    <span>Hobi: Membaca, Fotografi, Traveling, Olahraga, Nonton Netflix, Makan, Main game</span>
                 </div>
                 <div class="profile-detail">
                     <i class="fas fa-music"></i>
-                    <span>Lagu Favorit: NewJeans - Ditto, Billie Elish - No Time to die, Coldplay - Yellow</span>
+                    <span>Lagu Favorit: NewJeans - Ditto, Billie Elish - No time to die, Coldplay - Yellow</span>
                 </div>
                 <div class="profile-detail">
                     <i class="fas fa-utensils"></i>
@@ -1839,6 +1942,14 @@
         // Sistem memori/pengingat
         let userReminders = [];
         let reminderCheckInterval = null;
+        
+        
+        let isTTSEnabled = true;
+        let ttsVoice = null;
+        let ttsRate = 1.0;
+        let ttsPitch = 1.0;
+        let ttsVoices = [];
+        
         
         // Database pengetahuan Althea yang lebih luas
         const altheaKnowledge = {
@@ -1955,17 +2066,27 @@
             
             // Jokes
             jokes: [
-                "Kenapa komputer jadi dingin? Karena windowsnya selalu terbuka!",
-                "Apa bedanya ayam sama zombie? Kalau zombie minta otak, kalau ayam minta wortel!",
-                "Kenapa buku matematika selalu sedih? Karena punya terlalu banyak masalah!",
-                "Apa yang dikatakan angka 0 ke angka 8? 'Nice belt!'",
-                "Kenapa alien tidak bisa makan es krim? Karena mereka lactose intolerants!",
-                "Apa makanan favorit hantu? Setan-setan!",
-                "Kenapa tanaman tidak boleh bohong? Karena nanti daunnya rontok!",
-                "Apa yang dilakukan pensil ketika patah? Dia pensiun!",
-                "Kenapa lampu lalu lintas tidak pernah cerita? Karena merah terus!",
-                "Apa yang naik tapi tidak pernah turun? Umur!"
-            ],
+    "Kenapa kucing suka duduk di laptop? Karena pengen jadi kursor perhatian!",
+    "Kalau foto bareng sapi, jangan lupa bilang… 'cheeeese!'",
+    "Kenapa sandal jepit sering hilang sebelah? Karena mereka lagi LDR!",
+    "Kalau nasi goreng bisa ngomong, dia bakal bilang: 'Aku panas, jangan ditinggalin!'",
+    "Kenapa kalender selalu populer? Karena dia punya banyak tanggal.",
+    "Tahu gak kenapa kopi suka pahit? Karena terlalu sering ditinggalin manisnya.",
+    "Kenapa kipas angin selalu setia? Karena dia muter-muterin masalah kita.",
+    "Kalau HP jatuh, apa yang bilang? 'Aduh sinyal cintaku ilang!'",
+    "Kenapa pelangi suka muncul habis hujan? Karena dia malu kalau nangis kelihatan.",
+    "Kalau internet lemot, berarti dia lagi buffering perasaan.",
+    "Kenapa motor suka berisik? Karena knalpotnya kepo.",
+    "Apa bedanya kereta sama chat gebetan? Kereta pasti datang, chat gebetan belum tentu.",
+    "Kenapa spidol suka habis tintanya? Karena dia capek ngejelasin cinta.",
+    "Kalau wajan bisa curhat, pasti bilang: 'Aku selalu kepanasan demi kamu!'",
+    "Kenapa cermin gak pernah bohong? Karena dia selalu jujur sama pantulan.",
+    "Kalau charger putus, tandanya dia udah lost connection.",
+    "Kenapa dompet suka kosong? Karena dia suka lapar belanjaan.",
+    "Kenapa guling enak dipeluk? Karena dia gak pernah nolak.",
+    "Apa bedanya lampu sama mantan? Lampu bisa nyala lagi, mantan belum tentu balik.",
+    "Kenapa tikus suka di dapur? Karena dia nge-fans sama keju artisnya."
+],
             
             // Kata-kata cinta dan gombalan
             loveWords: [
@@ -2606,6 +2727,17 @@ bioStatuses: [
         const musicPlayIcon = document.getElementById('musicPlayIcon');
         const volumeSlider = document.getElementById('volumeSlider');
         
+       
+        const ttsControls = document.getElementById('ttsControls');
+        const ttsVoiceSelect = document.getElementById('ttsVoiceSelect');
+        const ttsRateSlider = document.getElementById('ttsRateSlider');
+        const ttsPitchSlider = document.getElementById('ttsPitchSlider');
+        const ttsRateValue = document.getElementById('ttsRateValue');
+        const ttsPitchValue = document.getElementById('ttsPitchValue');    
+        
+        
+        
+        
         // Tampilkan form nama saat halaman dimuat
         window.onload = function() {
             updateTime();
@@ -2655,7 +2787,173 @@ bioStatuses: [
             
             // Inisialisasi background
             initializeBackground();
+            
+            
+            // Inisialisasi TTS
+            initializeTTS();
+            
         }
+        
+        
+        
+        
+        
+        // Inisialisasi Text-to-Speech
+        function initializeTTS() {
+            // Cek dukungan Web Speech API
+            if (!('speechSynthesis' in window)) {
+                console.log("Browser tidak mendukung Text-to-Speech");
+                document.getElementById('ttsToggle').disabled = true;
+                document.getElementById('ttsToggle').checked = false;
+                isTTSEnabled = false;
+                ttsControls.style.display = 'none';
+                return;
+            }
+            
+            // Load voices
+            loadVoices();
+            
+            // Event untuk ketika voices tersedia
+            speechSynthesis.onvoiceschanged = loadVoices;
+            
+            // Cek preferensi TTS dari localStorage
+            const savedTTS = localStorage.getItem('alethaTTS');
+            if (savedTTS === 'false') {
+                document.getElementById('ttsToggle').checked = false;
+                isTTSEnabled = false;
+            }
+            
+            // Cek preferensi voice, rate, dan pitch dari localStorage
+            const savedVoice = localStorage.getItem('alethaTTSVoice');
+            const savedRate = localStorage.getItem('alethaTTSRate');
+            const savedPitch = localStorage.getItem('alethaTTSPitch');
+            
+            if (savedVoice) {
+                ttsVoice = savedVoice;
+            }
+            
+            if (savedRate) {
+                ttsRate = parseFloat(savedRate);
+                ttsRateSlider.value = ttsRate;
+                ttsRateValue.textContent = ttsRate.toFixed(1);
+            }
+            
+            if (savedPitch) {
+                ttsPitch = parseFloat(savedPitch);
+                ttsPitchSlider.value = ttsPitch;
+                ttsPitchValue.textContent = ttsPitch.toFixed(1);
+            }
+        }
+        
+        // Load voices untuk TTS
+        function loadVoices() {
+            ttsVoices = speechSynthesis.getVoices();
+            ttsVoiceSelect.innerHTML = '<option value="">Pilih suara...</option>';
+            
+            // Filter voices untuk bahasa Indonesia dan Inggris
+            const filteredVoices = ttsVoices.filter(voice => 
+                voice.lang.includes('id') || voice.lang.includes('en')
+            );
+            
+            filteredVoices.forEach(voice => {
+                const option = document.createElement('option');
+                option.value = voice.name;
+                option.textContent = `${voice.name} (${voice.lang})`;
+                ttsVoiceSelect.appendChild(option);
+            });
+            
+            // Set voice default jika belum ada
+            if (!ttsVoice && filteredVoices.length > 0) {
+                // Cari voice bahasa Indonesia
+                const indonesianVoice = filteredVoices.find(voice => voice.lang.includes('id'));
+                if (indonesianVoice) {
+                    ttsVoice = indonesianVoice.name;
+                    ttsVoiceSelect.value = ttsVoice;
+                } else {
+                    // Fallback ke voice bahasa Inggris
+                    ttsVoice = filteredVoices[0].name;
+                    ttsVoiceSelect.value = ttsVoice;
+                }
+            } else if (ttsVoice) {
+                ttsVoiceSelect.value = ttsVoice;
+            }
+        }
+        
+        // Toggle TTS
+        function toggleTTS() {
+            const ttsToggle = document.getElementById('ttsToggle');
+            isTTSEnabled = ttsToggle.checked;
+            localStorage.setItem('alethaTTS', isTTSEnabled);
+        }
+        
+        // Ubah voice TTS
+        function changeTTSVoice() {
+            ttsVoice = ttsVoiceSelect.value;
+            localStorage.setItem('alethaTTSVoice', ttsVoice);
+        }
+        
+        // Ubah rate TTS
+        function changeTTSRate(value) {
+            ttsRate = parseFloat(value);
+            ttsRateValue.textContent = ttsRate.toFixed(1);
+            localStorage.setItem('alethaTTSRate', ttsRate);
+        }
+        
+        // Ubah pitch TTS
+        function changeTTSPitch(value) {
+            ttsPitch = parseFloat(value);
+            ttsPitchValue.textContent = ttsPitch.toFixed(1);
+            localStorage.setItem('alethaTTSPitch', ttsPitch);
+        }
+        
+        // Test TTS
+        function testTTS() {
+            speakText("Halo! Ini adalah suara Aletha. Bagaimana kabarmu hari ini?");
+        }
+        
+        // Fungsi untuk berbicara teks
+        function speakText(text) {
+            if (!isTTSEnabled || !speechSynthesis) return;
+            
+            // Hentikan pembicaraan yang sedang berlangsung
+            speechSynthesis.cancel();
+            
+            // Buat utterance baru
+            const utterance = new SpeechSynthesisUtterance(text);
+            
+            // Set voice jika tersedia
+            if (ttsVoice) {
+                const selectedVoice = ttsVoices.find(voice => voice.name === ttsVoice);
+                if (selectedVoice) {
+                    utterance.voice = selectedVoice;
+                }
+            }
+            
+            // Set rate dan pitch
+            utterance.rate = ttsRate;
+            utterance.pitch = ttsPitch;
+            
+            // Event handlers
+            utterance.onstart = function() {
+                console.log("TTS started");
+            };
+            
+            utterance.onend = function() {
+                console.log("TTS ended");
+            };
+            
+            utterance.onerror = function(event) {
+                console.error("TTS error:", event);
+            };
+            
+            // Mulai berbicara
+            speechSynthesis.speak(utterance);
+        }
+        
+        
+        
+        
+        
         
         // Inisialisasi musik
         function initializeMusic() {
@@ -2811,6 +3109,15 @@ bioStatuses: [
                 localStorage.setItem('alethaBackgroundUrl', url);
             }
         }
+        
+        
+        
+        
+        
+        
+        
+        
+        
         
         // Terapkan background
         function applyBackground(type, customUrl = null) {
@@ -2996,75 +3303,97 @@ bioStatuses: [
             });
         }
         
-        // Menampilkan pengingat
-        function showReminder(reminder, index) {
-            // Mainkan suara notifikasi dan getar
-            playNotificationSound();
-            vibrate();
+// Menampilkan pengingat
+function showReminder(reminder, index) {
+    // Mainkan suara notifikasi dan getar
+    playNotificationSound();
+    vibrate();
+    
+    const reminderDiv = document.createElement('div');
+    reminderDiv.classList.add('reminder-container');
+    
+    const titleDiv = document.createElement('div');
+    titleDiv.classList.add('reminder-title');
+    titleDiv.innerHTML = `<i class="fas fa-bell"></i> Pengingat!`;
+    reminderDiv.appendChild(titleDiv);
+    
+    const contentDiv = document.createElement('div');
+    contentDiv.classList.add('reminder-content');
+    contentDiv.textContent = reminder.content;
+    reminderDiv.appendChild(contentDiv);
+    
+    const timeDiv = document.createElement('div');
+    timeDiv.classList.add('reminder-time');
+    timeDiv.innerHTML = `<i class="far fa-clock"></i> ${formatReminderTime(reminder.remindTime)}`;
+    reminderDiv.appendChild(timeDiv);
+    
+    const actionsDiv = document.createElement('div');
+    actionsDiv.classList.add('reminder-actions');
+    
+    const dismissBtn = document.createElement('button');
+    dismissBtn.classList.add('reminder-btn', 'reminder-dismiss');
+    dismissBtn.textContent = 'Tutup';
+    dismissBtn.addEventListener('click', () => {
+        reminderDiv.remove();
+        userReminders[index].dismissed = true;
+        saveReminders();
+    });
+    
+    const snoozeBtn = document.createElement('button');
+    snoozeBtn.classList.add('reminder-btn', 'reminder-snooze');
+    snoozeBtn.textContent = 'Tunda 5 menit';
+    snoozeBtn.addEventListener('click', () => {
+        reminderDiv.remove();
+        // Tunda 5 menit
+        const newTime = new Date();
+        newTime.setMinutes(newTime.getMinutes() + 5);
+        userReminders[index].remindTime = newTime.toISOString();
+        saveReminders();
+    });
+    
+    actionsDiv.appendChild(dismissBtn);
+    actionsDiv.appendChild(snoozeBtn);
+    reminderDiv.appendChild(actionsDiv);
+    
+    // Tambahkan ke chat
+    const messageDiv = document.createElement('div');
+    messageDiv.classList.add('message', 'received');
+    messageDiv.appendChild(reminderDiv);
+    
+    const timeStampDiv = document.createElement('div');
+    timeStampDiv.classList.add('time');
+    const now = new Date();
+    const hours = now.getHours().toString().padStart(2, '0');
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    timeStampDiv.textContent = `${hours}:${minutes}`;
+    messageDiv.appendChild(timeStampDiv);
+    
+    chatMessages.appendChild(messageDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+    
+    // TTS: Bicara pesan pengingat
+    if (isTTSEnabled) {
+        const reminderText = `Pengingat: ${reminder.content}`;
+        const cleanText = reminderText.replace(/[^\w\s.,!?]/g, '');
+        speakText(cleanText);
+    }
+
             
-            const reminderDiv = document.createElement('div');
-            reminderDiv.classList.add('reminder-container');
             
-            const titleDiv = document.createElement('div');
-            titleDiv.classList.add('reminder-title');
-            titleDiv.innerHTML = `<i class="fas fa-bell"></i> Pengingat!`;
-            reminderDiv.appendChild(titleDiv);
+           
             
-            const contentDiv = document.createElement('div');
-            contentDiv.classList.add('reminder-content');
-            contentDiv.textContent = reminder.content;
-            reminderDiv.appendChild(contentDiv);
             
-            const timeDiv = document.createElement('div');
-            timeDiv.classList.add('reminder-time');
-            timeDiv.innerHTML = `<i class="far fa-clock"></i> ${formatReminderTime(reminder.remindTime)}`;
-            reminderDiv.appendChild(timeDiv);
+             // Gunakan TTS untuk pesan dari bot
+                if (isTTSEnabled) {
+                    // Hapus emoji dan karakter khusus dari teks untuk TTS
+                    const cleanText = text.replace(/[^\w\s.,!?]/g, '');
+                    speakText(cleanText);
+                }
             
-            const actionsDiv = document.createElement('div');
-            actionsDiv.classList.add('reminder-actions');
-            
-            const dismissBtn = document.createElement('button');
-            dismissBtn.classList.add('reminder-btn', 'reminder-dismiss');
-            dismissBtn.textContent = 'Tutup';
-            dismissBtn.addEventListener('click', () => {
-                reminderDiv.remove();
-                userReminders[index].dismissed = true;
-                saveReminders();
-            });
-            
-            const snoozeBtn = document.createElement('button');
-            snoozeBtn.classList.add('reminder-btn', 'reminder-snooze');
-            snoozeBtn.textContent = 'Tunda 5 menit';
-            snoozeBtn.addEventListener('click', () => {
-                reminderDiv.remove();
-                // Tunda 5 menit
-                const newTime = new Date();
-                newTime.setMinutes(newTime.getMinutes() + 5);
-                userReminders[index].remindTime = newTime.toISOString();
-                saveReminders();
-            });
-            
-            actionsDiv.appendChild(dismissBtn);
-            actionsDiv.appendChild(snoozeBtn);
-            reminderDiv.appendChild(actionsDiv);
-            
-            // Tambahkan ke chat
-            const messageDiv = document.createElement('div');
-            messageDiv.classList.add('message', 'received');
-            messageDiv.appendChild(reminderDiv);
-            
-            const timeStampDiv = document.createElement('div');
-            timeStampDiv.classList.add('time');
-            const now = new Date();
-            const hours = now.getHours().toString().padStart(2, '0');
-            const minutes = now.getMinutes().toString().padStart(2, '0');
-            timeStampDiv.textContent = `${hours}:${minutes}`;
-            messageDiv.appendChild(timeStampDiv);
-            
-            chatMessages.appendChild(messageDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
         }
         
+        
+              
         // Format waktu pengingat
         function formatReminderTime(timeString) {
             const date = new Date(timeString);
@@ -3453,47 +3782,54 @@ bioStatuses: [
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
         
-        // Menambahkan pesan teks ke chat
-        function addMessage(text, type) {
-            const messageDiv = document.createElement('div');
-            messageDiv.classList.add('message', type);
-            messageDiv.dataset.messageId = ++lastMessageId;
-            
-            const messageText = document.createElement('p');
-            messageText.textContent = text;
-            
-            const timeDiv = document.createElement('div');
-            timeDiv.classList.add('time');
-            
-            const now = new Date();
-            const hours = now.getHours().toString().padStart(2, '0');
-            const minutes = now.getMinutes().toString().padStart(2, '0');
-            timeDiv.textContent = `${hours}:${minutes}`;
-            
-            messageDiv.appendChild(messageText);
-            messageDiv.appendChild(timeDiv);
-            
-            // Tambahkan tombol edit jika pesan dari pengguna
-            if (type === 'sent') {
-                const actionsDiv = document.createElement('div');
-                actionsDiv.classList.add('message-actions');
-                
-                const editButton = document.createElement('button');
-                editButton.innerHTML = '<i class="fas fa-edit"></i>';
-                editButton.addEventListener('click', () => editMessage(lastMessageId));
-                actionsDiv.appendChild(editButton);
-                
-                messageDiv.appendChild(actionsDiv);
-            }
-            
-            chatMessages.appendChild(messageDiv);
-            
-            // Scroll ke bawah
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-            
-            // Mainkan suara notifikasi untuk pesan dari bot
-            if (type === 'received') {
-                playNotificationSound();
+// Menambahkan pesan teks ke chat
+function addMessage(text, type) {
+    const messageDiv = document.createElement('div');
+    messageDiv.classList.add('message', type);
+    messageDiv.dataset.messageId = ++lastMessageId;
+    
+    const messageText = document.createElement('p');
+    messageText.textContent = text;
+    
+    const timeDiv = document.createElement('div');
+    timeDiv.classList.add('time');
+    
+    const now = new Date();
+    const hours = now.getHours().toString().padStart(2, '0');
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    timeDiv.textContent = `${hours}:${minutes}`;
+    
+    messageDiv.appendChild(messageText);
+    messageDiv.appendChild(timeDiv);
+    
+    // Tambahkan tombol edit jika pesan dari pengguna
+    if (type === 'sent') {
+        const actionsDiv = document.createElement('div');
+        actionsDiv.classList.add('message-actions');
+        
+        const editButton = document.createElement('button');
+        editButton.innerHTML = '<i class="fas fa-edit"></i>';
+        editButton.addEventListener('click', () => editMessage(lastMessageId));
+        actionsDiv.appendChild(editButton);
+        
+        messageDiv.appendChild(actionsDiv);
+    }
+    
+    chatMessages.appendChild(messageDiv);
+    
+    // Scroll ke bawah
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+    
+    // Mainkan suara notifikasi untuk pesan dari bot
+    if (type === 'received') {
+        playNotificationSound();
+        
+        // TTS: Bicara pesan dari bot
+        if (isTTSEnabled) {
+            // Hapus emoji dan karakter khusus dari teks untuk TTS
+            const cleanText = text.replace(/[^\w\s.,!?]/g, '');
+            speakText(cleanText);
+        }
             }
         }
         
